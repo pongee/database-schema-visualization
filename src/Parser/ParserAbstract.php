@@ -15,6 +15,9 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\SchemaInterface;
 
 abstract class ParserAbstract implements ParserInterface
 {
+    abstract protected function parseCreateCondition(string $createTableSchema): ?TableInterface;
+    abstract protected function getTableNameFromCreateTableSchema(string $createTableSchema): string;
+
     public function run(
         string $nativeSqlSchema,
         ConnectionCollectionInterface $forcedConnectionCollection

@@ -1,0 +1,22 @@
+includes:
+# Shouldn't be used, but if we want to ignore a batch of errors, then
+# running "composer run phpstan-baseline" will generate the ignore records
+# for the current analyze errors, then it can be included by uncommenting this:
+#    - phpstan-baseline.neon
+
+parameters:
+    # Rule level, for more info: https:/phpstan.org/user-guide/rule-levels
+    # Level 1 already shows valid errors that should be fixed, therefore leaving on 0 for now.
+    level: 0
+
+    paths:
+        - src
+        - test
+        - example
+
+    fileExtensions:
+        - php
+
+    excludes_analyse:
+        - vendor
+
