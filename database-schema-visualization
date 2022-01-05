@@ -1,0 +1,35 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+use Symfony\Component\Console\Application;
+
+foreach ([__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.php', __DIR__ . '/vendor/autoload.php'] as $autoload) {
+    if (file_exists($autoload)) {
+        require $autoload;
+        break;
+    }
+}
+
+$parser = new \Pongee\DatabaseSchemaVisualization\Parser\MysqlParser();
+
+$application = new Application();
+
+$application->add(
+    new \Pongee\DatabaseSchemaVisualization\Command\Mysql\MysqlPlantumlCommand(
+        $parser, getcwd()
+    )
+);
+
+$application->add(
+    new \Pongee\DatabaseSchemaVisualization\Command\Mysql\MysqlJsonCommand(
+        $parser, getcwd()
+    )
+);
+
+$application->add(
+    new \Pongee\DatabaseSchemaVisualization\Command\Mysql\MysqlImageCommand(
+        $parser, getcwd()
+    )
+);
+
+$application->run();

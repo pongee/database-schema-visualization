@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ruleset>
+	<config name="testVersion" value="7.1-"/>
+	<arg name="colors"/>
+
+	<file>src</file>
+	<file>test</file>
+
+    <rule ref="PSR2"/>
+	<rule ref="Generic.Arrays.DisallowLongArraySyntax.Found"/>
+
+	<config name="installed_paths" value="../../slevomat/coding-standard"/>
+	<rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
+		<properties>
+			<property name="newlinesCountBetweenOpenTagAndDeclare" value="0"/>
+			<property name="spacesCountAroundEqualsSign" value="0"/>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses"/>
+	<rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing"/>
+</ruleset>
