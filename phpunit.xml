@@ -11,14 +11,6 @@
     </filter>
 
     <testsuites>
-        <testsuite name="functional">
-            <directory>./test/Functional</directory>
-        </testsuite>
-
-        <testsuite name="integration">
-            <directory>./test/Integration</directory>
-        </testsuite>
-
         <testsuite name="unit">
             <directory>./test/Unit</directory>
         </testsuite>
