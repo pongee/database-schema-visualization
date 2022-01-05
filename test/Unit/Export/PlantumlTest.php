@@ -74,7 +74,8 @@ class PlantumlTest extends TestCase
     public function testExportTableWithColumns(SchemaInterface $schema)
     {
         $sut = new Plantuml(
-            'tables:{{ tables.jsonSerialize()|json_encode|raw }}|connections:{{ connections.jsonSerialize()|json_encode()|raw }}'
+            'tables:{{ tables.jsonSerialize()|json_encode|raw }}'
+            . '|connections:{{ connections.jsonSerialize()|json_encode()|raw }}'
         );
 
         $this->assertEquals(

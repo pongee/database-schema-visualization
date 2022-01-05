@@ -347,7 +347,8 @@ class MysqlParser extends ParserAbstract
         return $keyCollection;
     }
 
-    protected function getFulltextIndexesFromCreateTableSchema(string $createTableSchema
+    protected function getFulltextIndexesFromCreateTableSchema(
+        string $createTableSchema
     ): FulltextIndexCollectionInterface {
         preg_match_all(
             '#
@@ -389,8 +390,9 @@ class MysqlParser extends ParserAbstract
         return $keyCollection;
     }
 
-    protected function getSpatialIndexesFromCreateTableSchema(string $createTableSchema): SpatialIndexCollectionInterface
-    {
+    protected function getSpatialIndexesFromCreateTableSchema(
+        string $createTableSchema
+    ): SpatialIndexCollectionInterface {
         preg_match_all(
             '#
             (?!,)

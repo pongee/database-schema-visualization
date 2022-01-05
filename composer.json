@@ -36,6 +36,7 @@
     "database-schema-visualization"
   ],
   "scripts": {
+    "phpcs": "phpcs --standard=PSR12",
     "test": "php ./vendor/bin/phpunit"
   }
 }

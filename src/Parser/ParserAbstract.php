@@ -320,10 +320,10 @@ abstract class ParserAbstract implements ParserInterface
 
                         if ($parentTable instanceof TableInterface
                             && empty(
-                            array_diff(
-                                $connection->getParentTableColumns(),
-                                $parentTable->getColumns()->getColumnsName()
-                            )
+                                array_diff(
+                                    $connection->getParentTableColumns(),
+                                    $parentTable->getColumns()->getColumnsName()
+                                )
                             )
                             && $connection->getParentTableName() !== $iteratedTable->getName()
                         ) {
