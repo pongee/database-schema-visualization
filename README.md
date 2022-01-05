@@ -2,8 +2,7 @@
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/pongee/database-schema-visualization.svg)](https://packagist.org/packages/pongee/database-schema-visualization)
 [![Minimum PHP Version](https://img.shields.io/packagist/php-v/pongee/database-schema-visualization)](https://php.net/)
-[![License](https://img.shields.io/github/license/pongee/database-schema-visualization)](https://github.com/pongee/database-schema-visualization/blob/master/LICENSE)
-[![Build Status](https://travis-ci.org/pongee/database-schema-visualization.svg?branch=master)](https://travis-ci.org/pongee/database-schema-visualization)
+[![License](https://img.shields.io/github/license/pongee/database-schema-visualization)](https://github.com/pongee/database-schema-visualization/blob/main/LICENSE)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/pongee/database-schema-visualization)
 
 ## Project goal
