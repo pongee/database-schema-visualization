@@ -1,0 +1,291 @@
+@startuml
+!ifndef TABLE_BORDER_COLOR
+!define TABLE_BORDER_COLOR Chocolate
+!endif
+!ifndef TABLE_BACKGROUND_COLOR
+!define TABLE_BACKGROUND_COLOR AntiqueWhite
+!endif
+skinparam class {
+BackgroundColor TABLE_BACKGROUND_COLOR
+BorderColor TABLE_BORDER_COLOR
+ArrowColor TABLE_BORDER_COLOR
+}
+!define table(name) class "name" << (T, TABLE_BORDER_COLOR ) >>
+!definelong primary_key(column1)
+-<i>PK</i> [<b>column1</b>]
+!enddefinelong
+!definelong primary_key(column1, column2)
+-<i>PK</i> [<b>column1, column2</b>]
+!enddefinelong
+!definelong primary_key(column1, column2, column3)
+-<i>PK</i> [<b>column1, column2, column3</b>]
+!enddefinelong
+!definelong primary_key(column1, column2, column3, column4)
+-<i>PK</i> [<b>column1, column2, column3, column4</b>]
+!enddefinelong
+!definelong primary_key(column1, column2, column3, column4, column5)
+-<i>PK</i> [<b>column1, column2, column3, column4, column5</b>]
+!enddefinelong
+!definelong column(column, type)
++<b>column</b> <u>type</u>
+!enddefinelong
+!definelong column(column, type, extra)
++<b>column</b> <u>type</u> extra
+!enddefinelong
+!definelong column(column, type, extra, comment)
++<b>column</b> <u>type</u> extra COMMENT 'comment'
+!enddefinelong
+!definelong index(column1)
+~<i>KEY</i> [<b>column1</b>]
+!enddefinelong
+!definelong index(column1, column2)
+~<i>KEY</i> [<b>column1, column2</b>]
+!enddefinelong
+!definelong index(column1, column2, column3)
+~<i>KEY</i> [<b>column1, column2, column3</b>]
+!enddefinelong
+!definelong index(column1, column2, column3, column4)
+~<i>KEY</i> [<b>column1, column2, column3, column4</b>]
+!enddefinelong
+!definelong index(column1, column2, column3, column4, column5)
+~<i>KEY</i> [<b>column1, column2, column3, column4, column5</b>]
+!enddefinelong
+!definelong unique_index(column1)
+#<i>UNIQUE KEY</i> [<b>column1</b>]
+!enddefinelong
+!definelong unique_index(column1, column2)
+#<i>UNIQUE KEY</i> [<b>column1, column2</b>]
+!enddefinelong
+!definelong unique_index(column1, column2, column3)
+#<i>UNIQUE KEY</i> [<b>column1, column2, column3</b>]
+!enddefinelong
+!definelong unique_index(column1, column2, column3, column4)
+#<i>UNIQUE KEY</i> [<b>column1, column2, column3, column4</b>]
+!enddefinelong
+!definelong unique_index(column1, column2, column3, column4, column5)
+#<i>UNIQUE KEY</i> [<b>column1, column2, column3, column4, column5</b>]
+!enddefinelong
+!definelong fulltext_index(column1)
+#<i>FULLTEXT KEY</i> [<b>column1</b>]
+!enddefinelong
+!definelong fulltext_index(column1, column2)
+#<i>FULLTEXT KEY</i> [<b>column1, column2</b>]
+!enddefinelong
+!definelong fulltext_index(column1, column2, column3)
+#<i>FULLTEXT KEY</i> [<b>column1, column2, column3</b>]
+!enddefinelong
+!definelong fulltext_index(column1, column2, column3, column4)
+#<i>FULLTEXT KEY</i> [<b>column1, column2, column3, column4</b>]
+!enddefinelong
+!definelong fulltext_index(column1, column2, column3, column4, column5)
+#<i>FULLTEXT KEY</i> [<b>column1, column2, column3, column4, column5</b>]
+!enddefinelong
+!definelong spatial_index(column1)
+#<i>SPATIAL KEY</i> [<b>column1</b>]
+!enddefinelong
+!definelong spatial_index(column1, column2)
+#<i>SPATIAL KEY</i> [<b>column1, column2</b>]
+!enddefinelong
+!definelong spatial_index(column1, column2, column3)
+#<i>SPATIAL KEY</i> [<b>column1, column2, column3</b>]
+!enddefinelong
+!definelong spatial_index(column1, column2, column3, column4)
+#<i>SPATIAL KEY</i> [<b>column1, column2, column3, column4</b>]
+!enddefinelong
+!definelong spatial_index(column1, column2, column3, column4, column5)
+#<i>SPATIAL KEY</i> [<b>column1, column2, column3, column4, column5</b>]
+!enddefinelong
+!definelong connection_one_to_one(from, to, alignment = "")
+from "1" -- "1" to
+!enddefinelong
+!definelong connection_one_to_many(from, to, alignment = "")
+from "n" }-- "1" to
+!enddefinelong
+hide methods
+hide stereotypes
+skinparam linetype polyline
+left to right direction
+table(actor) {
+	column('actor_id', 'SMALLINT', 'UNSIGNED NOT NULL AUTO_INCREMENT')
+	column('first_name', 'VARCHAR[45]', 'NOT NULL')
+	column('last_name', 'VARCHAR[45]', 'NOT NULL')
+	column('last_update', 'TIMESTAMP', 'NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+	primary_key('actor_id')
+	index('last_name')
+}
+table(address) {
+	column('address_id', 'SMALLINT', 'UNSIGNED NOT NULL AUTO_INCREMENT')
+	column('address', 'VARCHAR[50]', 'NOT NULL')
+	column('address2', 'VARCHAR[50]', 'DEFAULT NULL')
+	column('district', 'VARCHAR[20]', 'NOT NULL')
+	column('city_id', 'SMALLINT', 'UNSIGNED NOT NULL')
+	column('postal_code', 'VARCHAR[10]', 'DEFAULT NULL')
+	column('phone', 'VARCHAR[20]', 'NOT NULL')
+	column('last_update', 'TIMESTAMP', 'NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+	primary_key('address_id')
+	index('city_id')
+}
+table(category) {
+	column('category_id', 'TINYINT', 'UNSIGNED NOT NULL AUTO_INCREMENT')
+	column('name', 'VARCHAR[25]', 'NOT NULL')
+	column('last_update', 'TIMESTAMP', 'NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+	primary_key('category_id')
+}
+table(city) {
+	column('city_id', 'SMALLINT', 'UNSIGNED NOT NULL AUTO_INCREMENT')
+	column('city', 'VARCHAR[50]', 'NOT NULL')
+	column('country_id', 'SMALLINT', 'UNSIGNED NOT NULL')
+	column('last_update', 'TIMESTAMP', 'NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+	primary_key('city_id')
+	index('country_id')
+}
+table(country) {
+	column('country_id', 'SMALLINT', 'UNSIGNED NOT NULL AUTO_INCREMENT')
+	column('country', 'VARCHAR[50]', 'NOT NULL')
+	column('last_update', 'TIMESTAMP', 'NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+	primary_key('country_id')
+}
+table(customer) {
+	column('customer_id', 'SMALLINT', 'UNSIGNED NOT NULL AUTO_INCREMENT')
+	column('store_id', 'TINYINT', 'UNSIGNED NOT NULL')
+	column('first_name', 'VARCHAR[45]', 'NOT NULL')
+	column('last_name', 'VARCHAR[45]', 'NOT NULL')
+	column('email', 'VARCHAR[50]', 'DEFAULT NULL')
+	column('address_id', 'SMALLINT', 'UNSIGNED NOT NULL')
+	column('active', 'BOOLEAN', 'NOT NULL DEFAULT TRUE')
+	column('create_date', 'DATETIME', 'NOT NULL')
+	column('last_update', 'TIMESTAMP', 'DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+	primary_key('customer_id')
+	index('store_id')
+	index('address_id')
+	index('last_name')
+}
+table(film) {
+	column('film_id', 'SMALLINT', 'UNSIGNED NOT NULL AUTO_INCREMENT')
+	column('title', 'VARCHAR[255]', 'NOT NULL')
+	column('description', 'TEXT', 'DEFAULT NULL')
+	column('release_year', 'YEAR', 'DEFAULT NULL')
+	column('language_id', 'TINYINT', 'UNSIGNED NOT NULL')
+	column('original_language_id', 'TINYINT', 'UNSIGNED DEFAULT NULL')
+	column('rental_duration', 'TINYINT', 'UNSIGNED NOT NULL DEFAULT 3')
+	column('rental_rate', 'DECIMAL[4, 2]', 'NOT NULL DEFAULT 4.99')
+	column('length', 'SMALLINT', 'UNSIGNED DEFAULT NULL')
+	column('replacement_cost', 'DECIMAL[5, 2]', 'NOT NULL DEFAULT 19.99')
+	column('last_update', 'TIMESTAMP', 'NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+	column('rating', 'ENUM[G, PG, PG-13, R, NC-17]', 'DEFAULT "G"')
+	column('special_features', 'SET[Trailers, Commentaries, Deleted Scenes, Behind the Scenes]', 'DEFAULT NULL')
+	primary_key('film_id')
+	index('title')
+	index('language_id')
+	index('original_language_id')
+}
+table(film_actor) {
+	column('actor_id', 'SMALLINT', 'UNSIGNED NOT NULL')
+	column('film_id', 'SMALLINT', 'UNSIGNED NOT NULL')
+	column('last_update', 'TIMESTAMP', 'NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+	primary_key('actor_id, film_id')
+	index('film_id')
+}
+table(film_category) {
+	column('film_id', 'SMALLINT', 'UNSIGNED NOT NULL')
+	column('category_id', 'TINYINT', 'UNSIGNED NOT NULL')
+	column('last_update', 'TIMESTAMP', 'NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+	primary_key('film_id, category_id')
+}
+table(film_text) {
+	column('film_id', 'SMALLINT', 'NOT NULL')
+	column('title', 'VARCHAR[255]', 'NOT NULL')
+	column('description', 'TEXT')
+	primary_key('film_id')
+	fulltext_index('title, description')
+}
+table(inventory) {
+	column('inventory_id', 'MEDIUMINT', 'UNSIGNED NOT NULL AUTO_INCREMENT')
+	column('film_id', 'SMALLINT', 'UNSIGNED NOT NULL')
+	column('store_id', 'TINYINT', 'UNSIGNED NOT NULL')
+	column('last_update', 'TIMESTAMP', 'NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+	primary_key('inventory_id')
+	index('film_id')
+	index('store_id, film_id')
+}
+table(language) {
+	column('language_id', 'TINYINT', 'UNSIGNED NOT NULL AUTO_INCREMENT')
+	column('name', 'CHAR[20]', 'NOT NULL')
+	column('last_update', 'TIMESTAMP', 'NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+	primary_key('language_id')
+}
+table(payment) {
+	column('payment_id', 'SMALLINT', 'UNSIGNED NOT NULL AUTO_INCREMENT')
+	column('customer_id', 'SMALLINT', 'UNSIGNED NOT NULL')
+	column('staff_id', 'TINYINT', 'UNSIGNED NOT NULL')
+	column('rental_id', 'INT', 'DEFAULT NULL')
+	column('amount', 'DECIMAL[5, 2]', 'NOT NULL')
+	column('payment_date', 'DATETIME', 'NOT NULL')
+	column('last_update', 'TIMESTAMP', 'DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+	primary_key('payment_id')
+	index('staff_id')
+	index('customer_id')
+}
+table(rental) {
+	column('rental_id', 'INT', 'NOT NULL AUTO_INCREMENT')
+	column('rental_date', 'DATETIME', 'NOT NULL')
+	column('inventory_id', 'MEDIUMINT', 'UNSIGNED NOT NULL')
+	column('customer_id', 'SMALLINT', 'UNSIGNED NOT NULL')
+	column('return_date', 'DATETIME', 'DEFAULT NULL')
+	column('staff_id', 'TINYINT', 'UNSIGNED NOT NULL')
+	column('last_update', 'TIMESTAMP', 'NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+	primary_key('rental_id')
+	index('inventory_id')
+	index('customer_id')
+	index('staff_id')
+	unique_index('rental_date, inventory_id, customer_id')
+}
+table(staff) {
+	column('staff_id', 'TINYINT', 'UNSIGNED NOT NULL AUTO_INCREMENT')
+	column('first_name', 'VARCHAR[45]', 'NOT NULL')
+	column('last_name', 'VARCHAR[45]', 'NOT NULL')
+	column('address_id', 'SMALLINT', 'UNSIGNED NOT NULL')
+	column('picture', 'BLOB', 'DEFAULT NULL')
+	column('email', 'VARCHAR[50]', 'DEFAULT NULL')
+	column('store_id', 'TINYINT', 'UNSIGNED NOT NULL')
+	column('active', 'BOOLEAN', 'NOT NULL DEFAULT TRUE')
+	column('username', 'VARCHAR[16]', 'NOT NULL')
+	column('password', 'VARCHAR[40]', 'BINARY DEFAULT NULL')
+	column('last_update', 'TIMESTAMP', 'NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+	primary_key('staff_id')
+	index('store_id')
+	index('address_id')
+}
+table(store) {
+	column('store_id', 'TINYINT', 'UNSIGNED NOT NULL AUTO_INCREMENT')
+	column('manager_staff_id', 'TINYINT', 'UNSIGNED NOT NULL')
+	column('address_id', 'SMALLINT', 'UNSIGNED NOT NULL')
+	column('last_update', 'TIMESTAMP', 'NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+	primary_key('store_id')
+	index('address_id')
+	unique_index('manager_staff_id')
+}
+
+connection_one_to_many(address, city)
+connection_one_to_many(city, country)
+connection_one_to_many(customer, address)
+connection_one_to_many(customer, store)
+connection_one_to_many(film, language)
+connection_one_to_many(film, language)
+connection_one_to_many(film_actor, actor)
+connection_one_to_many(film_actor, film)
+connection_one_to_many(film_category, film)
+connection_one_to_many(film_category, category)
+connection_one_to_many(inventory, store)
+connection_one_to_many(inventory, film)
+connection_one_to_many(payment, rental)
+connection_one_to_many(payment, customer)
+connection_one_to_many(payment, staff)
+connection_one_to_many(rental, staff)
+connection_one_to_many(rental, inventory)
+connection_one_to_many(rental, customer)
+connection_one_to_many(staff, store)
+connection_one_to_many(staff, address)
+connection_one_to_one(store, staff)
+connection_one_to_many(store, address)
+@enduml
