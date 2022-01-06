@@ -10,7 +10,7 @@
     "plantuml"
   ],
   "require": {
-    "php": ">=7.4",
+    "php": ">=8.0",
     "ext-json": "*",
     "symfony/console": "^3.0|^4.0",
     "twig/twig": "^2.0",
