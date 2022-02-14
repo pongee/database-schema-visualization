@@ -4,29 +4,13 @@ namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table;
 
 class Column implements ColumnInterface
 {
-    /** @var string */
-    private $name;
-    /** @var string */
-    private $type;
-    /** @var array */
-    private $typeParameters;
-    /** @var string */
-    private $otherParameters;
-    /** @var string */
-    private $comment;
-
     public function __construct(
-        string $name,
-        string $type,
-        array $typeParameters,
-        string $otherParameters,
-        string $comment
+        private string $name,
+        private string $type,
+        private array $typeParameters,
+        private string $otherParameters,
+        private string $comment
     ) {
-        $this->name = $name;
-        $this->type = $type;
-        $this->typeParameters = $typeParameters;
-        $this->otherParameters = $otherParameters;
-        $this->comment = $comment;
     }
 
     public function getName(): string

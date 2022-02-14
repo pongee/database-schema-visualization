@@ -2,6 +2,7 @@
 
 namespace Pongee\DatabaseSchemaVisualization\Test\Unit\Command\Mysql;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Pongee\DatabaseSchemaVisualization\Command\Mysql\MysqlJsonCommand;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\ConnectionCollection;
@@ -20,7 +21,7 @@ class MysqlJsonCommandTest extends TestCase
 
     private function getCommand(string $rootDir = ''): MysqlJsonCommand
     {
-        /** @var MysqlParser $mysqlParser */
+        /** @var MysqlParser&MockObject $mysqlParser */
         $mysqlParser = $this->createMock(MysqlParser::class);
 
         return new MysqlJsonCommand($mysqlParser, $rootDir);

@@ -18,7 +18,7 @@ use Pongee\DatabaseSchemaVisualization\Export\Json;
 
 class JsonTest extends TestCase
 {
-    public function getSchamaProvider(): array
+    public function getSchemaProvider(): array
     {
         return [
             [
@@ -235,9 +235,9 @@ class JsonTest extends TestCase
     }
 
     /**
-     * @dataProvider getSchamaProvider
+     * @dataProvider getSchemaProvider
      */
-    public function testExportTableWithColumns(SchemaInterface $schema, string $expectedJson)
+    public function testExportTableWithColumns(SchemaInterface $schema, string $expectedJson): void
     {
         $sut = new Json();
 

@@ -5,7 +5,7 @@ namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index
 class FulltextIndexCollection implements FulltextIndexCollectionInterface
 {
     /** @var FulltextIndexInterface[] */
-    private $fulltextIndexes = [];
+    private array $fulltextIndexes = [];
 
     public function add(FulltextIndexInterface $fulltextIndexes): self
     {

@@ -5,7 +5,7 @@ namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table;
 class ColumnCollection implements ColumnCollectionInterface
 {
     /** @var ColumnInterface[] */
-    private $columns = [];
+    private array $columns = [];
 
     public function add(ColumnInterface $column)
     {

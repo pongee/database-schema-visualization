@@ -5,7 +5,7 @@ namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection;
 class ConnectionCollection implements ConnectionCollectionInterface
 {
     /** @var ConnectionInterface[] */
-    private $connections = [];
+    private array $connections = [];
 
     public function adds(ConnectionInterface ...$connections): self
     {

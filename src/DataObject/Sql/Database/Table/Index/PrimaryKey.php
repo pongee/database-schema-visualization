@@ -4,9 +4,9 @@ namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index
 
 class PrimaryKey extends IndexAbstract implements PrimaryKeyInterface
 {
-    public function __construct(array $columns, string $otherParameters = '')
-    {
-        $this->columns = $columns;
-        $this->otherParameters = $otherParameters;
+    public function __construct(
+        protected array $columns,
+        protected string $otherParameters = ''
+    ) {
     }
 }

@@ -70,7 +70,7 @@ class MysqlParser extends ParserAbstract
         return !empty($matches['name']) ? $this->trimName($matches['name']) : '';
     }
 
-    protected function trimName(string $string)
+    protected function trimName(string $string): string
     {
         return trim(
             $string,
@@ -179,7 +179,7 @@ class MysqlParser extends ParserAbstract
         return $columnCollection;
     }
 
-    protected function trimNames(string ...$strings)
+    protected function trimNames(string ...$strings): array
     {
         return array_map(
             function ($string) {

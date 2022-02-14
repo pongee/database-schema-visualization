@@ -5,7 +5,7 @@ namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database;
 class TableCollection implements TableCollectionInterface
 {
     /** @var TableInterface[] */
-    private $tables = [];
+    private array $tables = [];
 
     public function add(TableInterface $table): self
     {

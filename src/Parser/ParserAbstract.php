@@ -225,7 +225,7 @@ abstract class ParserAbstract implements ParserInterface
         return $safeRandomString;
     }
 
-    protected function replaceCharactersInString(string $schema, array $replacePairs)
+    protected function replaceCharactersInString(string $schema, array $replacePairs): string
     {
         return preg_replace_callback(
             '#(\'.*\')#Uxsm',

@@ -4,14 +4,11 @@ namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index
 
 abstract class NamedIndexAbstract extends IndexAbstract
 {
-    /** @var string */
-    protected $name;
-
-    public function __construct(string $name, array $columns, string $otherParameters = '')
-    {
-        $this->name = $name;
-        $this->columns = $columns;
-        $this->otherParameters = $otherParameters;
+    public function __construct(
+        protected string $name,
+        protected array $columns,
+        protected string $otherParameters = ''
+    ) {
     }
 
     public function getName(): string

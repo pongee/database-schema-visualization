@@ -11,11 +11,9 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\TableInterface;
 
 class Schema implements SchemaInterface
 {
-    /** @var TableCollectionInterface */
-    protected $tableCollection;
+    protected TableCollectionInterface $tableCollection;
 
-    /** @var ConnectionCollectionInterface */
-    protected $connectionCollection;
+    protected ConnectionCollectionInterface $connectionCollection;
 
     public function __construct()
     {

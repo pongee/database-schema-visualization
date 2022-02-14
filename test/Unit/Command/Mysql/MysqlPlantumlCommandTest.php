@@ -21,7 +21,7 @@ class MysqlPlantumlCommandTest extends TestCase
 
     private function getCommand(string $rootDir = ''): MysqlPlantumlCommand
     {
-        /** @var MysqlParser $mysqlParser */
+        /** @var MysqlParser&MockObject $mysqlParser */
         $mysqlParser = $this->createMock(MysqlParser::class);
 
         return new MysqlPlantumlCommand($mysqlParser, $rootDir);
@@ -90,7 +90,7 @@ class MysqlPlantumlCommandTest extends TestCase
 
         $output = new BufferedOutput();
 
-        /** @var MysqlParser|MockObject $parser */
+        /** @var MysqlParser&MockObject $parser */
         $parser = $this->createMock(MysqlParser::class);
         $parser
             ->expects($this->once())

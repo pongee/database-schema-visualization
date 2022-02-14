@@ -21,26 +21,19 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\Uniqu
 
 class Table implements TableInterface
 {
-    /** @var string */
-    private $name = '';
+    private string $name = '';
 
-    /** @var ColumnCollectionInterface */
-    private $columns;
+    private ColumnCollectionInterface|ColumnCollection $columns;
 
-    /** @var PrimaryKeyInterface */
-    private $primaryKey;
+    private ?PrimaryKeyInterface $primaryKey = null;
 
-    /** @var SimpleIndexCollectionInterface */
-    private $simpleIndexes;
+    private SimpleIndexCollection|SimpleIndexCollectionInterface $simpleIndexes;
 
-    /** @var UniqueIndexCollectionInterface */
-    private $uniqueIndexes;
+    private UniqueIndexCollectionInterface|UniqueIndexCollection $uniqueIndexes;
 
-    /** @var FulltextIndexCollectionInterface */
-    private $fulltextIndexes;
+    private FulltextIndexCollectionInterface|FulltextIndexCollection $fulltextIndexes;
 
-    /** @var SpatialIndexCollectionInterface */
-    private $spatialIndexes;
+    private SpatialIndexCollection|SpatialIndexCollectionInterface $spatialIndexes;
 
     public function __construct()
     {

@@ -16,11 +16,9 @@ abstract class MysqlCommandAbstract extends Command
     protected const ARGUMENT_FILE = 'file';
     protected const OPTION_CONNECTION = 'connection';
 
-    /** @var ParserInterface */
-    protected $parser;
+    protected ParserInterface $parser;
 
-    /** @var string */
-    protected $rootDir;
+    protected string $rootDir;
 
     public function __construct(ParserInterface $parser, string $rootDir)
     {

@@ -8,8 +8,7 @@ use Twig\Loader\ArrayLoader;
 
 class Plantuml implements ExportInterface
 {
-    /** @var Environment */
-    protected $twig;
+    protected Environment $twig;
 
     public function __construct(string $template)
     {

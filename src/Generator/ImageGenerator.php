@@ -4,30 +4,21 @@ namespace Pongee\DatabaseSchemaVisualization\Generator;
 
 use DateTime;
 use Exception;
-use Pongee\DatabaseSchemaVisualization\DataObject\Sql\SchemaInterface;
 use RuntimeException;
 use SplFileObject;
 use Twig\Environment;
-use Twig\Loader\ArrayLoader;
 
 class ImageGenerator
 {
     private const PLANTUML_LIMIT_SIZE = 16384;
 
-    /** @var string */
-    private $imageType;
-    /** @var string */
-    private $plantumlJarPath;
-    /** @var string */
-    private $outputFolder;
-    /** @var Environment */
-    protected $twig;
+    protected Environment $twig;
 
-    public function __construct(string $imageType, string $plantumlJarPath, string $outputFolder)
-    {
-        $this->imageType = $imageType;
-        $this->plantumlJarPath = $plantumlJarPath;
-        $this->outputFolder = $outputFolder;
+    public function __construct(
+        private string $imageType,
+        private string $plantumlJarPath,
+        private string $outputFolder
+    ) {
     }
 
     /**

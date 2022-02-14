@@ -18,8 +18,7 @@ use Pongee\DatabaseSchemaVisualization\Export\Plantuml;
 
 class V1TemplateTest extends TestCase
 {
-    /** @var Plantuml */
-    protected $plantuml;
+    protected Plantuml $plantuml;
 
     public function getSchemaProvider(): array
     {
@@ -384,7 +383,7 @@ connection_one_to_many(member_log, member)
         );
     }
 
-    protected function trim($text)
+    protected function trim($text): string
     {
         return trim(
             preg_replace(

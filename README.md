@@ -135,6 +135,6 @@ print $jsonExport->export($schema);
     },
     "connections": []
 }
-    <pre>
-   <div>
+    </pre>
+   </div>
 </details>

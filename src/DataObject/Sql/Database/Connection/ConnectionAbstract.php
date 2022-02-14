@@ -4,28 +4,12 @@ namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection;
 
 abstract class ConnectionAbstract implements ConnectionInterface
 {
-    /** @var string */
-    protected $childTableName;
-
-    /** @var string */
-    protected $parentTableName;
-
-    /** @var array */
-    protected $childTableColumns;
-
-    /** @var array */
-    protected $parentTableColumns;
-
     public function __construct(
-        string $childTableName,
-        string $parentTableName,
-        array $childTableColumns,
-        array $parentTableColumns
+        protected string $childTableName,
+        protected string $parentTableName,
+        protected array $childTableColumns,
+        protected array $parentTableColumns
     ) {
-        $this->childTableName = $childTableName;
-        $this->parentTableName = $parentTableName;
-        $this->childTableColumns = $childTableColumns;
-        $this->parentTableColumns = $parentTableColumns;
     }
 
     public function getChildTableName(): string

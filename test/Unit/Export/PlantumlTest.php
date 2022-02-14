@@ -18,7 +18,7 @@ use Pongee\DatabaseSchemaVisualization\Export\Plantuml;
 
 class PlantumlTest extends TestCase
 {
-    public function getSchamaProvider(): array
+    public function getSchemaProvider(): array
     {
         return [
             [
@@ -69,9 +69,9 @@ class PlantumlTest extends TestCase
     }
 
     /**
-     * @dataProvider getSchamaProvider
+     * @dataProvider getSchemaProvider
      */
-    public function testExportTableWithColumns(SchemaInterface $schema)
+    public function testExportTableWithColumns(SchemaInterface $schema): void
     {
         $sut = new Plantuml(
             'tables:{{ tables.jsonSerialize()|json_encode|raw }}'

@@ -4,8 +4,7 @@ namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index
 
 class UniqueIndexCollection implements UniqueIndexCollectionInterface
 {
-    /** @var UniqueIndexInterface[] */
-    private $uniqueIndexes = [];
+    private array $uniqueIndexes = [];
 
     public function add(UniqueIndexInterface $uniqueIndex): self
     {
