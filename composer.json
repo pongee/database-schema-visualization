@@ -12,15 +12,15 @@
   "require": {
     "php": ">=8.0",
     "ext-json": "*",
-    "symfony/console": "^3.0|^4.0",
-    "twig/twig": "^2.0",
-    "phpstan/phpstan": "^1.3"
+    "symfony/console": "^3.0|^4.0|^5.0|^6.0",
+    "twig/twig": "^2.0"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",
     "phpunit/phpunit": "^9.0",
     "squizlabs/php_codesniffer": "^3.0",
-    "slevomat/coding-standard": "^7.0"
+    "slevomat/coding-standard": "^7.0",
+    "phpstan/phpstan": "^1.4"
   },
   "autoload": {
     "psr-4": {
@@ -39,5 +39,10 @@
     "phpcs": "phpcs --standard=PSR12",
     "phpstan": "phpstan analyse",
     "test": "php ./vendor/bin/phpunit"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   }
 }
