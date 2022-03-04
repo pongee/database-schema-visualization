@@ -11,6 +11,7 @@ The aim of this project is to generate database documentation from sql schema.
 ## Supported databases
 - MySQL
 - MariaDB
+- Apache Cassandra (Basics) 
 
 ## Supported Output formats
 - PNG, SVG image
@@ -52,6 +53,7 @@ $  php ./database-schema-visualization mysql:plantuml ./example/schema/sakila.sq
 
 ### PHP
 #### Png export
+
 ```php
 <?php declare(strict_types=1);
 
@@ -68,7 +70,8 @@ $sqlSchema = '
    ) ENGINE=innodb DEFAULT CHARSET=utf8;
 ';
 
-$mysqlParser                = new MysqlParser();
+$sqlParser                = new MysqlParser();
+// $cqlParser                = new \Pongee\DatabaseSchemaVisualization\Parser\CassandraParser();
 $plantumlExport             = new Plantuml(file_get_contents(__DIR__ . '/../../src/Template/Plantuml/v1.twig'));
 $forcedConnectionCollection = new ConnectionCollection();
 $imageGenerator             = new ImageGenerator(
@@ -77,7 +80,7 @@ $imageGenerator             = new ImageGenerator(
     __DIR__ . '/../../tmp/'
 );
 
-$schema = $mysqlParser->run($sqlSchema, $forcedConnectionCollection);
+$schema = $sqlParser->run($sqlSchema, $forcedConnectionCollection);
 
 print $imageGenerator->generate($plantumlExport->export($schema));
 ```
