@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database;
 
@@ -23,17 +25,17 @@ class Table implements TableInterface
 {
     private string $name = '';
 
-    private ColumnCollectionInterface|ColumnCollection $columns;
+    private readonly ColumnCollectionInterface|ColumnCollection $columns;
 
     private ?PrimaryKeyInterface $primaryKey = null;
 
-    private SimpleIndexCollection|SimpleIndexCollectionInterface $simpleIndexes;
+    private readonly SimpleIndexCollection|SimpleIndexCollectionInterface $simpleIndexes;
 
-    private UniqueIndexCollectionInterface|UniqueIndexCollection $uniqueIndexes;
+    private readonly UniqueIndexCollectionInterface|UniqueIndexCollection $uniqueIndexes;
 
-    private FulltextIndexCollectionInterface|FulltextIndexCollection $fulltextIndexes;
+    private readonly FulltextIndexCollectionInterface|FulltextIndexCollection $fulltextIndexes;
 
-    private SpatialIndexCollection|SpatialIndexCollectionInterface $spatialIndexes;
+    private readonly SpatialIndexCollection|SpatialIndexCollectionInterface $spatialIndexes;
 
     public function __construct()
     {

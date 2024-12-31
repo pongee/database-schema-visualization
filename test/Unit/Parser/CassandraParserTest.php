@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Test\Unit\Parser;
 
@@ -66,7 +68,7 @@ class CassandraParserTest extends TestCase
         SplFileInfo $file,
         SchemaInterface $schemaObject,
         ConnectionCollectionInterface $forcedConnections
-    ) {
+    ): void {
         $sut = new CassandraParser();
         $result = $sut->run(file_get_contents($file->getRealPath()), $forcedConnections); //@todo
 

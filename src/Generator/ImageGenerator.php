@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Generator;
 
@@ -15,16 +17,13 @@ class ImageGenerator
     protected Environment $twig;
 
     public function __construct(
-        private string $imageType,
-        private string $plantumlJarPath,
-        private string $outputFolder
+        private readonly string $imageType,
+        private readonly string $plantumlJarPath,
+        private readonly string $outputFolder
     ) {
     }
 
     /**
-     * @param string $plantuml
-     *
-     * @return string
      * @throws Exception
      */
     public function generate(string $plantuml): string
@@ -57,11 +56,6 @@ class ImageGenerator
         return $plantumlPng;
     }
 
-    /**
-     * @param SplFileObject $sourceFile
-     *
-     * @return string
-     */
     private function generatePlantuml(SplFileObject $sourceFile): string
     {
         exec(

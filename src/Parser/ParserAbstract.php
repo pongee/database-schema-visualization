@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Parser;
 
@@ -112,11 +114,12 @@ abstract class ParserAbstract implements ParserInterface
                     `?
                     \)
                 #mx',
-                    $condition,
+                    (string) $condition,
                     $matches
                 );
 
-                if (!empty($matches['childTableColumns'])
+                if (
+                    !empty($matches['childTableColumns'])
                     && !empty($matches['parentTableName'])
                     && !empty($matches['parentTableColumns'])
                 ) {
@@ -126,26 +129,22 @@ abstract class ParserAbstract implements ParserInterface
                             $matches['childTableColumns'][$index]
                         );
                         $childTableColumns = array_map(
-                            static function ($column): string {
-                                return trim(
-                                    $column,
-                                    '` '
-                                );
-                            },
+                            static fn(string $column): string => trim(
+                                $column,
+                                '` '
+                            ),
                             $childTableColumns
                         );
 
                         $parentTableColumns = explode(
                             ',',
-                            $matches['parentTableColumns'][$index]
+                            (string) $matches['parentTableColumns'][$index]
                         );
                         $parentTableColumns = array_map(
-                            static function ($column): string {
-                                return trim(
-                                    $column,
-                                    '` '
-                                );
-                            },
+                            static fn(string $column): string => trim(
+                                $column,
+                                '` '
+                            ),
                             $parentTableColumns
                         );
 
@@ -176,7 +175,7 @@ abstract class ParserAbstract implements ParserInterface
         return preg_replace(
             '#--.+$#m',
             '',
-            $schema
+            (string) $schema
         );
     }
 
@@ -216,11 +215,13 @@ abstract class ParserAbstract implements ParserInterface
     protected function getSafeRandomString(string $schema): string
     {
         do {
-            $safeRandomString = (string)rand();
-        } while (strpos(
-            $schema,
-            $safeRandomString
-        ) !== false);
+            $safeRandomString = (string)random_int(0, mt_getrandmax());
+        } while (
+            str_contains(
+                $schema,
+                $safeRandomString
+            )
+        );
 
         return $safeRandomString;
     }
@@ -229,12 +230,10 @@ abstract class ParserAbstract implements ParserInterface
     {
         return preg_replace_callback(
             '#(\'.*\')#Uxsm',
-            static function ($matches) use ($replacePairs): string {
-                return strtr(
-                    $matches[0],
-                    $replacePairs
-                );
-            },
+            static fn($matches): string => strtr(
+                $matches[0],
+                $replacePairs
+            ),
             $schema
         );
     }
@@ -244,7 +243,7 @@ abstract class ParserAbstract implements ParserInterface
         return preg_replace(
             '/^\s+/m',
             '',
-            $schema
+            (string) $schema
         );
     }
 
@@ -313,7 +312,8 @@ abstract class ParserAbstract implements ParserInterface
 
         foreach ($tables as $iteratedTable) {
             foreach ($connections as $connection) {
-                if ($connection->getChildTableName() === '*'
+                if (
+                    $connection->getChildTableName() === '*'
                     || $connection->getChildTableName() === $iteratedTable->getName()
                 ) {
                     $columns = $iteratedTable->getColumns();
@@ -321,7 +321,8 @@ abstract class ParserAbstract implements ParserInterface
                     if (empty(array_diff($connection->getChildTableColumns(), $columns->getColumnsName()))) {
                         $parentTable = $tables->offsetGet($connection->getParentTableName());
 
-                        if ($parentTable instanceof TableInterface
+                        if (
+                            $parentTable instanceof TableInterface
                             && empty(
                                 array_diff(
                                     $connection->getParentTableColumns(),
@@ -341,7 +342,8 @@ abstract class ParserAbstract implements ParserInterface
                                 }
                             }
 
-                            if ($iteratedTable->getPrimaryKey() instanceof PrimaryKeyInterface
+                            if (
+                                $iteratedTable->getPrimaryKey() instanceof PrimaryKeyInterface
                                 && $iteratedTable->getPrimaryKey()->getColumns() === $childTableColumns
                             ) {
                                 $oneToOne = true;

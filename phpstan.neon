@@ -16,7 +16,3 @@ parameters:
 
     fileExtensions:
         - php
-
-    excludes_analyse:
-        - vendor
-

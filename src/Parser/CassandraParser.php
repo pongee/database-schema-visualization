@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Parser;
 
@@ -37,8 +39,7 @@ class CassandraParser extends ParserAbstract
     public function run(
         string $nativeSqlSchema,
         ConnectionCollectionInterface $forcedConnectionCollection
-    ): SchemaInterface
-    {
+    ): SchemaInterface {
         $runResult = parent::run($nativeSqlSchema, $forcedConnectionCollection);
         $this->handleMapAndSetConnections($runResult->getTables(), $runResult->getConnections());
         return $runResult;
@@ -218,9 +219,7 @@ class CassandraParser extends ParserAbstract
     protected function trimNames(string ...$strings): array
     {
         return array_map(
-            function ($string) {
-                return $this->trimName($string);
-            },
+            fn($string): string => $this->trimName($string),
             $strings
         );
     }
@@ -228,9 +227,7 @@ class CassandraParser extends ParserAbstract
     protected function getFormatedParameters(string ...$strings): array
     {
         return array_map(
-            function ($string) {
-                return $this->getFormatedParameter($string);
-            },
+            fn($string): string => $this->getFormatedParameter($string),
             $strings
         );
     }
@@ -532,21 +529,22 @@ class CassandraParser extends ParserAbstract
     private function handleMapAndSetConnections(
         TableCollection $tables,
         ConnectionCollectionInterface $connections
-    ) : ConnectionCollection
-    {
+    ): ConnectionCollection {
         $allDefinedTables = array_map(
-            function (TableInterface $table) {
-                return $table->getName();
-            },
+            fn(TableInterface $table): string => $table->getName(),
             $tables->getIterator()->getArrayCopy()
         );
 
         foreach ($tables as $table) {
             foreach ($table->getColumns() as $column) {
-                if (!in_array($column->getType(), ['set', 'map', 'frozen'])) continue;
+                if (!in_array($column->getType(), ['set', 'map', 'frozen'])) {
+                    continue;
+                }
 
                 foreach ($column->getTypeParameters() as $typeParameter) {
-                    if (!isset($allDefinedTables[$typeParameter])) continue;
+                    if (!isset($allDefinedTables[$typeParameter])) {
+                        continue;
+                    }
                     $connections->add(new OneToManyConnection($table->getName(), $typeParameter, [], []));
                 }
             }
