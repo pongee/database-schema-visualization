@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table;
 
@@ -7,7 +9,7 @@ class ColumnCollection implements ColumnCollectionInterface
     /** @var ColumnInterface[] */
     private array $columns = [];
 
-    public function add(ColumnInterface $column)
+    public function add(ColumnInterface $column): void
     {
         $this->columns[$column->getName()] = $column;
     }

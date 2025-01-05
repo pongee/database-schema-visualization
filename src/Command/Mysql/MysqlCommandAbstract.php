@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Command\Mysql;
 
@@ -16,15 +18,11 @@ abstract class MysqlCommandAbstract extends Command
     protected const ARGUMENT_FILE = 'file';
     protected const OPTION_CONNECTION = 'connection';
 
-    protected ParserInterface $parser;
-
     protected string $rootDir;
 
-    public function __construct(ParserInterface $parser, string $rootDir)
+    public function __construct(protected ParserInterface $parser, string $rootDir)
     {
         parent::__construct();
-
-        $this->parser = $parser;
         $this->rootDir = rtrim($rootDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
 
         $this
@@ -103,9 +101,10 @@ abstract class MysqlCommandAbstract extends Command
                 \.
                 (?<parentTableColumns>[^.]+)
                 $
-            #x', $connection, $matches);
+            #x', (string) $connection, $matches);
 
-            if (!empty($matches['childTableName'])
+            if (
+                !empty($matches['childTableName'])
                 && !empty($matches['childTableColumns'])
                 && !empty($matches['parentTableName'])
                 && !empty($matches['parentTableColumns'])

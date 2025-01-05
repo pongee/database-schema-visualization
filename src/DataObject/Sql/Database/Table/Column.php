@@ -1,15 +1,17 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table;
 
 class Column implements ColumnInterface
 {
     public function __construct(
-        private string $name,
-        private string $type,
-        private array $typeParameters,
-        private string $otherParameters,
-        private string $comment
+        private readonly string $name,
+        private readonly string $type,
+        private readonly array $typeParameters,
+        private readonly string $otherParameters,
+        private readonly string $comment
     ) {
     }
 

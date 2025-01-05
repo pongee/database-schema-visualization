@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Test\Unit\Tempalte\Plantuml;
 
@@ -371,7 +373,7 @@ connection_one_to_many(member_log, member)
     /**
      * @dataProvider getSchemaProvider
      */
-    public function testExport(SchemaInterface $schema, string $extendOutput)
+    public function testExport(SchemaInterface $schema, string $extendOutput): void
     {
         $template = file_get_contents(__DIR__ . '/../../../../src/Template/Plantuml/v1.twig');
 
@@ -386,10 +388,10 @@ connection_one_to_many(member_log, member)
     protected function trim($text): string
     {
         return trim(
-            preg_replace(
+            (string) preg_replace(
                 '/^\s+/m',
                 '',
-                $text
+                (string) $text
             )
         );
     }

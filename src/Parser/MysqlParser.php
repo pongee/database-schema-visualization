@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Parser;
 
@@ -182,9 +184,7 @@ class MysqlParser extends ParserAbstract
     protected function trimNames(string ...$strings): array
     {
         return array_map(
-            function ($string) {
-                return $this->trimName($string);
-            },
+            fn($string): string => $this->trimName($string),
             $strings
         );
     }
@@ -192,9 +192,7 @@ class MysqlParser extends ParserAbstract
     protected function getFormatedParameters(string ...$strings): array
     {
         return array_map(
-            function ($string) {
-                return $this->getFormatedParameter($string);
-            },
+            fn($string): string => $this->getFormatedParameter($string),
             $strings
         );
     }
