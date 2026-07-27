@@ -23,7 +23,7 @@ The aim of this project is to generate database documentation from sql schema.
 $ composer require pongee/database-schema-visualization
 ```
 ## Commands
-Every command reads a schema file and writes the result to **stdout**, so redirect it into a file. Foreign keys are resolved automatically from the schema; use `--connection` to force additional ones.
+Every command reads a schema file and writes the result to **stdout**, so redirect it into a file. Foreign keys are resolved automatically from the schema.
 
 Each command exists for both MySQL (`mysql:`) and Apache Cassandra (`cassandra:`):
 
@@ -41,7 +41,6 @@ Argument and options:
 | `file` | Path to the schema file. **Required.** |
 | `--type` | Image format for the `image` commands: `png` (default) or `svg`. |
 | `--template` | Twig template used for rendering. Defaults to the bundled v2 template. |
-| `--connection` | Force a foreign key when the schema defines none. Format: `child_table.column=>parent_table.column` (repeatable). |
 
 ## Usage
 The command, argument and options are the same across every run mode below — see [Commands](#commands) for the full list.

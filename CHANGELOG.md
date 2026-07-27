@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Apache Cassandra CLI commands (`cassandra:json`, `cassandra:plantuml`, `cassandra:markdown`, `cassandra:image`)
 - Docker image published to the GitHub Container Registry, built natively for linux/amd64 and linux/arm64
 
+### Removed
+- The `--connection` command option and the option shortcuts (`-c`, `-t`, `-it`)
+
 ### Fixed
 - GEOMETRYCOLLECTION type was never recognized (typo in the type list)
 - Index columns with a prefix length or ASC/DESC direction, and composite indexes mixing them

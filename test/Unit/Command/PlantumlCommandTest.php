@@ -9,7 +9,6 @@ use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Pongee\DatabaseSchemaVisualization\Command\PlantumlCommand;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\ConnectionCollection;
-use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\NotDefinedConnection;
 use Pongee\DatabaseSchemaVisualization\Parser\ParserInterface;
 use RuntimeException as RuntimeExceptionAlias;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -38,7 +37,7 @@ class PlantumlCommandTest extends TestCase
     public function testSynopsis(): void
     {
         $this->assertEquals(
-            'mysql:plantuml [--template [TEMPLATE]] [--connection CONNECTION] [--] <file>',
+            'mysql:plantuml [--template [TEMPLATE]] [--] <file>',
             $this->getCommand()->getSynopsis()
         );
     }
@@ -46,7 +45,7 @@ class PlantumlCommandTest extends TestCase
     public function testCassandraSynopsis(): void
     {
         $this->assertEquals(
-            'cassandra:plantuml [--template [TEMPLATE]] [--connection CONNECTION] [--] <file>',
+            'cassandra:plantuml [--template [TEMPLATE]] [--] <file>',
             $this->getCommand('', 'cassandra:plantuml')->getSynopsis()
         );
     }
@@ -109,7 +108,6 @@ class PlantumlCommandTest extends TestCase
             ->with(
                 $fakeSqlContent,
                 new ConnectionCollection()
-                    ->add(new NotDefinedConnection('log', 'user', ['user_id'], ['user_id']))
             );
 
         $sut = new PlantumlCommand($parser, FIXTURES_DIRECTORY, 'mysql:plantuml');
@@ -117,7 +115,6 @@ class PlantumlCommandTest extends TestCase
             new ArrayInput([
                 'file' => $fakeSqlName,
                 '--template' => $fakeTemplateName,
-                '--connection' => ['log.user_id=>user.user_id'],
             ]),
             $output
         );

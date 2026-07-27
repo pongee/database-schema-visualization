@@ -9,7 +9,6 @@ use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Pongee\DatabaseSchemaVisualization\Command\MarkdownCommand;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\ConnectionCollection;
-use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\NotDefinedConnection;
 use Pongee\DatabaseSchemaVisualization\Parser\ParserInterface;
 use RuntimeException as RuntimeExceptionAlias;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -38,7 +37,7 @@ class MarkdownCommandTest extends TestCase
     public function testSynopsis(): void
     {
         $this->assertEquals(
-            'mysql:markdown [--template [TEMPLATE]] [--connection CONNECTION] [--] <file>',
+            'mysql:markdown [--template [TEMPLATE]] [--] <file>',
             $this->getCommand()->getSynopsis()
         );
     }
@@ -46,7 +45,7 @@ class MarkdownCommandTest extends TestCase
     public function testCassandraSynopsis(): void
     {
         $this->assertEquals(
-            'cassandra:markdown [--template [TEMPLATE]] [--connection CONNECTION] [--] <file>',
+            'cassandra:markdown [--template [TEMPLATE]] [--] <file>',
             $this->getCommand('', 'cassandra:markdown')->getSynopsis()
         );
     }
@@ -109,7 +108,6 @@ class MarkdownCommandTest extends TestCase
             ->with(
                 $fakeSqlContent,
                 new ConnectionCollection()
-                    ->add(new NotDefinedConnection('log', 'user', ['user_id'], ['user_id']))
             );
 
         $sut = new MarkdownCommand($parser, FIXTURES_DIRECTORY, 'mysql:markdown');
@@ -117,7 +115,6 @@ class MarkdownCommandTest extends TestCase
             new ArrayInput([
                 'file' => $fakeSqlName,
                 '--template' => $fakeTemplateName,
-                '--connection' => ['log.user_id=>user.user_id'],
             ]),
             $output
         );

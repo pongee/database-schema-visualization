@@ -8,7 +8,6 @@ use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Pongee\DatabaseSchemaVisualization\Command\JsonCommand;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\ConnectionCollection;
-use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\NotDefinedConnection;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Schema;
 use Pongee\DatabaseSchemaVisualization\Parser\MysqlParser;
 use Pongee\DatabaseSchemaVisualization\Parser\ParserInterface;
@@ -39,7 +38,7 @@ class JsonCommandTest extends TestCase
     public function testSynopsis(): void
     {
         $this->assertEquals(
-            'mysql:json [--connection CONNECTION] [--] <file>',
+            'mysql:json <file>',
             $this->getCommand()->getSynopsis()
         );
     }
@@ -47,7 +46,7 @@ class JsonCommandTest extends TestCase
     public function testCassandraSynopsis(): void
     {
         $this->assertEquals(
-            'cassandra:json [--connection CONNECTION] [--] <file>',
+            'cassandra:json <file>',
             $this->getCommand('', 'cassandra:json')->getSynopsis()
         );
     }
@@ -80,7 +79,6 @@ class JsonCommandTest extends TestCase
             ->with(
                 $fakeSqlContent,
                 new ConnectionCollection()
-                    ->add(new NotDefinedConnection('log', 'user', ['user_id'], ['user_id']))
             )
             ->willReturn(new Schema());
 
@@ -88,7 +86,6 @@ class JsonCommandTest extends TestCase
         $sut->run(
             new ArrayInput([
                 'file' => $fakeSqlName,
-                '--connection' => ['log.user_id=>user.user_id']
             ]),
             $output
         );
