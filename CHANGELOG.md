@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The `--connection` command option and the option shortcuts (`-c`, `-t`, `-it`)
 
 ### Fixed
+- Column `COMMENT` escapes (`''` and `\'`) are now unescaped instead of kept raw
 - `ENUM`/`SET` values containing a comma (e.g. `enum('on,hold','closed')`) were split into separate values
 - GEOMETRYCOLLECTION type was never recognized (typo in the type list)
 - Index columns with a prefix length or ASC/DESC direction, and composite indexes mixing them

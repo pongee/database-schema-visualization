@@ -196,7 +196,7 @@ class MysqlParser extends ParserAbstract
                     $matches['type'][$i],
                     $this->getFormatedParameters(...$typeParameters),
                     $this->stripUnsupportedClauses($this->getFormatedParameter($matches['otherParameters'][$i])),
-                    $matches['comment'][$i]
+                    $this->unescapeComment($matches['comment'][$i])
                 )
             );
         }
@@ -245,6 +245,11 @@ class MysqlParser extends ParserAbstract
         $column = preg_replace('/^(`?[\w-]+`?)\s*\(\s*\d+\s*\)$/', '$1', (string) $column);
 
         return $this->trimName($column);
+    }
+
+    private function unescapeComment(string $comment): string
+    {
+        return str_replace(["''", "\\'"], "'", $comment);
     }
 
     private function splitEnumeratedValues(string $rawParameters): array
@@ -301,7 +306,7 @@ class MysqlParser extends ParserAbstract
                     $matches['type'][$i],
                     $this->splitEnumeratedValues($matches['typeParameters'][$i]),
                     $this->stripUnsupportedClauses($this->getFormatedParameter($matches['otherParameters'][$i])),
-                    $matches['comment'][$i]
+                    $this->unescapeComment($matches['comment'][$i])
                 )
             );
         }
