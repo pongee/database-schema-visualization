@@ -39,7 +39,7 @@ class JsonCommandTest extends TestCase
     public function testSynopsis(): void
     {
         $this->assertEquals(
-            'mysql:json [-c|--connection CONNECTION] [--] <file>',
+            'mysql:json [--connection CONNECTION] [--] <file>',
             $this->getCommand()->getSynopsis()
         );
     }
@@ -47,7 +47,7 @@ class JsonCommandTest extends TestCase
     public function testCassandraSynopsis(): void
     {
         $this->assertEquals(
-            'cassandra:json [-c|--connection CONNECTION] [--] <file>',
+            'cassandra:json [--connection CONNECTION] [--] <file>',
             $this->getCommand('', 'cassandra:json')->getSynopsis()
         );
     }

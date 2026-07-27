@@ -39,9 +39,9 @@ Argument and options:
 | Name | Description |
 | --- | --- |
 | `file` | Path to the schema file. **Required.** |
-| `--type`, `-it` | Image format for the `image` commands: `png` (default) or `svg`. |
-| `--template`, `-t` | Twig template used for rendering. Defaults to the bundled v2 template. |
-| `--connection`, `-c` | Force a foreign key when the schema defines none. Format: `child_table.column=>parent_table.column` (repeatable). |
+| `--type` | Image format for the `image` commands: `png` (default) or `svg`. |
+| `--template` | Twig template used for rendering. Defaults to the bundled v2 template. |
+| `--connection` | Force a foreign key when the schema defines none. Format: `child_table.column=>parent_table.column` (repeatable). |
 
 ## Usage
 The command, argument and options are the same across every run mode below — see [Commands](#commands) for the full list.

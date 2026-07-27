@@ -31,7 +31,7 @@ final class ImageCommand extends CommandAbstract
             ->addTemplateOption(self::DEFAULT_TEMPLATE)
             ->addOption(
                 self::OPTION_TYPE,
-                'it',
+                null,
                 InputOption::VALUE_OPTIONAL,
                 '',
                 self::DEFAULT_TYPE

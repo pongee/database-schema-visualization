@@ -39,7 +39,7 @@ abstract class CommandAbstract extends Command
     {
         $this->addOption(
             self::OPTION_CONNECTION,
-            'c',
+            null,
             InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
             "Force foreign keys definitions, if there are no foreign keys defined in sql schema.
             Format: <info>child_table_name.child_table_columns=>parent_table_name.parent_table_columns</info>
@@ -80,7 +80,7 @@ abstract class CommandAbstract extends Command
     {
         $this->addOption(
             self::OPTION_TEMPLATE,
-            't',
+            null,
             InputOption::VALUE_OPTIONAL,
             '',
             $default

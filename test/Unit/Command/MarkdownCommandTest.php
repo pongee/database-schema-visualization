@@ -38,7 +38,7 @@ class MarkdownCommandTest extends TestCase
     public function testSynopsis(): void
     {
         $this->assertEquals(
-            'mysql:markdown [-t|--template [TEMPLATE]] [-c|--connection CONNECTION] [--] <file>',
+            'mysql:markdown [--template [TEMPLATE]] [--connection CONNECTION] [--] <file>',
             $this->getCommand()->getSynopsis()
         );
     }
@@ -46,7 +46,7 @@ class MarkdownCommandTest extends TestCase
     public function testCassandraSynopsis(): void
     {
         $this->assertEquals(
-            'cassandra:markdown [-t|--template [TEMPLATE]] [-c|--connection CONNECTION] [--] <file>',
+            'cassandra:markdown [--template [TEMPLATE]] [--connection CONNECTION] [--] <file>',
             $this->getCommand('', 'cassandra:markdown')->getSynopsis()
         );
     }

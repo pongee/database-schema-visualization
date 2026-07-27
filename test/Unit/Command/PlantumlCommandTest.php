@@ -38,7 +38,7 @@ class PlantumlCommandTest extends TestCase
     public function testSynopsis(): void
     {
         $this->assertEquals(
-            'mysql:plantuml [-t|--template [TEMPLATE]] [-c|--connection CONNECTION] [--] <file>',
+            'mysql:plantuml [--template [TEMPLATE]] [--connection CONNECTION] [--] <file>',
             $this->getCommand()->getSynopsis()
         );
     }
@@ -46,7 +46,7 @@ class PlantumlCommandTest extends TestCase
     public function testCassandraSynopsis(): void
     {
         $this->assertEquals(
-            'cassandra:plantuml [-t|--template [TEMPLATE]] [-c|--connection CONNECTION] [--] <file>',
+            'cassandra:plantuml [--template [TEMPLATE]] [--connection CONNECTION] [--] <file>',
             $this->getCommand('', 'cassandra:plantuml')->getSynopsis()
         );
     }
