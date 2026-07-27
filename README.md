@@ -32,15 +32,15 @@ or add it the your composer.json and make a composer update pongee/database-sche
 ### In console
 #### PNG export
 ```bash
-$  php ./database-schema-visualization mysql:image ./example/schema/sakila.sql > ./example/img/sakila.png
-$  php ./database-schema-visualization mysql:image --type png ./example/schema/sakila.sql > ./example/img/sakila.png
+$  php ./database-schema-visualization mysql:image ./example/schema/sakila.sql > ./example/output/sakila.png
+$  php ./database-schema-visualization mysql:image --type png ./example/schema/sakila.sql > ./example/output/sakila.png
 ```
 Output:
-![Example output](example/img/sakila.png?raw=true "Output")
+![Example output](example/output/sakila.png?raw=true "Output")
 
 #### SVG export
 ```bash
-$  php ./database-schema-visualization mysql:image --type svg ./example/schema/sakila.sql > ./example/img/sakila.svg
+$  php ./database-schema-visualization mysql:image --type svg ./example/schema/sakila.sql > ./example/output/sakila.svg
 ```
 
 #### Json export
@@ -49,11 +49,11 @@ $  php ./database-schema-visualization mysql:json ./example/schema/sakila.sql
 ```
 #### Plantuml export
 ```bash
-$  php ./database-schema-visualization mysql:plantuml ./example/schema/sakila.sql
+$  php ./database-schema-visualization mysql:plantuml ./example/schema/sakila.sql > ./example/output/sakila.puml
 ```
 #### Markdown export
 ```bash
-$  php ./database-schema-visualization mysql:markdown ./example/schema/sakila.sql
+$  php ./database-schema-visualization mysql:markdown ./example/schema/sakila.sql > ./example/output/sakila.md
 ```
 
 ### PHP
