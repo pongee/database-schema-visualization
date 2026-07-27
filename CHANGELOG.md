@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Inline PRIMARY KEY and inline (column-level) FOREIGN KEY parsing
 - Anonymous FOREIGN KEY (without a CONSTRAINT name) parsing
 - MySQL employees, world_x and airportdb sample databases as full-database test fixtures
+- Modern PlantUML template (`v2`) using the current preprocessor, set as the default (legacy `v1` still available)
 
 ### Fixed
 - GEOMETRYCOLLECTION type was never recognized (typo in the type list)
@@ -18,10 +19,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Backtick-quoted table names containing spaces
 - Whitespace robustness for UNIQUE/FULLTEXT/SPATIAL keys and REFERENCES clauses
 - Generated-column (GENERATED ALWAYS AS ...) definitions no longer leak into column parameters
+- CLI entry point broke on Symfony Console 8 (`Application::add()` removed) — use `addCommand()`
 
 ### Changed
 - Switch to PHP 8.5
 - Update dependencies to latest majors (symfony/console 7-8, PHPUnit 13, PHP_CodeSniffer 4)
+- Upgrade the bundled PlantUML jar to the MIT build (plantuml-mit-1.2026.6)
+- Expose DataObjects (Column, Index, Table, Schema, Connection) via readonly / property-hook properties instead of getters
+- Validate the image `--type` option with an `ImageType` enum
+- Group generated example outputs per database under `example/output/<db>/`
 
 ## [4.0.0] - 2024-01-04
 ### Changed
