@@ -240,6 +240,16 @@ class MysqlParser extends ParserAbstract
         return $this->trimName($column);
     }
 
+    private function splitEnumeratedValues(string $rawParameters): array
+    {
+        preg_match_all("/'((?:[^']|'')*)'/", $rawParameters, $matches);
+
+        return array_map(
+            static fn(string $value): string => str_replace("''", "'", $value),
+            $matches[1]
+        );
+    }
+
     private function getColumnsWithRequiredTypeParametersFromCreateTableSchema(
         string $createTableSchema
     ): Table\ColumnCollectionInterface {
@@ -282,13 +292,7 @@ class MysqlParser extends ParserAbstract
                 new Column(
                     $columName,
                     $matches['type'][$i],
-                    $this->trimNames(
-                        ...
-                        explode(
-                            ',',
-                            $matches['typeParameters'][$i]
-                        )
-                    ),
+                    $this->splitEnumeratedValues($matches['typeParameters'][$i]),
                     $this->stripUnsupportedClauses($this->getFormatedParameter($matches['otherParameters'][$i])),
                     $matches['comment'][$i]
                 )

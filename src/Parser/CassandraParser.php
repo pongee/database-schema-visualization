@@ -77,11 +77,17 @@ final class CassandraParser extends ParserAbstract
         return $table;
     }
 
+    #[Override]
+    protected function getCreateTablePattern(): string
+    {
+        // CQL: TYPE can be treated as a table, so we show/store TYPEs and can reference them
+        return 'CREATE\s+(?:TABLE|TYPE)';
+    }
+
     protected function getTableNameFromCreateTableSchema(string $createTableSchema): string
     {
-        // CQL: TYPE can be treated as a table. And we need to show/store TYPEs so we can reference them
         preg_match(
-            '/CREATE\s+(TABLE|TYPE).*\s*`?(?<name>(\w|[-])+)`?\s*\(/Uis',
+            '/' . $this->getCreateTablePattern() . '.*\s*`?(?<name>(\w|[-])+)`?\s*\(/Uis',
             $createTableSchema,
             $matches
         );
@@ -506,15 +512,6 @@ final class CassandraParser extends ParserAbstract
         }
 
         return null;
-    }
-
-    #[Override]
-    protected function getCreateTableConditions(string $schema): array
-    {
-        // treat types as tables so we can reference and show them
-        $schema = str_replace('CREATE TYPE', 'CREATE TABLE', $schema);
-
-        return parent::getCreateTableConditions($schema);
     }
 
     #[Override]
