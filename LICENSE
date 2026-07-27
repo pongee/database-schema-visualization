@@ -22,5 +22,5 @@ SOFTWARE.
 
 Plantuml provided by Arnaud Roques
     - Website: http://plantuml.com
-    - Binary: http://sourceforge.net/projects/plantuml/files/plantuml-jar-mit-1.2019.8.zip/download
-    - Source code: http://sourceforge.net/projects/plantuml/files/plantuml-mit-1.2019.8.tar.gz/download
+    - Binary:https://github.com/plantuml/plantuml/releases/download/v1.2026.6/plantuml-mit-1.2026.6.jar
+    - Source code: https://github.com/plantuml/plantuml/releases/download/v1.2026.6/plantuml-mit-1.2026.6-sources.jar

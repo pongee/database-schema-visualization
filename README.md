@@ -81,7 +81,7 @@ $plantumlExport             = new Plantuml(file_get_contents(__DIR__ . '/../../s
 $forcedConnectionCollection = new ConnectionCollection();
 $imageGenerator             = new ImageGenerator(
     'png',
-    __DIR__ . '/../../bin/plantuml-gplv2-1.2026.6.jar',
+    __DIR__ . '/../../bin/plantuml-mit-1.2026.6.jar',
     __DIR__ . '/../../tmp/'
 );
 
