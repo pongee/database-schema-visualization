@@ -1,25 +1,23 @@
 @startuml
-
+[\n]
 !ifndef TABLE_BORDER_COLOR
 !define TABLE_BORDER_COLOR Chocolate
 !endif
-
+[\n]
 !ifndef TABLE_BACKGROUND_COLOR
 !define TABLE_BACKGROUND_COLOR AntiqueWhite
 !endif
-
+[\n]
 skinparam class {
 [\t]BackgroundColor TABLE_BACKGROUND_COLOR
 [\t]BorderColor TABLE_BORDER_COLOR
 [\t]ArrowColor TABLE_BORDER_COLOR
 }
-
-
+[\n]
 !procedure $table($name)
 class "$name" << (T, TABLE_BORDER_COLOR ) >> {
 !endprocedure
-
-
+[\n]
 !function $key_columns($columns, $otherParameters="")
 [\t]!$result = ""
 [\t]!foreach $column in %splitstr($columns, ", ")
@@ -33,14 +31,12 @@ class "$name" << (T, TABLE_BORDER_COLOR ) >> {
 [\t]!endif
 [\t]!return $result
 !endfunction
-
-
+[\n]
 !procedure $primary_key($columns, $otherParameters="")
 [\t]!$rendered = $key_columns($columns, $otherParameters)
 -<i>PK</i> [<b>$rendered</b>]
 !endprocedure
-
-
+[\n]
 !procedure $column($name, $type, $otherParameters="", $comment="")
 [\t]!$suffix = ""
 [\t]!if ($otherParameters != "")
@@ -51,50 +47,41 @@ class "$name" << (T, TABLE_BORDER_COLOR ) >> {
 [\t]!endif
 +<b>$name</b> <u>$type</u>$suffix
 !endprocedure
-
-
+[\n]
 !procedure $index($columns, $otherParameters="")
 [\t]!$rendered = $key_columns($columns, $otherParameters)
 ~<i>KEY</i> [<b>$rendered</b>]
 !endprocedure
-
-
+[\n]
 !procedure $unique_index($columns, $otherParameters="")
 [\t]!$rendered = $key_columns($columns, $otherParameters)
 #<i>UNIQUE KEY</i> [<b>$rendered</b>]
 !endprocedure
-
-
+[\n]
 !procedure $fulltext_index($columns, $otherParameters="")
 [\t]!$rendered = $key_columns($columns, $otherParameters)
 #<i>FULLTEXT KEY</i> [<b>$rendered</b>]
 !endprocedure
-
-
+[\n]
 !procedure $spatial_index($columns, $otherParameters="")
 [\t]!$rendered = $key_columns($columns, $otherParameters)
 #<i>SPATIAL KEY</i> [<b>$rendered</b>]
 !endprocedure
-
-
+[\n]
 !procedure $connection_one_to_one($from, $to)
 $from "1" -- "1" $to
 !endprocedure
-
-
+[\n]
 !procedure $connection_one_to_many($from, $to)
 $from "n" }-- "1" $to
 !endprocedure
-
-
+[\n]
 hide methods
 hide stereotypes
-
-
+[\n]
 skinparam linetype polyline
 left to right direction
-
-
+[\n]
 {% for table in tables %}
     $table({{ table.getName() }})
     {% for column in table.getColumns() -%}
@@ -126,5 +113,5 @@ left to right direction
         $connection_one_to_many({{ connection.getChildTableName() }}, {{ connection.getParentTableName() }})
     {% endif %}
 {% endfor %}
-
+[\n]
 @enduml

@@ -1,18 +1,23 @@
 @startuml
+
 !ifndef TABLE_BORDER_COLOR
 !define TABLE_BORDER_COLOR Chocolate
 !endif
+
 !ifndef TABLE_BACKGROUND_COLOR
 !define TABLE_BACKGROUND_COLOR AntiqueWhite
 !endif
+
 skinparam class {
 	BackgroundColor TABLE_BACKGROUND_COLOR
 	BorderColor TABLE_BORDER_COLOR
 	ArrowColor TABLE_BORDER_COLOR
 }
+
 !procedure $table($name)
 class "$name" << (T, TABLE_BORDER_COLOR ) >> {
 !endprocedure
+
 !function $key_columns($columns, $otherParameters="")
 	!$result = ""
 	!foreach $column in %splitstr($columns, ", ")
@@ -26,10 +31,12 @@ class "$name" << (T, TABLE_BORDER_COLOR ) >> {
 	!endif
 	!return $result
 !endfunction
+
 !procedure $primary_key($columns, $otherParameters="")
 	!$rendered = $key_columns($columns, $otherParameters)
 -<i>PK</i> [<b>$rendered</b>]
 !endprocedure
+
 !procedure $column($name, $type, $otherParameters="", $comment="")
 	!$suffix = ""
 	!if ($otherParameters != "")
@@ -40,32 +47,41 @@ class "$name" << (T, TABLE_BORDER_COLOR ) >> {
 	!endif
 +<b>$name</b> <u>$type</u>$suffix
 !endprocedure
+
 !procedure $index($columns, $otherParameters="")
 	!$rendered = $key_columns($columns, $otherParameters)
 ~<i>KEY</i> [<b>$rendered</b>]
 !endprocedure
+
 !procedure $unique_index($columns, $otherParameters="")
 	!$rendered = $key_columns($columns, $otherParameters)
 #<i>UNIQUE KEY</i> [<b>$rendered</b>]
 !endprocedure
+
 !procedure $fulltext_index($columns, $otherParameters="")
 	!$rendered = $key_columns($columns, $otherParameters)
 #<i>FULLTEXT KEY</i> [<b>$rendered</b>]
 !endprocedure
+
 !procedure $spatial_index($columns, $otherParameters="")
 	!$rendered = $key_columns($columns, $otherParameters)
 #<i>SPATIAL KEY</i> [<b>$rendered</b>]
 !endprocedure
+
 !procedure $connection_one_to_one($from, $to)
 $from "1" -- "1" $to
 !endprocedure
+
 !procedure $connection_one_to_many($from, $to)
 $from "n" }-- "1" $to
 !endprocedure
+
 hide methods
 hide stereotypes
+
 skinparam linetype polyline
 left to right direction
+
 $table(airline)
 	$column('airline_id', 'smallint', 'NOT NULL AUTO_INCREMENT', '')
 	$column('iata', 'char[2]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
@@ -255,4 +271,5 @@ $connection_one_to_many(flightschedule, airport)
 $connection_one_to_many(flightschedule, airport)
 $connection_one_to_many(flightschedule, airline)
 $connection_one_to_one(passengerdetails, passenger)
+
 @enduml
