@@ -21,6 +21,8 @@ abstract class ParserAbstract implements ParserInterface
 
     abstract protected function getTableNameFromCreateTableSchema(string $createTableSchema): string;
 
+    abstract protected function getCreateTablePattern(): string;
+
     public function run(
         string $nativeSqlSchema,
         ConnectionCollectionInterface $forcedConnectionCollection
@@ -244,11 +246,6 @@ abstract class ParserAbstract implements ParserInterface
             '',
             (string) $schema
         );
-    }
-
-    protected function getCreateTablePattern(): string
-    {
-        return 'CREATE\s+TABLE';
     }
 
     protected function getCreateTableConditions(string $schema): array

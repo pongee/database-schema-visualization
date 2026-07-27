@@ -80,7 +80,6 @@ final class CassandraParser extends ParserAbstract
     #[Override]
     protected function getCreateTablePattern(): string
     {
-        // CQL: TYPE can be treated as a table, so we show/store TYPEs and can reference them
         return 'CREATE\s+(?:TABLE|TYPE)';
     }
 

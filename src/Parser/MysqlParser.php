@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Parser;
 
+use Override;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Column;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\FulltextIndex;
@@ -76,6 +77,12 @@ class MysqlParser extends ParserAbstract
             'POINT',
             'GEOMETRY',
         ];
+    }
+
+    #[Override]
+    protected function getCreateTablePattern(): string
+    {
+        return 'CREATE\s+TABLE';
     }
 
     protected function parseCreateCondition(string $createTableSchema): TableInterface
