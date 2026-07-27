@@ -23,17 +23,17 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\Uniqu
 
 class Table implements TableInterface
 {
-    public readonly ColumnCollectionInterface $columns;
+    public private(set) ColumnCollectionInterface $columns;
 
-    public ?PrimaryKeyInterface $primaryKey = null;
+    public private(set) ?PrimaryKeyInterface $primaryKey = null;
 
-    public readonly SimpleIndexCollectionInterface $simpleIndexes;
+    public private(set) SimpleIndexCollectionInterface $simpleIndexes;
 
-    public readonly UniqueIndexCollectionInterface $uniqueIndexes;
+    public private(set) UniqueIndexCollectionInterface $uniqueIndexes;
 
-    public readonly FulltextIndexCollectionInterface $fulltextIndexes;
+    public private(set) FulltextIndexCollectionInterface $fulltextIndexes;
 
-    public readonly SpatialIndexCollectionInterface $spatialIndexes;
+    public private(set) SpatialIndexCollectionInterface $spatialIndexes;
 
     public function __construct(public readonly string $name)
     {
