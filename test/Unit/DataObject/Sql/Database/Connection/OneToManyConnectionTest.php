@@ -23,7 +23,7 @@ class OneToManyConnectionTest extends ConnectionAbstract
             $parentTableColumns
         );
 
-        $this->assertEquals('OneToMany', $oneToManyConnection->getType());
+        $this->assertEquals('OneToMany', $oneToManyConnection->type);
         $this->assertEquals($childTablename, $oneToManyConnection->childTableName);
         $this->assertEquals($parentTableName, $oneToManyConnection->parentTableName);
         $this->assertEquals($childTableColumns, $oneToManyConnection->childTableColumns);

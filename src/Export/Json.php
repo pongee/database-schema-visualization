@@ -127,7 +127,7 @@ class Json implements ExportInterface
     private function getConnection(ConnectionInterface $connection): array
     {
         return [
-            'type' => $connection->getType(),
+            'type' => $connection->type,
             'childTableName' => $connection->childTableName,
             'childTableColumns' => $connection->childTableColumns,
             'parentTableName' => $connection->parentTableName,

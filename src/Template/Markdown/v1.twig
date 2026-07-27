@@ -66,6 +66,6 @@
 | Type | Child | Parent |
 | --- | --- | --- |
 {% for connection in connections -%}
-| {{ connection.getType() }} | {{ connection.childTableName }} ( {{ connection.childTableColumns|join(', ') }} ) | {{ connection.parentTableName }} ( {{ connection.parentTableColumns|join(', ') }} ) |
+| {{ connection.type }} | {{ connection.childTableName }} ( {{ connection.childTableColumns|join(', ') }} ) | {{ connection.parentTableName }} ( {{ connection.parentTableColumns|join(', ') }} ) |
 {% endfor -%}
 {% endif %}

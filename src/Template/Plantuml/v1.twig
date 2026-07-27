@@ -199,10 +199,10 @@ left to right direction
 {% endfor %}
 [\n]
 {% for connection in connections %}
-    {% if connection.getType() == "OneToOne" %}
+    {% if connection.type == "OneToOne" %}
         connection_one_to_one({{ connection.childTableName }}, {{ connection.parentTableName }})
     {% endif %}
-    {% if connection.getType() == "OneToMany" %}
+    {% if connection.type == "OneToMany" %}
         connection_one_to_many({{ connection.childTableName }}, {{ connection.parentTableName }})
     {% endif %}
 {% endfor %}

@@ -14,12 +14,12 @@ interface ConnectionInterface
 
     public array $parentTableColumns { get; }
 
+    public string $type { get; }
+
     public function __construct(
         string $childTableName,
         string $parentTableName,
         array $childTableColumns,
         array $parentTableColumns
     );
-
-    public function getType(): string;
 }
