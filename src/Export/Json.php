@@ -28,7 +28,7 @@ class Json implements ExportInterface
                     'fulltext' => $this->getFulltextIndexes($table),
                     'unique' => $this->getUniqueIndexes($table),
                 ],
-                'primaryKey' => $this->getPrimiaryKey($table),
+                'primaryKey' => $this->getPrimaryKey($table),
             ];
         }
 
@@ -47,11 +47,11 @@ class Json implements ExportInterface
         $columns = [];
         foreach ($table->getColumns() as $column) {
             $columns[] = [
-                'name' => $column->getName(),
-                'type' => $column->getType(),
-                'typeParameters' => $column->getTypeParameters(),
-                'otherParameters' => $column->getOtherParameters(),
-                'comment' => $column->getComment(),
+                'name' => $column->name,
+                'type' => $column->type,
+                'typeParameters' => $column->typeParameters,
+                'otherParameters' => $column->otherParameters,
+                'comment' => $column->comment,
             ];
         }
 
@@ -112,7 +112,7 @@ class Json implements ExportInterface
         return $indexes;
     }
 
-    private function getPrimiaryKey(TableInterface $table): array
+    private function getPrimaryKey(TableInterface $table): array
     {
         if ($table->getPrimaryKey()) {
             return [

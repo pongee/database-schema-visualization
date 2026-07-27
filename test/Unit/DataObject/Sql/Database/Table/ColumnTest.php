@@ -32,10 +32,10 @@ class ColumnTest extends TestCase
 
         $this->assertInstanceOf(ColumnInterface::class, $sut);
 
-        $this->assertEquals($name, $sut->getName());
-        $this->assertEquals($type, $sut->getType());
-        $this->assertEquals($typeParameters, $sut->getTypeParameters());
-        $this->assertEquals($otherParameters, $sut->getOtherParameters());
-        $this->assertEquals($comment, $sut->getComment());
+        $this->assertEquals($name, $sut->name);
+        $this->assertEquals($type, $sut->type);
+        $this->assertEquals($typeParameters, $sut->typeParameters);
+        $this->assertEquals($otherParameters, $sut->otherParameters);
+        $this->assertEquals($comment, $sut->comment);
     }
 }

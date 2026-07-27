@@ -473,8 +473,8 @@ class MysqlParser extends ParserAbstract
     protected function getInlinePrimaryKey(TableInterface $table): ?PrimaryKeyInterface
     {
         foreach ($table->getColumns() as $column) {
-            if (preg_match('/\bPRIMARY\s+KEY\b/i', $column->getOtherParameters())) {
-                return new PrimaryKey([$column->getName()]);
+            if (preg_match('/\bPRIMARY\s+KEY\b/i', $column->otherParameters)) {
+                return new PrimaryKey([$column->name]);
             }
         }
 

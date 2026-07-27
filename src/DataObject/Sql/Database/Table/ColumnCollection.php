@@ -11,7 +11,7 @@ class ColumnCollection implements ColumnCollectionInterface
 
     public function add(ColumnInterface $column): void
     {
-        $this->columns[$column->getName()] = $column;
+        $this->columns[$column->name] = $column;
     }
 
     public function getColumnsName(): array

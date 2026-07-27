@@ -8,7 +8,7 @@
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
 {% for column in table.getColumns() -%}
-| {{ column.getName() }} | {{ column.getType() }}{% if column.getTypeParameters() %} ( {{ column.getTypeParameters()|join(', ') }} ){% endif %} | {{ (column.getOtherParameters() ?: '-')|replace({'|': '\\|'}) }} | {{ (column.getComment() ?: '-')|replace({'|': '\\|'}) }} |
+| {{ column.name }} | {{ column.type }}{% if column.typeParameters %} ( {{ column.typeParameters|join(', ') }} ){% endif %} | {{ (column.otherParameters ?: '-')|replace({'|': '\\|'}) }} | {{ (column.comment ?: '-')|replace({'|': '\\|'}) }} |
 {% endfor -%}
 {% if table.getPrimaryKey() %}
 

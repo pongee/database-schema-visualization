@@ -125,32 +125,32 @@ left to right direction
 {% for table in tables %}
     table({{ table.getName() }}) {
     {% for column in table.getColumns() %}
-        {% if column.getTypeParameters() %}
-            {% if column.getOtherParameters() %}
-                {% if column.getComment() is not empty %}
-                    [\t]column('{{ column.getName() }}', '{{ column.getType() }}[{{ column.getTypeParameters()|join(', ') }}]', '{{ column.getOtherParameters()|replace({"'": '"'})|raw }}', '{{ column.getComment()|replace({"'": '"'})|raw }}')
+        {% if column.typeParameters %}
+            {% if column.otherParameters %}
+                {% if column.comment is not empty %}
+                    [\t]column('{{ column.name }}', '{{ column.type }}[{{ column.typeParameters|join(', ') }}]', '{{ column.otherParameters|replace({"'": '"'})|raw }}', '{{ column.comment|replace({"'": '"'})|raw }}')
                 {% else %}
-                    [\t]column('{{ column.getName() }}', '{{ column.getType() }}[{{ column.getTypeParameters()|join(', ') }}]', '{{ column.getOtherParameters()|replace({"'": '"'})|raw }}')
+                    [\t]column('{{ column.name }}', '{{ column.type }}[{{ column.typeParameters|join(', ') }}]', '{{ column.otherParameters|replace({"'": '"'})|raw }}')
                 {% endif %}
             {% else %}
-                {% if column.getComment() is not empty %}
-                    [\t]column('{{ column.getName() }}', '{{ column.getType() }}[{{ column.getTypeParameters()|join(', ') }}]', '', '{{ column.getComment()|replace({"'": '"'})|raw }}')
+                {% if column.comment is not empty %}
+                    [\t]column('{{ column.name }}', '{{ column.type }}[{{ column.typeParameters|join(', ') }}]', '', '{{ column.comment|replace({"'": '"'})|raw }}')
                 {% else %}
-                    [\t]column('{{ column.getName() }}', '{{ column.getType() }}[{{ column.getTypeParameters()|join(', ') }}]')
+                    [\t]column('{{ column.name }}', '{{ column.type }}[{{ column.typeParameters|join(', ') }}]')
                 {% endif %}
             {% endif %}
         {% else %}
-            {% if column.getOtherParameters() %}
-                {% if column.getComment() is not empty %}
-                    [\t]column('{{ column.getName() }}', '{{ column.getType() }}', '{{ column.getOtherParameters()|replace({"'": '"'})|raw }}', '{{ column.getComment()|replace({"'": '"'})|raw }}')
+            {% if column.otherParameters %}
+                {% if column.comment is not empty %}
+                    [\t]column('{{ column.name }}', '{{ column.type }}', '{{ column.otherParameters|replace({"'": '"'})|raw }}', '{{ column.comment|replace({"'": '"'})|raw }}')
                 {% else %}
-                    [\t]column('{{ column.getName() }}', '{{ column.getType() }}', '{{ column.getOtherParameters()|replace({"'": '"'})|raw }}')
+                    [\t]column('{{ column.name }}', '{{ column.type }}', '{{ column.otherParameters|replace({"'": '"'})|raw }}')
                 {% endif %}
             {% else %}
-                {% if column.getComment() is not empty %}
-                    [\t]column('{{ column.getName() }}', '{{ column.getType() }}', '', '{{ column.getComment()|replace({"'": '"'})|raw }}')
+                {% if column.comment is not empty %}
+                    [\t]column('{{ column.name }}', '{{ column.type }}', '', '{{ column.comment|replace({"'": '"'})|raw }}')
                 {% else %}
-                    [\t]column('{{ column.getName() }}', '{{ column.getType() }}')
+                    [\t]column('{{ column.name }}', '{{ column.type }}')
                 {% endif %}
             {% endif %}
         {% endif %}

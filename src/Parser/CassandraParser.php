@@ -540,11 +540,11 @@ class CassandraParser extends ParserAbstract
 
         foreach ($tables as $table) {
             foreach ($table->getColumns() as $column) {
-                if (!in_array($column->getType(), ['set', 'map', 'frozen'])) {
+                if (!in_array($column->type, ['set', 'map', 'frozen'])) {
                     continue;
                 }
 
-                foreach ($column->getTypeParameters() as $typeParameter) {
+                foreach ($column->typeParameters as $typeParameter) {
                     if (!isset($allDefinedTables[$typeParameter])) {
                         continue;
                     }

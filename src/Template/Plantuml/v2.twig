@@ -85,7 +85,7 @@ left to right direction
 {% for table in tables %}
     $table({{ table.getName() }})
     {% for column in table.getColumns() -%}
-        [\t]$column('{{ column.getName() }}', '{{ column.getType() }}{% if column.getTypeParameters() %}[{{ column.getTypeParameters()|join(', ') }}]{% endif %}', '{{ column.getOtherParameters()|replace({"'": '"'})|raw }}', '{{ column.getComment()|replace({"'": '"'})|raw }}')
+        [\t]$column('{{ column.name }}', '{{ column.type }}{% if column.typeParameters %}[{{ column.typeParameters|join(', ') }}]{% endif %}', '{{ column.otherParameters|replace({"'": '"'})|raw }}', '{{ column.comment|replace({"'": '"'})|raw }}')
     {% endfor -%}
     {% if table.getPrimaryKey() %}
         [\t]$primary_key('{{ table.getPrimaryKey().getColumns()|join(', ') }}', '{{ table.getPrimaryKey().getOtherParameters()|replace({"'": '"'})|raw }}')
