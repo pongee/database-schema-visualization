@@ -22,8 +22,8 @@ class FulltextIndexTest extends NamedIndexAbstract
     {
         $sut = new FulltextIndex($name, $columns, $otherParameters);
 
-        $this->assertEquals($name, $sut->getName());
-        $this->assertEquals($columns, $sut->getColumns());
-        $this->assertEquals($otherParameters, $sut->getOtherParameters());
+        $this->assertEquals($name, $sut->name);
+        $this->assertEquals($columns, $sut->columns);
+        $this->assertEquals($otherParameters, $sut->otherParameters);
     }
 }

@@ -361,14 +361,14 @@ abstract class ParserAbstract implements ParserInterface
                             $oneToOne = false;
 
                             foreach ($iteratedTable->getUniqueIndexes() as $uniqueIndex) {
-                                if ($uniqueIndex->getColumns() === $childTableColumns) {
+                                if ($uniqueIndex->columns === $childTableColumns) {
                                     $oneToOne = true;
                                 }
                             }
 
                             if (
                                 $iteratedTable->getPrimaryKey() instanceof PrimaryKeyInterface
-                                && $iteratedTable->getPrimaryKey()->getColumns() === $childTableColumns
+                                && $iteratedTable->getPrimaryKey()->columns === $childTableColumns
                             ) {
                                 $oneToOne = true;
                             }

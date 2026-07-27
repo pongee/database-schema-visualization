@@ -39,7 +39,7 @@ class PrimaryKeyTest extends TestCase
     {
         $sut = new PrimaryKey($columns, $otherParameters);
 
-        $this->assertEquals($columns, $sut->getColumns());
-        $this->assertEquals($otherParameters, $sut->getOtherParameters());
+        $this->assertEquals($columns, $sut->columns);
+        $this->assertEquals($otherParameters, $sut->otherParameters);
     }
 }

@@ -16,7 +16,7 @@
 
 | Columns | Parameters |
 | --- | --- |
-| {{ table.getPrimaryKey().getColumns()|join(', ') }} | {{ table.getPrimaryKey().getOtherParameters() ?: '-' }} |
+| {{ table.getPrimaryKey().columns|join(', ') }} | {{ table.getPrimaryKey().otherParameters ?: '-' }} |
 {% endif -%}
 {% if table.getSimpleIndexes()|length %}
 
@@ -25,7 +25,7 @@
 | Name | Columns | Parameters |
 | --- | --- | --- |
 {% for index in table.getSimpleIndexes() -%}
-| {{ index.getName() }} | {{ index.getColumns()|join(', ') }} | {{ index.getOtherParameters() ?: '-' }} |
+| {{ index.name }} | {{ index.columns|join(', ') }} | {{ index.otherParameters ?: '-' }} |
 {% endfor -%}
 {% endif -%}
 {% if table.getUniqueIndexes()|length %}
@@ -35,7 +35,7 @@
 | Name | Columns | Parameters |
 | --- | --- | --- |
 {% for index in table.getUniqueIndexes() -%}
-| {{ index.getName() }} | {{ index.getColumns()|join(', ') }} | {{ index.getOtherParameters() ?: '-' }} |
+| {{ index.name }} | {{ index.columns|join(', ') }} | {{ index.otherParameters ?: '-' }} |
 {% endfor -%}
 {% endif -%}
 {% if table.getFulltextIndexes()|length %}
@@ -45,7 +45,7 @@
 | Name | Columns | Parameters |
 | --- | --- | --- |
 {% for index in table.getFulltextIndexes() -%}
-| {{ index.getName() }} | {{ index.getColumns()|join(', ') }} | {{ index.getOtherParameters() ?: '-' }} |
+| {{ index.name }} | {{ index.columns|join(', ') }} | {{ index.otherParameters ?: '-' }} |
 {% endfor -%}
 {% endif -%}
 {% if table.getSpatialIndexes()|length %}
@@ -55,7 +55,7 @@
 | Name | Columns | Parameters |
 | --- | --- | --- |
 {% for index in table.getSpatialIndexes() -%}
-| {{ index.getName() }} | {{ index.getColumns()|join(', ') }} | {{ index.getOtherParameters() ?: '-' }} |
+| {{ index.name }} | {{ index.columns|join(', ') }} | {{ index.otherParameters ?: '-' }} |
 {% endfor -%}
 {% endif -%}
 {% endfor -%}

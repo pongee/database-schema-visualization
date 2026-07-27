@@ -88,19 +88,19 @@ left to right direction
         [\t]$column('{{ column.name }}', '{{ column.type }}{% if column.typeParameters %}[{{ column.typeParameters|join(', ') }}]{% endif %}', '{{ column.otherParameters|replace({"'": '"'})|raw }}', '{{ column.comment|replace({"'": '"'})|raw }}')
     {% endfor -%}
     {% if table.getPrimaryKey() %}
-        [\t]$primary_key('{{ table.getPrimaryKey().getColumns()|join(', ') }}', '{{ table.getPrimaryKey().getOtherParameters()|replace({"'": '"'})|raw }}')
+        [\t]$primary_key('{{ table.getPrimaryKey().columns|join(', ') }}', '{{ table.getPrimaryKey().otherParameters|replace({"'": '"'})|raw }}')
     {% endif -%}
     {% for simpleIndex in table.getSimpleIndexes() -%}
-        [\t]$index('{{ simpleIndex.getColumns()|join(', ') }}', '{{ simpleIndex.getOtherParameters()|replace({"'": '"'})|raw }}')
+        [\t]$index('{{ simpleIndex.columns|join(', ') }}', '{{ simpleIndex.otherParameters|replace({"'": '"'})|raw }}')
     {% endfor -%}
     {% for uniqueIndex in table.getUniqueIndexes() -%}
-        [\t]$unique_index('{{ uniqueIndex.getColumns()|join(', ') }}', '{{ uniqueIndex.getOtherParameters()|replace({"'": '"'})|raw }}')
+        [\t]$unique_index('{{ uniqueIndex.columns|join(', ') }}', '{{ uniqueIndex.otherParameters|replace({"'": '"'})|raw }}')
     {% endfor -%}
     {% for fulltextIndex in table.getFullTextIndexes() -%}
-        [\t]$fulltext_index('{{ fulltextIndex.getColumns()|join(', ') }}', '{{ fulltextIndex.getOtherParameters()|replace({"'": '"'})|raw }}')
+        [\t]$fulltext_index('{{ fulltextIndex.columns|join(', ') }}', '{{ fulltextIndex.otherParameters|replace({"'": '"'})|raw }}')
     {% endfor -%}
     {% for spatialIndex in table.getSpatialIndexes() -%}
-        [\t]$spatial_index('{{ spatialIndex.getColumns()|join(', ') }}', '{{ spatialIndex.getOtherParameters()|replace({"'": '"'})|raw }}')
+        [\t]$spatial_index('{{ spatialIndex.columns|join(', ') }}', '{{ spatialIndex.otherParameters|replace({"'": '"'})|raw }}')
     {% endfor -%}
     }
 {% endfor %}

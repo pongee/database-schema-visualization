@@ -157,42 +157,42 @@ left to right direction
     {% endfor %}
 
     {% if table.getPrimaryKey() %}
-        {% if table.getPrimaryKey().getOtherParameters() %}
-            [\t]primary_key('{{ table.getPrimaryKey().getColumns()|join(', ') }}', '{{ table.getPrimaryKey().getOtherParameters()|replace({"'": '"'})|raw }}')
+        {% if table.getPrimaryKey().otherParameters %}
+            [\t]primary_key('{{ table.getPrimaryKey().columns|join(', ') }}', '{{ table.getPrimaryKey().otherParameters|replace({"'": '"'})|raw }}')
         {% else %}
-            [\t]primary_key('{{ table.getPrimaryKey().getColumns()|join(', ') }}')
+            [\t]primary_key('{{ table.getPrimaryKey().columns|join(', ') }}')
         {% endif %}
     {% endif %}
 
     {% for simpleIndex in table.getSimpleIndexes() %}
-        {% if simpleIndex.getOtherParameters() %}
-            [\t]index('{{ simpleIndex.getColumns()|join(', ') }}', '{{ simpleIndex.getOtherParameters()|replace({"'": '"'})|raw }}')
+        {% if simpleIndex.otherParameters %}
+            [\t]index('{{ simpleIndex.columns|join(', ') }}', '{{ simpleIndex.otherParameters|replace({"'": '"'})|raw }}')
         {% else %}
-            [\t]index('{{ simpleIndex.getColumns()|join(', ') }}')
+            [\t]index('{{ simpleIndex.columns|join(', ') }}')
         {% endif %}
     {% endfor %}
 
     {% for uniqueIndex in table.getUniqueIndexes() %}
-        {% if uniqueIndex.getOtherParameters() %}
-            [\t]unique_index('{{ uniqueIndex.getColumns()|join(', ') }}', '{{ uniqueIndex.getOtherParameters()|replace({"'": '"'})|raw }}')
+        {% if uniqueIndex.otherParameters %}
+            [\t]unique_index('{{ uniqueIndex.columns|join(', ') }}', '{{ uniqueIndex.otherParameters|replace({"'": '"'})|raw }}')
         {% else %}
-            [\t]unique_index('{{ uniqueIndex.getColumns()|join(', ') }}')
+            [\t]unique_index('{{ uniqueIndex.columns|join(', ') }}')
         {% endif %}
     {% endfor %}
 
     {% for fulltextIndex in table.getFullTextIndexes() %}
-        {% if fulltextIndex.getOtherParameters() %}
-            [\t]fulltext_index('{{ fulltextIndex.getColumns()|join(', ') }}', '{{ fulltextIndex.getOtherParameters()|replace({"'": '"'})|raw }}')
+        {% if fulltextIndex.otherParameters %}
+            [\t]fulltext_index('{{ fulltextIndex.columns|join(', ') }}', '{{ fulltextIndex.otherParameters|replace({"'": '"'})|raw }}')
         {% else %}
-            [\t]fulltext_index('{{ fulltextIndex.getColumns()|join(', ') }}')
+            [\t]fulltext_index('{{ fulltextIndex.columns|join(', ') }}')
         {% endif %}
     {% endfor %}
 
     {% for spatialIndex in table.getSpatialIndexes() %}
-        {% if spatialIndex.getOtherParameters() %}
-            [\t]spatial_index('{{ spatialIndex.getColumns()|join(', ') }}', '{{ spatialIndex.getOtherParameters()|replace({"'": '"'})|raw }}')
+        {% if spatialIndex.otherParameters %}
+            [\t]spatial_index('{{ spatialIndex.columns|join(', ') }}', '{{ spatialIndex.otherParameters|replace({"'": '"'})|raw }}')
         {% else %}
-            [\t]spatial_index('{{ spatialIndex.getColumns()|join(', ') }}')
+            [\t]spatial_index('{{ spatialIndex.columns|join(', ') }}')
         {% endif %}
     {% endfor %}
     }

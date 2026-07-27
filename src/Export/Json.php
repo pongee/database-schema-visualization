@@ -71,12 +71,12 @@ class Json implements ExportInterface
     private function getIndexData(IndexInterface $index): array
     {
         $data = [
-            'columns' => $index->getColumns(),
-            'otherParameters' => $index->getOtherParameters(),
+            'columns' => $index->columns,
+            'otherParameters' => $index->otherParameters,
         ];
 
         if ($index instanceof NamedIndexAbstract) {
-            $data['name'] = $index->getName();
+            $data['name'] = $index->name;
         }
 
         return $data;
@@ -116,8 +116,8 @@ class Json implements ExportInterface
     {
         if ($table->getPrimaryKey()) {
             return [
-                'columns' => $table->getPrimaryKey()->getColumns(),
-                'otherParameters' => $table->getPrimaryKey()->getOtherParameters(),
+                'columns' => $table->getPrimaryKey()->columns,
+                'otherParameters' => $table->getPrimaryKey()->otherParameters,
             ];
         }
 

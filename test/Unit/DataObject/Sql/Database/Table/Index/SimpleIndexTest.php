@@ -22,8 +22,8 @@ class SimpleIndexTest extends NamedIndexAbstract
     {
         $sut = new SimpleIndex($name, $columns, $otherParameters);
 
-        $this->assertEquals($name, $sut->getName());
-        $this->assertEquals($columns, $sut->getColumns());
-        $this->assertEquals($otherParameters, $sut->getOtherParameters());
+        $this->assertEquals($name, $sut->name);
+        $this->assertEquals($columns, $sut->columns);
+        $this->assertEquals($otherParameters, $sut->otherParameters);
     }
 }
