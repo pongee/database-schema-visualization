@@ -1,0 +1,9 @@
+.git
+.github
+.idea
+/doc
+/tmp
+/vendor
+/composer.lock
+/example/output
+/test
