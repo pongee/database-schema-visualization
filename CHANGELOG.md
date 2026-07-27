@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Rewrite the PlantUML template to use the current preprocessor (`!function`/`!procedure`/`!foreach`), replacing the legacy `!definelong` template
 - Apache Cassandra CLI commands (`cassandra:json`, `cassandra:plantuml`, `cassandra:markdown`, `cassandra:image`)
 - Dedicated `MariadbParser` that adds the MariaDB-specific column types `UUID`, `INET4` and `INET6` on top of the MySQL parser (the column type list is now overridable)
+- MariaDB `CREATE OR REPLACE TABLE` statements are now recognized (normalized to `CREATE TABLE` in the MariaDB parser)
 - Docker image published to the GitHub Container Registry, built natively for linux/amd64 and linux/arm64
 
 ### Removed
