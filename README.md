@@ -17,64 +17,66 @@ The aim of this project is to generate database documentation from sql schema.
 - Json
 - Markdown
 
-## Pre Installation
-- https://graphviz.gitlab.io/download/
-
 ## Installation
 
 ```bash
 $ composer require pongee/database-schema-visualization
-or add it the your composer.json and make a composer update pongee/database-schema-visualization.
 ```
-## Docker
-The image is published to the GitHub Container Registry and built for both `linux/amd64` and `linux/arm64`.
+## Commands
+Every command reads an SQL schema file and writes the result to **stdout**, so redirect it into a file. Foreign keys are resolved automatically from the schema; use `--connection` to force additional ones.
+
+| Command | Output |
+| --- | --- |
+| `mysql:json` | JSON |
+| `mysql:plantuml` | PlantUML raw text |
+| `mysql:markdown` | Markdown |
+| `mysql:image` | PNG / SVG image |
+
+Argument and options:
+
+| Name | Description |
+| --- | --- |
+| `file` | Path to the SQL schema file. **Required.** |
+| `--type`, `-it` | Image format for `mysql:image`: `png` (default) or `svg`. |
+| `--template`, `-t` | Twig template used for rendering. Defaults to the bundled v2 template. |
+| `--connection`, `-c` | Force a foreign key when the schema defines none. Format: `child_table.column=>parent_table.column` (repeatable). |
+
+## Usage
+The command, argument and options are the same across every run mode below — see [Commands](#commands) for the full list.
+
+### Command line
+
+```bash
+$ php ./database-schema-visualization <command> [options] <file> > output
+```
+
+For example:
+
+```bash
+$ php ./database-schema-visualization mysql:image --type png ./example/schema/sakila.sql > ./example/output/sakila/sakila.png
+```
+
+Output:
+![Example output](example/output/sakila/sakila.png?raw=true "Output")
+
+### Docker
+The image is published to the GitHub Container Registry, built for both `linux/amd64` and `linux/arm64`.
 
 ```bash
 $ docker pull ghcr.io/pongee/database-schema-visualization:latest
 ```
 
-Mount your schema into the container and pass the command as arguments. The output is written to stdout, so redirect it into a file on the host:
+Mount your schema into the container and pass the same command and options as on the CLI:
 
 ```bash
 $ docker run --rm -v "$PWD/schema.sql:/app/schema.sql" \
     ghcr.io/pongee/database-schema-visualization mysql:image --type png schema.sql > diagram.png
-
-$ docker run --rm -v "$PWD/schema.sql:/app/schema.sql" \
-    ghcr.io/pongee/database-schema-visualization mysql:markdown schema.sql > schema.md
 ```
 
 List the available commands:
 
 ```bash
 $ docker run --rm ghcr.io/pongee/database-schema-visualization list
-```
-
-## Usage
-### In console
-#### PNG export
-```bash
-$  php ./database-schema-visualization mysql:image ./example/schema/sakila.sql > ./example/output/sakila/sakila.png
-$  php ./database-schema-visualization mysql:image --type png ./example/schema/sakila.sql > ./example/output/sakila/sakila.png
-```
-Output:
-![Example output](example/output/sakila/sakila.png?raw=true "Output")
-
-#### SVG export
-```bash
-$  php ./database-schema-visualization mysql:image --type svg ./example/schema/sakila.sql > ./example/output/sakila/sakila.svg
-```
-
-#### Json export
-```bash
-$  php ./database-schema-visualization mysql:json ./example/schema/sakila.sql
-```
-#### Plantuml export
-```bash
-$  php ./database-schema-visualization mysql:plantuml ./example/schema/sakila.sql > ./example/output/sakila/sakila.puml
-```
-#### Markdown export
-```bash
-$  php ./database-schema-visualization mysql:markdown ./example/schema/sakila.sql > ./example/output/sakila/sakila.md
 ```
 
 ### PHP
