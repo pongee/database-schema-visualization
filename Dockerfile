@@ -11,7 +11,7 @@ RUN composer install --no-dev --prefer-dist --no-interaction --no-progress --opt
 
 FROM php:8.5-cli-alpine
 
-RUN apk add --no-cache openjdk21-jre-headless graphviz ttf-dejavu
+RUN apk add --no-cache openjdk21-jre graphviz ttf-dejavu fontconfig
 
 WORKDIR /app
 COPY --from=build /app /app
