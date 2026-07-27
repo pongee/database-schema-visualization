@@ -17,6 +17,7 @@ The aim of this project is to generate database documentation from sql schema.
 - PNG, SVG image
 - Plantuml raw text
 - Json
+- Markdown
 
 ## Pre Installation
 - https://graphviz.gitlab.io/download/
@@ -49,6 +50,10 @@ $  php ./database-schema-visualization mysql:json ./example/schema/sakila.sql
 #### Plantuml export
 ```bash
 $  php ./database-schema-visualization mysql:plantuml ./example/schema/sakila.sql
+```
+#### Markdown export
+```bash
+$  php ./database-schema-visualization mysql:markdown ./example/schema/sakila.sql
 ```
 
 ### PHP
@@ -140,4 +145,46 @@ print $jsonExport->export($schema);
 }
     </pre>
    </div>
+</details>
+
+#### Markdown export
+```php
+<?php declare(strict_types=1);
+
+use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\ConnectionCollection;
+use Pongee\DatabaseSchemaVisualization\Export\Markdown;
+use Pongee\DatabaseSchemaVisualization\Parser\MysqlParser;
+
+include './vendor/autoload.php';
+
+$sqlSchema = '
+  CREATE TABLE IF NOT EXISTS `foo` (
+    `id` INT(10) UNSIGNED NOT NULL COMMENT \'The id\'
+   ) ENGINE=innodb DEFAULT CHARSET=utf8;
+';
+
+$mysqlParser                = new MysqlParser();
+$markdownExport             = new Markdown();
+$forcedConnectionCollection = new ConnectionCollection();
+
+$schema = $mysqlParser->run($sqlSchema, $forcedConnectionCollection);
+
+print $markdownExport->export($schema);
+```
+
+<details>
+  <summary>This will generate:</summary>
+  <div>
+
+# Schema
+
+## `foo` table
+
+### Columns
+
+| Name | Type | Parameters | Comment |
+| --- | --- | --- | --- |
+| id | INT ( 10 ) | UNSIGNED NOT NULL | The id |
+
+  </div>
 </details>

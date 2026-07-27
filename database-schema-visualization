@@ -14,20 +14,26 @@ $parser = new \Pongee\DatabaseSchemaVisualization\Parser\MysqlParser();
 
 $application = new Application();
 
-$application->add(
+$application->addCommand(
     new \Pongee\DatabaseSchemaVisualization\Command\Mysql\MysqlPlantumlCommand(
         $parser, getcwd()
     )
 );
 
-$application->add(
+$application->addCommand(
     new \Pongee\DatabaseSchemaVisualization\Command\Mysql\MysqlJsonCommand(
         $parser, getcwd()
     )
 );
 
-$application->add(
+$application->addCommand(
     new \Pongee\DatabaseSchemaVisualization\Command\Mysql\MysqlImageCommand(
+        $parser, getcwd()
+    )
+);
+
+$application->addCommand(
+    new \Pongee\DatabaseSchemaVisualization\Command\Mysql\MysqlMarkdownCommand(
         $parser, getcwd()
     )
 );

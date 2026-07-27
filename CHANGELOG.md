@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [5.0.0] - 2026-07-27
 ### Added
+- Markdown export (`mysql:markdown` command and `Export\Markdown`) listing tables, columns, keys, indexes and connections
 - MySQL column types: NUMERIC, REAL, DEC, FIXED, SERIAL, VECTOR and the INT1-INT8/MIDDLEINT aliases
 - Inline PRIMARY KEY and inline (column-level) FOREIGN KEY parsing
 - Anonymous FOREIGN KEY (without a CONSTRAINT name) parsing
