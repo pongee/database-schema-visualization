@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database;
 
-class TableCollection implements TableCollectionInterface
+final class TableCollection implements TableCollectionInterface
 {
     /** @var TableInterface[] */
     private array $tables = [];

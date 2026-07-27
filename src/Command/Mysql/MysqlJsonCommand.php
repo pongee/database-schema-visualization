@@ -8,7 +8,7 @@ use Pongee\DatabaseSchemaVisualization\Export\Json;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class MysqlJsonCommand extends MysqlCommandAbstract
+final class MysqlJsonCommand extends MysqlCommandAbstract
 {
     protected function configure(): void
     {

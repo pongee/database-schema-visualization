@@ -12,19 +12,19 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class MysqlImageCommand extends MysqlCommandAbstract
+final class MysqlImageCommand extends MysqlCommandAbstract
 {
-    protected const string OPTION_TEMPLATE = 'template';
+    private const string OPTION_TEMPLATE = 'template';
 
-    protected const string OPTION_TYPE = 'type';
+    private const string OPTION_TYPE = 'type';
 
-    protected const string DEFAULT_TEMPLATE = 'src/Template/Plantuml/v2.twig';
+    private const string DEFAULT_TEMPLATE = 'src/Template/Plantuml/v2.twig';
 
-    protected const string DEFAULT_TYPE = ImageType::Png->value;
+    private const string DEFAULT_TYPE = ImageType::Png->value;
 
-    protected const string PLANTUML_BIN = 'bin/plantuml-mit-1.2026.6.jar';
+    private const string PLANTUML_BIN = 'bin/plantuml-mit-1.2026.6.jar';
 
-    protected const string TEMP_DIR = 'tmp';
+    private const string TEMP_DIR = 'tmp';
 
     protected function configure(): void
     {
@@ -70,7 +70,7 @@ class MysqlImageCommand extends MysqlCommandAbstract
         return 0;
     }
 
-    protected function getTemplateFileContent(InputInterface $input): string
+    private function getTemplateFileContent(InputInterface $input): string
     {
         $templateFilePath = $this->rootDir . $input->getOption(self::OPTION_TEMPLATE);
 
@@ -85,7 +85,7 @@ class MysqlImageCommand extends MysqlCommandAbstract
         return file_get_contents($templateFilePath);
     }
 
-    protected function getImageType(InputInterface $input): string
+    private function getImageType(InputInterface $input): string
     {
         $imageType = ImageType::tryFrom((string) $input->getOption(self::OPTION_TYPE));
 

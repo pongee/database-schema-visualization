@@ -22,9 +22,9 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\Uniqu
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\UniqueIndexCollectionInterface;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\TableInterface;
 
-class MysqlParser extends ParserAbstract
+final class MysqlParser extends ParserAbstract
 {
-    protected function parseCreateCondition(string $createTableSchema): ?TableInterface
+    protected function parseCreateCondition(string $createTableSchema): \Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\TableInterface
     {
         $table = new Table($this->getTableNameFromCreateTableSchema($createTableSchema));
 
@@ -75,7 +75,7 @@ class MysqlParser extends ParserAbstract
         return !empty($matches['name']) ? $this->trimName($matches['name']) : '';
     }
 
-    protected function trimName(string $string): string
+    private function trimName(string $string): string
     {
         return trim(
             $string,
@@ -83,7 +83,7 @@ class MysqlParser extends ParserAbstract
         );
     }
 
-    protected function getColumnsWithoutRequiredTypeParametersFromCreateTableSchema(
+    private function getColumnsWithoutRequiredTypeParametersFromCreateTableSchema(
         string $createTableSchema
     ): Table\ColumnCollectionInterface {
         preg_match_all(
@@ -195,7 +195,7 @@ class MysqlParser extends ParserAbstract
         return $columnCollection;
     }
 
-    protected function trimNames(string ...$strings): array
+    private function trimNames(string ...$strings): array
     {
         return array_map(
             $this->trimName(...),
@@ -203,7 +203,7 @@ class MysqlParser extends ParserAbstract
         );
     }
 
-    protected function getFormatedParameters(string ...$strings): array
+    private function getFormatedParameters(string ...$strings): array
     {
         return array_map(
             $this->getFormatedParameter(...),
@@ -211,17 +211,17 @@ class MysqlParser extends ParserAbstract
         );
     }
 
-    protected function getFormatedParameter(string $string): string
+    private function getFormatedParameter(string $string): string
     {
         return preg_replace('/[\r\n]+/m', ' ', trim($string));
     }
 
-    protected function stripUnsupportedClauses(string $otherParameters): string
+    private function stripUnsupportedClauses(string $otherParameters): string
     {
         return trim((string) preg_replace('/\b(REFERENCES|GENERATED)\b.*$/is', '', $otherParameters));
     }
 
-    protected function cleanIndexColumns(string $rawColumns): array
+    private function cleanIndexColumns(string $rawColumns): array
     {
         return array_map(
             $this->cleanIndexColumn(...),
@@ -229,7 +229,7 @@ class MysqlParser extends ParserAbstract
         );
     }
 
-    protected function cleanIndexColumn(string $column): string
+    private function cleanIndexColumn(string $column): string
     {
         $column = trim($column);
         $column = preg_replace('/\s+(ASC|DESC)$/i', '', $column);
@@ -238,7 +238,7 @@ class MysqlParser extends ParserAbstract
         return $this->trimName($column);
     }
 
-    protected function getColumnsWithRequiredTypeParametersFromCreateTableSchema(
+    private function getColumnsWithRequiredTypeParametersFromCreateTableSchema(
         string $createTableSchema
     ): Table\ColumnCollectionInterface {
         preg_match_all(
@@ -296,7 +296,7 @@ class MysqlParser extends ParserAbstract
         return $columnCollection;
     }
 
-    protected function getSimpleIndexesFromCreateTableSchema(string $createTableSchema): SimpleIndexCollectionInterface
+    private function getSimpleIndexesFromCreateTableSchema(string $createTableSchema): SimpleIndexCollectionInterface
     {
         preg_match_all(
             '#
@@ -332,7 +332,7 @@ class MysqlParser extends ParserAbstract
         return $keyCollection;
     }
 
-    protected function getUniqueIndexesFromCreateTableSchema(string $createTableSchema): UniqueIndexCollectionInterface
+    private function getUniqueIndexesFromCreateTableSchema(string $createTableSchema): UniqueIndexCollectionInterface
     {
         preg_match_all(
             '#
@@ -369,7 +369,7 @@ class MysqlParser extends ParserAbstract
         return $keyCollection;
     }
 
-    protected function getFulltextIndexesFromCreateTableSchema(
+    private function getFulltextIndexesFromCreateTableSchema(
         string $createTableSchema
     ): FulltextIndexCollectionInterface {
         preg_match_all(
@@ -406,7 +406,7 @@ class MysqlParser extends ParserAbstract
         return $keyCollection;
     }
 
-    protected function getSpatialIndexesFromCreateTableSchema(
+    private function getSpatialIndexesFromCreateTableSchema(
         string $createTableSchema
     ): SpatialIndexCollectionInterface {
         preg_match_all(
@@ -443,7 +443,7 @@ class MysqlParser extends ParserAbstract
         return $keyCollection;
     }
 
-    protected function getPrimaryKeyFromCreateTableSchema(string $createTableSchema): ?PrimaryKeyInterface
+    private function getPrimaryKeyFromCreateTableSchema(string $createTableSchema): ?PrimaryKeyInterface
     {
         preg_match(
             '#
@@ -469,7 +469,7 @@ class MysqlParser extends ParserAbstract
         return null;
     }
 
-    protected function getInlinePrimaryKey(TableInterface $table): ?PrimaryKeyInterface
+    private function getInlinePrimaryKey(TableInterface $table): ?PrimaryKeyInterface
     {
         foreach ($table->columns as $column) {
             if (preg_match('/\bPRIMARY\s+KEY\b/i', $column->otherParameters)) {

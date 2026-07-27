@@ -10,7 +10,7 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\Named
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\TableInterface;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\SchemaInterface;
 
-class Json implements ExportInterface
+final class Json implements ExportInterface
 {
     public function export(SchemaInterface $schema): string
     {

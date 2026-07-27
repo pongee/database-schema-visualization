@@ -8,9 +8,9 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\SchemaInterface;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 
-class Markdown implements ExportInterface
+final readonly class Markdown implements ExportInterface
 {
-    protected Environment $twig;
+    private Environment $twig;
 
     public function __construct(string $template)
     {

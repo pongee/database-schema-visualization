@@ -9,7 +9,9 @@ use PHPUnit\Framework\TestCase;
 use Pongee\DatabaseSchemaVisualization\Command\Mysql\MysqlJsonCommand;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\ConnectionCollection;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\NotDefinedConnection;
+use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Schema;
 use Pongee\DatabaseSchemaVisualization\Parser\MysqlParser;
+use Pongee\DatabaseSchemaVisualization\Parser\ParserInterface;
 use RuntimeException as RuntimeExceptionAlias;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -23,8 +25,8 @@ class MysqlJsonCommandTest extends TestCase
 
     private function getCommand(string $rootDir = ''): MysqlJsonCommand
     {
-        /** @var MysqlParser&Stub $mysqlParser */
-        $mysqlParser = $this->createStub(MysqlParser::class);
+        /** @var ParserInterface&Stub $mysqlParser */
+        $mysqlParser = $this->createStub(ParserInterface::class);
 
         return new MysqlJsonCommand($mysqlParser, $rootDir);
     }
@@ -63,7 +65,7 @@ class MysqlJsonCommandTest extends TestCase
 
         $output = new BufferedOutput();
 
-        $parser = $this->createMock(MysqlParser::class);
+        $parser = $this->createMock(ParserInterface::class);
         $parser
             ->expects($this->once())
             ->method('run')
@@ -71,7 +73,8 @@ class MysqlJsonCommandTest extends TestCase
                 $fakeSqlContent,
                 new ConnectionCollection()
                     ->add(new NotDefinedConnection('log', 'user', ['user_id'], ['user_id']))
-            );
+            )
+            ->willReturn(new Schema());
 
         $sut = new MysqlJsonCommand($parser, FIXTURES_DIRECTORY);
         $sut->run(

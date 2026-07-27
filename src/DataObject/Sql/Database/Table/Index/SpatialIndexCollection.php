@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index;
 
-class SpatialIndexCollection implements SpatialIndexCollectionInterface
+final class SpatialIndexCollection implements SpatialIndexCollectionInterface
 {
     private array $spatialIndexes = [];
 

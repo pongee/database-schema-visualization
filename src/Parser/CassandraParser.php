@@ -34,7 +34,7 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\SchemaInterface;
  * Note:
  * This class is not complete as i am no CQL expert
  */
-class CassandraParser extends ParserAbstract
+final class CassandraParser extends ParserAbstract
 {
     #[\Override]
     public function run(
@@ -47,7 +47,7 @@ class CassandraParser extends ParserAbstract
     }
 
 
-    protected function parseCreateCondition(string $createTableSchema): ?TableInterface
+    protected function parseCreateCondition(string $createTableSchema): \Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\TableInterface
     {
         $table = new Table($this->getTableNameFromCreateTableSchema($createTableSchema));
 
@@ -95,7 +95,7 @@ class CassandraParser extends ParserAbstract
         return !empty($matches['name']) ? $this->trimName($matches['name']) : '';
     }
 
-    protected function trimName(string $string): string
+    private function trimName(string $string): string
     {
         return trim(
             $string,
@@ -103,7 +103,7 @@ class CassandraParser extends ParserAbstract
         );
     }
 
-    protected function getColumnsWithoutRequiredTypeParametersFromCreateTableSchema(
+    private function getColumnsWithoutRequiredTypeParametersFromCreateTableSchema(
         string $createTableSchema
     ): Table\ColumnCollectionInterface {
         preg_match_all(
@@ -218,7 +218,7 @@ class CassandraParser extends ParserAbstract
         return $columnCollection;
     }
 
-    protected function trimNames(string ...$strings): array
+    private function trimNames(string ...$strings): array
     {
         return array_map(
             $this->trimName(...),
@@ -226,7 +226,7 @@ class CassandraParser extends ParserAbstract
         );
     }
 
-    protected function getFormatedParameters(string ...$strings): array
+    private function getFormatedParameters(string ...$strings): array
     {
         return array_map(
             $this->getFormatedParameter(...),
@@ -234,12 +234,12 @@ class CassandraParser extends ParserAbstract
         );
     }
 
-    protected function getFormatedParameter(string $string): string
+    private function getFormatedParameter(string $string): string
     {
         return preg_replace('/[\r\n]+/m', ' ', trim($string));
     }
 
-    protected function getColumnsWithRequiredTypeParametersFromCreateTableSchema(
+    private function getColumnsWithRequiredTypeParametersFromCreateTableSchema(
         string $createTableSchema
     ): Table\ColumnCollectionInterface {
         preg_match_all(
@@ -314,7 +314,7 @@ class CassandraParser extends ParserAbstract
         return $columnCollection;
     }
 
-    protected function getSimpleIndexesFromCreateTableSchema(string $createTableSchema): SimpleIndexCollectionInterface
+    private function getSimpleIndexesFromCreateTableSchema(string $createTableSchema): SimpleIndexCollectionInterface
     {
         preg_match_all(
             '#
@@ -356,7 +356,7 @@ class CassandraParser extends ParserAbstract
         return $keyCollection;
     }
 
-    protected function getUniqueIndexesFromCreateTableSchema(string $createTableSchema): UniqueIndexCollectionInterface
+    private function getUniqueIndexesFromCreateTableSchema(string $createTableSchema): UniqueIndexCollectionInterface
     {
         preg_match_all(
             '#
@@ -399,7 +399,7 @@ class CassandraParser extends ParserAbstract
         return $keyCollection;
     }
 
-    protected function getFulltextIndexesFromCreateTableSchema(
+    private function getFulltextIndexesFromCreateTableSchema(
         string $createTableSchema
     ): FulltextIndexCollectionInterface {
         preg_match_all(
@@ -442,7 +442,7 @@ class CassandraParser extends ParserAbstract
         return $keyCollection;
     }
 
-    protected function getSpatialIndexesFromCreateTableSchema(
+    private function getSpatialIndexesFromCreateTableSchema(
         string $createTableSchema
     ): SpatialIndexCollectionInterface {
         preg_match_all(
@@ -485,7 +485,7 @@ class CassandraParser extends ParserAbstract
         return $keyCollection;
     }
 
-    protected function getPrimaryKeyFromCreateTableSchema(string $createTableSchema): ?PrimaryKeyInterface
+    private function getPrimaryKeyFromCreateTableSchema(string $createTableSchema): ?PrimaryKeyInterface
     {
         preg_match(
             '#

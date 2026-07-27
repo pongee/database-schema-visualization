@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index;
 
-readonly class SimpleIndex extends NamedIndexAbstract implements SimpleIndexInterface
+final readonly class SimpleIndex extends NamedIndexAbstract implements SimpleIndexInterface
 {
 }

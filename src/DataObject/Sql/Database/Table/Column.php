@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table;
 
-readonly class Column implements ColumnInterface
+final readonly class Column implements ColumnInterface
 {
     public function __construct(
         public string $name,

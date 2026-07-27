@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index;
 
-class SimpleIndexCollection implements SimpleIndexCollectionInterface
+final class SimpleIndexCollection implements SimpleIndexCollectionInterface
 {
     /** @var SimpleIndexInterface[] */
     private array $simpleIndexes = [];

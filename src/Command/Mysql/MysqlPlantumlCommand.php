@@ -10,11 +10,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class MysqlPlantumlCommand extends MysqlCommandAbstract
+final class MysqlPlantumlCommand extends MysqlCommandAbstract
 {
-    protected const string OPTION_TEMPLATE = 'template';
+    private const string OPTION_TEMPLATE = 'template';
 
-    protected const string DEFAULT_TEMPLATE = 'src/Template/Plantuml/v2.twig';
+    private const string DEFAULT_TEMPLATE = 'src/Template/Plantuml/v2.twig';
 
     protected function configure(): void
     {
@@ -49,7 +49,7 @@ class MysqlPlantumlCommand extends MysqlCommandAbstract
         return 0;
     }
 
-    protected function getTemplateFileContent(InputInterface $input): string
+    private function getTemplateFileContent(InputInterface $input): string
     {
         $templateFilePath = $this->rootDir . $input->getOption(self::OPTION_TEMPLATE);
 

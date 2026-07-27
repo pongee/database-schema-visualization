@@ -11,6 +11,7 @@ use Pongee\DatabaseSchemaVisualization\Command\Mysql\MysqlPlantumlCommand;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\ConnectionCollection;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\NotDefinedConnection;
 use Pongee\DatabaseSchemaVisualization\Parser\MysqlParser;
+use Pongee\DatabaseSchemaVisualization\Parser\ParserInterface;
 use RuntimeException as RuntimeExceptionAlias;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -24,8 +25,8 @@ class MysqlPlantumlCommandTest extends TestCase
 
     private function getCommand(string $rootDir = ''): MysqlPlantumlCommand
     {
-        /** @var MysqlParser&Stub $mysqlParser */
-        $mysqlParser = $this->createStub(MysqlParser::class);
+        /** @var ParserInterface&Stub $mysqlParser */
+        $mysqlParser = $this->createStub(ParserInterface::class);
 
         return new MysqlPlantumlCommand($mysqlParser, $rootDir);
     }
@@ -93,8 +94,8 @@ class MysqlPlantumlCommandTest extends TestCase
 
         $output = new BufferedOutput();
 
-        /** @var MysqlParser&MockObject $parser */
-        $parser = $this->createMock(MysqlParser::class);
+        /** @var ParserInterface&MockObject $parser */
+        $parser = $this->createMock(ParserInterface::class);
         $parser
             ->expects($this->once())
             ->method('run')

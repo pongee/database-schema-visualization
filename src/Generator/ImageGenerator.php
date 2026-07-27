@@ -10,16 +10,14 @@ use RuntimeException;
 use SplFileObject;
 use Twig\Environment;
 
-class ImageGenerator
+final readonly class ImageGenerator
 {
     private const int PLANTUML_LIMIT_SIZE = 16384;
 
-    protected Environment $twig;
-
     public function __construct(
-        private readonly string $imageType,
-        private readonly string $plantumlJarPath,
-        private readonly string $outputFolder
+        private string $imageType,
+        private string $plantumlJarPath,
+        private string $outputFolder
     ) {
     }
 

@@ -11,7 +11,7 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\TableCollection;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\TableCollectionInterface;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\TableInterface;
 
-class Schema implements SchemaInterface
+final class Schema implements SchemaInterface
 {
     public private(set) TableCollectionInterface $tables;
 

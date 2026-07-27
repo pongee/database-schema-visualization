@@ -21,7 +21,7 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\Uniqu
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\UniqueIndexCollectionInterface;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\UniqueIndexInterface;
 
-class Table implements TableInterface
+final class Table implements TableInterface
 {
     public private(set) ColumnCollectionInterface $columns;
 
