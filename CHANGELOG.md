@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Inline PRIMARY KEY and inline (column-level) FOREIGN KEY parsing
 - Anonymous FOREIGN KEY (without a CONSTRAINT name) parsing
 - MySQL employees, world_x and airportdb sample databases as full-database test fixtures
+- MariaDB sample databases (vector-search workshop, bookings, modern-SQL) as full-database test fixtures
 - Rewrite the PlantUML template to use the current preprocessor (`!function`/`!procedure`/`!foreach`), replacing the legacy `!definelong` template
 - Apache Cassandra CLI commands (`cassandra:json`, `cassandra:plantuml`, `cassandra:markdown`, `cassandra:image`)
 - Dedicated `MariadbParser` that adds the MariaDB-specific column types `UUID`, `INET4` and `INET6` on top of the MySQL parser (the column type list is now overridable)
