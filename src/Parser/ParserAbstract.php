@@ -93,25 +93,25 @@ abstract class ParserAbstract implements ParserInterface
             foreach ($subConditions as $condition) {
                 preg_match_all(
                     '#
-                    FOREIGN\sKEY\s+
+                    FOREIGN\s+KEY\s+
                     \(
                         (`?)
                             (?<childTableColumns>.+)
                         \1
                     \)
-                    \s+
+                    \s*
                     REFERENCES
                     \s+
                     `?
                         (?<parentTableName>[a-z0-9_-]+)
                     `?
-                    \s+
+                    \s*
                     \(
                     `?
                         (?<parentTableColumns>.+)
                     `?
                     \)
-                #mx',
+                #mxi',
                     (string) $condition,
                     $matches
                 );
@@ -280,24 +280,52 @@ abstract class ParserAbstract implements ParserInterface
 
     public function getConnectionsByCreateTable(string $sql): ConnectionCollectionInterface
     {
+        $conditions = [
+            $this->getTableNameFromCreateTableSchema($sql) => [$sql],
+        ];
+
+        $connectionCollection = new ConnectionCollection();
+        $connectionCollection
+            ->adds(...$this->generateConnections($conditions))
+            ->adds(...$this->getConnectionsByColumnReferences($sql));
+
+        return $connectionCollection;
+    }
+
+    private function getConnectionsByColumnReferences(string $sql): ConnectionCollectionInterface
+    {
         preg_match_all(
-            '/#
-            (
-                CONSTRAINT
-                 (?<foreignKeyCondition>.*)$
-               
-            )
-        #/mxsU',
+            '#
+            [(,]
+            (?![^,]*\bFOREIGN\s+KEY\b)
+            \s*
+            `?(?<childColumn>\w+)`?\s+
+            [^,]*?
+            \bREFERENCES\s+
+            `?(?<parentTableName>[\w-]+)`?
+            \s*\(\s*
+            `?(?<parentColumn>\w+)`?
+            \s*\)
+            #mxi',
             $sql,
-            $createTableMatches
+            $matches
         );
 
-        $conditions = [];
-        foreach ($createTableMatches['foreignKeyCondition'] as $condition) {
-            $conditions[$this->getTableNameFromCreateTableSchema($sql)][] = $condition;
+        $connectionCollection = new ConnectionCollection();
+        $childTableName = trim($this->getTableNameFromCreateTableSchema($sql), '` ');
+
+        foreach ($matches['childColumn'] as $index => $childColumn) {
+            $connectionCollection->add(
+                new NotDefinedConnection(
+                    $childTableName,
+                    trim($matches['parentTableName'][$index], '` '),
+                    [trim($childColumn, '` ')],
+                    [trim($matches['parentColumn'][$index], '` ')]
+                )
+            );
         }
 
-        return $this->generateConnections($conditions);
+        return $connectionCollection;
     }
 
     private function parserConnections(

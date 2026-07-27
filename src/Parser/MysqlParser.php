@@ -54,6 +54,10 @@ class MysqlParser extends ParserAbstract
         }
 
         $primaryKey = $this->getPrimaryKeyFromCreateTableSchema($createTableSchema);
+        if (!$primaryKey instanceof PrimaryKeyInterface) {
+            $primaryKey = $this->getInlinePrimaryKey($table);
+        }
+
         if ($primaryKey instanceof PrimaryKeyInterface) {
             $table->setPrimaryKey($primaryKey);
         }
@@ -64,7 +68,7 @@ class MysqlParser extends ParserAbstract
     protected function getTableNameFromCreateTableSchema(string $createTableSchema): string
     {
         preg_match(
-            '/CREATE\s+TABLE.*\s*`?(?<name>(\w|[-])+)`?\s*\(/Uis',
+            '/CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?`?(?<name>[^`(]+?)`?\s*\(/i',
             $createTableSchema,
             $matches
         );
@@ -95,12 +99,20 @@ class MysqlParser extends ParserAbstract
                 TINYINT|BOOLEAN|BOOL|
                 SMALLINT|
                 MEDIUMINT|
-                INT|INTEGER|
+                MIDDLEINT|
                 BIGINT|
+                INTEGER|
+                INT1|INT2|INT3|INT4|INT8|
+                INT|
+                SERIAL|
                 BIT|
                 FLOAT|
                 DOUBLE|
+                REAL|
                 DECIMAL|
+                NUMERIC|
+                FIXED|
+                DEC|
 
                 VARCHAR|
                 CHAR|
@@ -110,6 +122,8 @@ class MysqlParser extends ParserAbstract
                 TEXT|
 
                 JSON|
+
+                VECTOR|
 
                 VARBINARY|
                 BINARY|
@@ -124,14 +138,15 @@ class MysqlParser extends ParserAbstract
                 TIME|
                 YEAR|
 
-                MULTIPOINT|
-                POINT|
-                LINESTRING|
-                POLYGON|
-                GEOMETRY|
+                GEOMETRYCOLLECTION|
+                GEOMCOLLECTION|
                 MULTILINESTRING|
                 MULTIPOLYGON|
-                GEMETRYCOLLECTION
+                MULTIPOINT|
+                LINESTRING|
+                POLYGON|
+                POINT|
+                GEOMETRY
             )
             (?U:
                 \s*
@@ -172,7 +187,7 @@ class MysqlParser extends ParserAbstract
                     $columName,
                     $matches['type'][$i],
                     $this->getFormatedParameters(...$typeParameters),
-                    $this->getFormatedParameter($matches['otherParameters'][$i]),
+                    $this->stripInlineReferences($this->getFormatedParameter($matches['otherParameters'][$i])),
                     $matches['comment'][$i]
                 )
             );
@@ -200,6 +215,28 @@ class MysqlParser extends ParserAbstract
     protected function getFormatedParameter(string $string): string
     {
         return preg_replace('/[\r\n]+/m', ' ', trim($string));
+    }
+
+    protected function stripInlineReferences(string $otherParameters): string
+    {
+        return trim((string) preg_replace('/\bREFERENCES\b.*$/is', '', $otherParameters));
+    }
+
+    protected function cleanIndexColumns(string $rawColumns): array
+    {
+        return array_map(
+            $this->cleanIndexColumn(...),
+            explode(',', $rawColumns)
+        );
+    }
+
+    protected function cleanIndexColumn(string $column): string
+    {
+        $column = trim($column);
+        $column = preg_replace('/\s+(ASC|DESC)$/i', '', $column);
+        $column = preg_replace('/^(`?[\w-]+`?)\s*\(\s*\d+\s*\)$/', '$1', (string) $column);
+
+        return $this->trimName($column);
     }
 
     protected function getColumnsWithRequiredTypeParametersFromCreateTableSchema(
@@ -251,7 +288,7 @@ class MysqlParser extends ParserAbstract
                             $matches['typeParameters'][$i]
                         )
                     ),
-                    $this->getFormatedParameter($matches['otherParameters'][$i]),
+                    $this->stripInlineReferences($this->getFormatedParameter($matches['otherParameters'][$i])),
                     $matches['comment'][$i]
                 )
             );
@@ -272,7 +309,7 @@ class MysqlParser extends ParserAbstract
             `?
             \s*
             \(
-                (?<columns>[^)]+)
+                (?<columns>(?:[^()]|\([^()]*\))+)
             \)
             \s*
             (?<otherParameters>[^,]+)?
@@ -288,13 +325,7 @@ class MysqlParser extends ParserAbstract
             $keyCollection->add(
                 new SimpleIndex(
                     $columName,
-                    $this->trimNames(
-                        ...
-                        explode(
-                            ',',
-                            $matches['columns'][$i]
-                        )
-                    )
+                    $this->cleanIndexColumns($matches['columns'][$i])
                 )
             );
         }
@@ -308,13 +339,13 @@ class MysqlParser extends ParserAbstract
             '#
             (?!,)
             \s*
-            UNIQUE\s(KEY|INDEX)\s+
+            UNIQUE\s+(KEY|INDEX)\s+
             `?
             (?<name>\w*)
             `?
             \s*
             \(
-                (?<columns>[^)]+)
+                (?<columns>(?:[^()]|\([^()]*\))+)
             \)
             \s*
             (?<otherParameters>[^,]+)?
@@ -331,13 +362,7 @@ class MysqlParser extends ParserAbstract
             $keyCollection->add(
                 new UniqueIndex(
                     $columName,
-                    $this->trimNames(
-                        ...
-                        explode(
-                            ',',
-                            $matches['columns'][$i]
-                        )
-                    )
+                    $this->cleanIndexColumns($matches['columns'][$i])
                 )
             );
         }
@@ -352,13 +377,13 @@ class MysqlParser extends ParserAbstract
             '#
             (?!,)
             \s*
-            FULLTEXT\s(KEY|INDEX)\s+
+            FULLTEXT\s+(KEY|INDEX)\s+
             `?
             (?<name>\w*)
             `?
             \s*
             \(
-                (?<columns>[^)]+)
+                (?<columns>(?:[^()]|\([^()]*\))+)
             \)
             \s*
             (?<otherParameters>[^,]+)?
@@ -374,13 +399,7 @@ class MysqlParser extends ParserAbstract
             $keyCollection->add(
                 new FulltextIndex(
                     $columName,
-                    $this->trimNames(
-                        ...
-                        explode(
-                            ',',
-                            $matches['columns'][$i]
-                        )
-                    )
+                    $this->cleanIndexColumns($matches['columns'][$i])
                 )
             );
         }
@@ -395,13 +414,13 @@ class MysqlParser extends ParserAbstract
             '#
             (?!,)
             \s*
-            SPATIAL\s(KEY|INDEX)\s+
+            SPATIAL\s+(KEY|INDEX)\s+
             `?
             (?<name>\w*)
             `?
             \s*
             \(
-                (?<columns>[^)]+)
+                (?<columns>(?:[^()]|\([^()]*\))+)
             \)
             \s*
             (?<otherParameters>[^,]+)?
@@ -417,13 +436,7 @@ class MysqlParser extends ParserAbstract
             $keyCollection->add(
                 new SpatialIndex(
                     $columName,
-                    $this->trimNames(
-                        ...
-                        explode(
-                            ',',
-                            $matches['columns'][$i]
-                        )
-                    )
+                    $this->cleanIndexColumns($matches['columns'][$i])
                 )
             );
         }
@@ -450,14 +463,19 @@ class MysqlParser extends ParserAbstract
 
         if (!empty($match['columns'])) {
             return new PrimaryKey(
-                $this->trimNames(
-                    ...
-                    explode(
-                        ',',
-                        $match['columns']
-                    )
-                )
+                $this->cleanIndexColumns($match['columns'])
             );
+        }
+
+        return null;
+    }
+
+    protected function getInlinePrimaryKey(TableInterface $table): ?PrimaryKeyInterface
+    {
+        foreach ($table->getColumns() as $column) {
+            if (preg_match('/\bPRIMARY\s+KEY\b/i', $column->getOtherParameters())) {
+                return new PrimaryKey([$column->getName()]);
+            }
         }
 
         return null;
