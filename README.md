@@ -77,7 +77,7 @@ $sqlSchema = '
 
 $sqlParser                = new MysqlParser();
 // $cqlParser                = new \Pongee\DatabaseSchemaVisualization\Parser\CassandraParser();
-$plantumlExport             = new Plantuml(file_get_contents(__DIR__ . '/../../src/Template/Plantuml/v1.twig'));
+$plantumlExport             = new Plantuml(file_get_contents(__DIR__ . '/../../src/Template/Plantuml/v2.twig'));
 $forcedConnectionCollection = new ConnectionCollection();
 $imageGenerator             = new ImageGenerator(
     'png',

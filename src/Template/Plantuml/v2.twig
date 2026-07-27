@@ -1,0 +1,114 @@
+@startuml
+
+!ifndef TABLE_BORDER_COLOR
+!define TABLE_BORDER_COLOR Chocolate
+!endif
+
+!ifndef TABLE_BACKGROUND_COLOR
+!define TABLE_BACKGROUND_COLOR AntiqueWhite
+!endif
+
+skinparam class {
+BackgroundColor TABLE_BACKGROUND_COLOR
+BorderColor TABLE_BORDER_COLOR
+ArrowColor TABLE_BORDER_COLOR
+}
+!define table(name) class "name" << (T, TABLE_BORDER_COLOR ) >>
+
+!function $key_columns($columns, $otherParameters="")
+    !$result = ""
+    !foreach $column in %splitstr($columns, ", ")
+        !if ($result != "")
+            !$result = $result + ", "
+        !endif
+        !$result = $result + $column
+    !endfor
+    !if ($otherParameters != "")
+        !$result = $result + ", " + $otherParameters
+    !endif
+    !return $result
+!endfunction
+
+!procedure $primary_key($columns, $otherParameters="")
+    !$rendered = $key_columns($columns, $otherParameters)
+    -<i>PK</i> [<b>$rendered</b>]
+!endprocedure
+
+!procedure $column($name, $type, $otherParameters="", $comment="")
+    !$suffix = ""
+    !if ($otherParameters != "")
+        !$suffix = $suffix + " " + $otherParameters
+    !endif
+    !if ($comment != "")
+        !$suffix = $suffix + " COMMENT '" + $comment + "'"
+    !endif
+    +<b>$name</b> <u>$type</u>$suffix
+!endprocedure
+
+!procedure $index($columns, $otherParameters="")
+    !$rendered = $key_columns($columns, $otherParameters)
+    ~<i>KEY</i> [<b>$rendered</b>]
+!endprocedure
+
+!procedure $unique_index($columns, $otherParameters="")
+    !$rendered = $key_columns($columns, $otherParameters)
+    #<i>UNIQUE KEY</i> [<b>$rendered</b>]
+!endprocedure
+
+!procedure $fulltext_index($columns, $otherParameters="")
+    !$rendered = $key_columns($columns, $otherParameters)
+    #<i>FULLTEXT KEY</i> [<b>$rendered</b>]
+!endprocedure
+
+!procedure $spatial_index($columns, $otherParameters="")
+    !$rendered = $key_columns($columns, $otherParameters)
+    #<i>SPATIAL KEY</i> [<b>$rendered</b>]
+!endprocedure
+
+!procedure $connection_one_to_one($from, $to)
+    $from "1" -- "1" $to
+!endprocedure
+
+!procedure $connection_one_to_many($from, $to)
+    $from "n" }-- "1" $to
+!endprocedure
+
+hide methods
+hide stereotypes
+
+skinparam linetype polyline
+left to right direction
+
+{% for table in tables %}
+    table({{ table.getName() }}) {
+    {% for column in table.getColumns() -%}
+        [\t]$column('{{ column.getName() }}', '{{ column.getType() }}{% if column.getTypeParameters() %}[{{ column.getTypeParameters()|join(', ') }}]{% endif %}', '{{ column.getOtherParameters()|replace({"'": '"'})|raw }}', '{{ column.getComment()|replace({"'": '"'})|raw }}')
+    {% endfor -%}
+    {% if table.getPrimaryKey() %}
+        [\t]$primary_key('{{ table.getPrimaryKey().getColumns()|join(', ') }}', '{{ table.getPrimaryKey().getOtherParameters()|replace({"'": '"'})|raw }}')
+    {% endif -%}
+    {% for simpleIndex in table.getSimpleIndexes() -%}
+        [\t]$index('{{ simpleIndex.getColumns()|join(', ') }}', '{{ simpleIndex.getOtherParameters()|replace({"'": '"'})|raw }}')
+    {% endfor -%}
+    {% for uniqueIndex in table.getUniqueIndexes() -%}
+        [\t]$unique_index('{{ uniqueIndex.getColumns()|join(', ') }}', '{{ uniqueIndex.getOtherParameters()|replace({"'": '"'})|raw }}')
+    {% endfor -%}
+    {% for fulltextIndex in table.getFullTextIndexes() -%}
+        [\t]$fulltext_index('{{ fulltextIndex.getColumns()|join(', ') }}', '{{ fulltextIndex.getOtherParameters()|replace({"'": '"'})|raw }}')
+    {% endfor -%}
+    {% for spatialIndex in table.getSpatialIndexes() -%}
+        [\t]$spatial_index('{{ spatialIndex.getColumns()|join(', ') }}', '{{ spatialIndex.getOtherParameters()|replace({"'": '"'})|raw }}')
+    {% endfor -%}
+    }
+{% endfor %}
+[\n]
+{% for connection in connections %}
+    {% if connection.getType() == "OneToOne" %}
+        $connection_one_to_one({{ connection.getChildTableName() }}, {{ connection.getParentTableName() }})
+    {% endif %}
+    {% if connection.getType() == "OneToMany" %}
+        $connection_one_to_many({{ connection.getChildTableName() }}, {{ connection.getParentTableName() }})
+    {% endif %}
+{% endfor %}
+
+@enduml

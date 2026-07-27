@@ -15,7 +15,7 @@ class MysqlImageCommand extends MysqlCommandAbstract
 {
     protected const string OPTION_TEMPLATE = 'template';
     protected const string OPTION_TYPE = 'type';
-    protected const string DEFAULT_TEMPLATE = 'src/Template/Plantuml/v1.twig';
+    protected const string DEFAULT_TEMPLATE = 'src/Template/Plantuml/v2.twig';
     protected const string DEFAULT_TYPE = 'png';
     protected const string PLANTUML_BIN = 'bin/plantuml-gplv2-1.2026.6.jar';
     protected const string TEMP_DIR = 'tmp';
