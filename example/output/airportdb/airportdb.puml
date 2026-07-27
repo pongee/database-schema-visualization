@@ -15,7 +15,7 @@ skinparam class {
 }
 
 !procedure $table($name)
-class "$name" << (T, TABLE_BORDER_COLOR ) >> {
+class "$name" << (T, TABLE_BORDER_COLOR ) >>
 !endprocedure
 
 !function $key_columns($columns, $otherParameters="")
@@ -82,7 +82,7 @@ hide stereotypes
 skinparam linetype polyline
 left to right direction
 
-$table(airline)
+$table(airline) {
 	$column('airline_id', 'smallint', 'NOT NULL AUTO_INCREMENT', '')
 	$column('iata', 'char[2]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
 	$column('airlinename', 'varchar[30]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
@@ -91,7 +91,7 @@ $table(airline)
 	$index('base_airport', '')
 	$unique_index('iata', '')
 }
-$table(airplane)
+$table(airplane) {
 	$column('airplane_id', 'int', 'NOT NULL AUTO_INCREMENT', '')
 	$column('capacity', 'mediumint', 'unsigned NOT NULL', '')
 	$column('type_id', 'int', 'NOT NULL', '')
@@ -99,14 +99,14 @@ $table(airplane)
 	$primary_key('airplane_id', '')
 	$index('type_id', '')
 }
-$table(airplane_type)
+$table(airplane_type) {
 	$column('type_id', 'int', 'NOT NULL AUTO_INCREMENT', '')
 	$column('identifier', 'varchar[50]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
 	$column('description', 'text', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci', '')
 	$primary_key('type_id', '')
 	$fulltext_index('identifier, description', '')
 }
-$table(airport)
+$table(airport) {
 	$column('airport_id', 'smallint', 'NOT NULL AUTO_INCREMENT', '')
 	$column('iata', 'char[3]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
 	$column('icao', 'char[4]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
@@ -116,7 +116,7 @@ $table(airport)
 	$index('iata', '')
 	$unique_index('icao', '')
 }
-$table(airport_geo)
+$table(airport_geo) {
 	$column('airport_id', 'smallint', 'NOT NULL', '')
 	$column('name', 'varchar[50]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
 	$column('city', 'varchar[50]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
@@ -127,12 +127,12 @@ $table(airport_geo)
 	$primary_key('airport_id', '')
 	$spatial_index('geolocation', '')
 }
-$table(airport_reachable)
+$table(airport_reachable) {
 	$column('airport_id', 'smallint', 'NOT NULL', '')
 	$column('hops', 'int', 'DEFAULT NULL', '')
 	$primary_key('airport_id', '')
 }
-$table(booking)
+$table(booking) {
 	$column('booking_id', 'int', 'NOT NULL AUTO_INCREMENT', '')
 	$column('flight_id', 'int', 'NOT NULL', '')
 	$column('seat', 'char[4]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
@@ -143,7 +143,7 @@ $table(booking)
 	$index('passenger_id', '')
 	$unique_index('flight_id, seat', '')
 }
-$table(employee)
+$table(employee) {
 	$column('employee_id', 'int', 'NOT NULL AUTO_INCREMENT', '')
 	$column('firstname', 'varchar[100]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
 	$column('lastname', 'varchar[100]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
@@ -162,7 +162,7 @@ $table(employee)
 	$primary_key('employee_id', '')
 	$unique_index('username', '')
 }
-$table(flight)
+$table(flight) {
 	$column('flight_id', 'int', 'NOT NULL AUTO_INCREMENT', '')
 	$column('flightno', 'char[8]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
 	$column('from', 'smallint', 'NOT NULL', '')
@@ -180,7 +180,7 @@ $table(flight)
 	$index('airplane_id', '')
 	$index('flightno', '')
 }
-$table(flight_log)
+$table(flight_log) {
 	$column('flight_log_id', 'int', 'unsigned NOT NULL AUTO_INCREMENT', '')
 	$column('log_date', 'datetime', 'NOT NULL', '')
 	$column('user', 'varchar[100]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
@@ -203,7 +203,7 @@ $table(flight_log)
 	$primary_key('flight_log_id', '')
 	$index('flight_id', '')
 }
-$table(flightschedule)
+$table(flightschedule) {
 	$column('flightno', 'char[8]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
 	$column('from', 'smallint', 'NOT NULL', '')
 	$column('to', 'smallint', 'NOT NULL', '')
@@ -222,7 +222,7 @@ $table(flightschedule)
 	$index('to', '')
 	$index('airline_id', '')
 }
-$table(passenger)
+$table(passenger) {
 	$column('passenger_id', 'int', 'NOT NULL AUTO_INCREMENT', '')
 	$column('passportno', 'char[9]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
 	$column('firstname', 'varchar[100]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
@@ -230,7 +230,7 @@ $table(passenger)
 	$primary_key('passenger_id', '')
 	$unique_index('passportno', '')
 }
-$table(passengerdetails)
+$table(passengerdetails) {
 	$column('passenger_id', 'int', 'NOT NULL', '')
 	$column('birthdate', 'date', 'NOT NULL', '')
 	$column('sex', 'char[1]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
@@ -242,7 +242,7 @@ $table(passengerdetails)
 	$column('telephoneno', 'varchar[30]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
 	$primary_key('passenger_id', '')
 }
-$table(weatherdata)
+$table(weatherdata) {
 	$column('log_date', 'date', 'NOT NULL', '')
 	$column('time', 'time', 'NOT NULL', '')
 	$column('station', 'int', 'NOT NULL', '')

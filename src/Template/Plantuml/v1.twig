@@ -15,7 +15,7 @@ skinparam class {
 }
 [\n]
 !procedure $table($name)
-class "$name" << (T, TABLE_BORDER_COLOR ) >> {
+class "$name" << (T, TABLE_BORDER_COLOR ) >>
 !endprocedure
 [\n]
 !function $key_columns($columns, $otherParameters="")
@@ -83,7 +83,7 @@ skinparam linetype polyline
 left to right direction
 [\n]
 {% for table in tables %}
-    $table({{ table.name }})
+    $table({{ table.name }}) {
     {% for column in table.columns -%}
         [\t]$column('{{ column.name }}', '{{ column.type }}{% if column.typeParameters %}[{{ column.typeParameters|join(', ') }}]{% endif %}', '{{ column.otherParameters|replace({"'": '"'})|raw }}', '{{ column.comment|replace({"'": '"'})|raw }}')
     {% endfor -%}

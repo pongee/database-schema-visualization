@@ -51,13 +51,13 @@ class V1TemplateTest extends TestCase
                             ->addColumn(new Column('district', 'VARCHAR', [20], 'NOT NULL', 'The district'))
                     ),
                 <<<'PUML'
-$table(actor)
+$table(actor) {
 	$column('actor_id', 'SMALLINT', 'UNSIGNED NOT NULL AUTO_INCREMENT', '')
 	$column('first_name', 'VARCHAR[45]', 'NOT NULL', '')
 	$column('last_name', 'VARCHAR[45]', 'NOT NULL', '')
 	$column('last_update', 'TIMESTAMP', 'NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP', '')
 }
-$table(address)
+$table(address) {
 	$column('address_id', 'SMALLINT', 'UNSIGNED UNSIGNED NOT NULL AUTO_INCREMENT', 'The address id')
 	$column('address', 'VARCHAR[50]', 'NOT NULL', 'The address')
 	$column('address2', 'VARCHAR[50]', 'DEFAULT NULL', 'The address2')
@@ -72,7 +72,7 @@ PUML,
                             ->addColumn(new Column('id', 'INT', [10], 'NOT NULL DEFAULT', ''))
                     ),
                 <<<'PUML'
-$table(member)
+$table(member) {
 	$column('id', 'INT[10]', 'NOT NULL DEFAULT', '')
 }
 PUML,
@@ -113,11 +113,11 @@ PUML,
                     ->addConnection(new OneToOneConnection('member_data', 'member', ['member_id'], ['id']))
                     ->addConnection(new OneToManyConnection('member_log', 'member', ['member_id'], ['id'])),
                 <<<'PUML'
-$table(member)
+$table(member) {
 	$column('id', 'INT[10]', 'NOT NULL DEFAULT', '')
 	$primary_key('id', '')
 }
-$table(member_data)
+$table(member_data) {
 	$column('id', 'INT[10]', 'NOT NULL DEFAULT', '')
 	$column('member_id', 'INT[10]', 'NOT NULL', '')
 	$column('type', 'VARCHAR[64]', 'NOT NULL', '')
@@ -127,7 +127,7 @@ $table(member_data)
 	$index('type, status', 'USING HASH')
 	$unique_index('member_id', '')
 }
-$table(member_log)
+$table(member_log) {
 	$column('id', 'INT[10]', 'NOT NULL DEFAULT', '')
 	$column('member_id', 'INT[10]', 'NOT NULL', '')
 	$column('action', 'ENUM[login, logout]', '', '')
@@ -161,7 +161,7 @@ PUML,
                             ->addSpatialIndex(new SpatialIndex('idx_area', ['area']))
                     ),
                 <<<'PUML'
-$table(measurement)
+$table(measurement) {
 	$column('id', 'SERIAL', '', '')
 	$column('sensor_id', 'INT[10]', 'NOT NULL', '')
 	$column('score', 'NUMERIC[10, 2]', 'NOT NULL', '')
