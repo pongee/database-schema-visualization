@@ -5,5 +5,5 @@
 /tmp
 /vendor
 /composer.lock
-/example/output
+/example/
 /test
