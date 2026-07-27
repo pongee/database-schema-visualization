@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Parser;
 
+use Override;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\ConnectionCollection;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\ConnectionCollectionInterface;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\OneToManyConnection;
@@ -36,7 +37,7 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\SchemaInterface;
  */
 final class CassandraParser extends ParserAbstract
 {
-    #[\Override]
+    #[Override]
     public function run(
         string $nativeSqlSchema,
         ConnectionCollectionInterface $forcedConnectionCollection
@@ -47,7 +48,7 @@ final class CassandraParser extends ParserAbstract
     }
 
 
-    protected function parseCreateCondition(string $createTableSchema): \Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\TableInterface
+    protected function parseCreateCondition(string $createTableSchema): TableInterface
     {
         $table = new Table($this->getTableNameFromCreateTableSchema($createTableSchema));
 
@@ -514,7 +515,7 @@ final class CassandraParser extends ParserAbstract
         return null;
     }
 
-    #[\Override]
+    #[Override]
     protected function getCreateTableConditions(string $schema): array
     {
         // treat types as tables so we can reference and show them
@@ -523,7 +524,7 @@ final class CassandraParser extends ParserAbstract
         return parent::getCreateTableConditions($schema);
     }
 
-    #[\Override]
+    #[Override]
     public function getConnectionsByCreateTable(string $sql): ConnectionCollectionInterface
     {
         // nothing to do here, this is done later as we need to know which tables/types actually exist

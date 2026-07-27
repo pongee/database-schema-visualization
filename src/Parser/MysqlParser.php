@@ -24,7 +24,7 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\TableInterface;
 
 final class MysqlParser extends ParserAbstract
 {
-    protected function parseCreateCondition(string $createTableSchema): \Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\TableInterface
+    protected function parseCreateCondition(string $createTableSchema): TableInterface
     {
         $table = new Table($this->getTableNameFromCreateTableSchema($createTableSchema));
 
