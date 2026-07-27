@@ -191,12 +191,14 @@ class CassandraParser extends ParserAbstract
                     )
                 );
             }
+
             // MAP Cassandra special types
             if (0 === stripos($matches['type'][$i], 'uuid')) {
                 $matches['type'][$i] = 'VARCHAR';
                 $typeParameters[] = '32';
                 $matches['comment'][$i] .= ' CQL: UUID';
             }
+
             if (0 === stripos($matches['type'][$i], 'counter')) {
                 $matches['type'][$i] = 'BIGINT';
                 $matches['comment'][$i] .= ' CQL: counter';
@@ -279,7 +281,7 @@ class CassandraParser extends ParserAbstract
 
         foreach ($matches['name'] as $i => $columName) {
             $columnType = $matches['type'][$i];
-            if (in_array($columnType, ['map', 'set', 'frozen'])) {
+            if (in_array($columnType, ['map', 'set', 'frozen'], true)) {
                 $wasFrozen = false !== stripos($matches['typeParameters'][$i], 'frozen');
                 $matches['typeParameters'][$i] = str_replace(
                     ['frozen<', 'frozen <', '>'],
@@ -547,6 +549,7 @@ class CassandraParser extends ParserAbstract
                     if (!isset($allDefinedTables[$typeParameter])) {
                         continue;
                     }
+
                     $connections->add(new OneToManyConnection($table->name, $typeParameter, [], []));
                 }
             }

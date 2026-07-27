@@ -874,7 +874,7 @@ return new Schema()
                     'monday',
                     'tinyint',
                     ['1'],
-                    'DEFAULT \'0\'',
+                    "DEFAULT '0'",
                     ''
                 )
             )
@@ -883,7 +883,7 @@ return new Schema()
                     'tuesday',
                     'tinyint',
                     ['1'],
-                    'DEFAULT \'0\'',
+                    "DEFAULT '0'",
                     ''
                 )
             )
@@ -892,7 +892,7 @@ return new Schema()
                     'wednesday',
                     'tinyint',
                     ['1'],
-                    'DEFAULT \'0\'',
+                    "DEFAULT '0'",
                     ''
                 )
             )
@@ -901,7 +901,7 @@ return new Schema()
                     'thursday',
                     'tinyint',
                     ['1'],
-                    'DEFAULT \'0\'',
+                    "DEFAULT '0'",
                     ''
                 )
             )
@@ -910,7 +910,7 @@ return new Schema()
                     'friday',
                     'tinyint',
                     ['1'],
-                    'DEFAULT \'0\'',
+                    "DEFAULT '0'",
                     ''
                 )
             )
@@ -919,7 +919,7 @@ return new Schema()
                     'saturday',
                     'tinyint',
                     ['1'],
-                    'DEFAULT \'0\'',
+                    "DEFAULT '0'",
                     ''
                 )
             )
@@ -928,7 +928,7 @@ return new Schema()
                     'sunday',
                     'tinyint',
                     ['1'],
-                    'DEFAULT \'0\'',
+                    "DEFAULT '0'",
                     ''
                 )
             )

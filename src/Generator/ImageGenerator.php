@@ -37,13 +37,13 @@ class ImageGenerator
 
         try {
             $outputFile = new SplFileObject($this->outputFolder . '/' . $fileName . '.' . $this->imageType, 'r');
-        } catch (RuntimeException $e) {
+        } catch (RuntimeException $runtimeException) {
             $this->deleteFiles($sourceFile);
 
             throw new Exception(
                 sprintf(
                     'Plantuml diagram generation failed. Original error: [%s] output: [%s]',
-                    $e->getMessage(),
+                    $runtimeException->getMessage(),
                     $output
                 )
             );

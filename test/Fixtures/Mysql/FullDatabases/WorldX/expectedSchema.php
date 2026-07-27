@@ -26,7 +26,7 @@ return new Schema()
                     'Name',
                     'char',
                     ['35'],
-                    'NOT NULL DEFAULT \'\'',
+                    "NOT NULL DEFAULT ''",
                     ''
                 )
             )
@@ -35,7 +35,7 @@ return new Schema()
                     'CountryCode',
                     'char',
                     ['3'],
-                    'NOT NULL DEFAULT \'\'',
+                    "NOT NULL DEFAULT ''",
                     ''
                 )
             )
@@ -44,7 +44,7 @@ return new Schema()
                     'District',
                     'char',
                     ['20'],
-                    'NOT NULL DEFAULT \'\'',
+                    "NOT NULL DEFAULT ''",
                     ''
                 )
             )
@@ -66,7 +66,7 @@ return new Schema()
                     'Code',
                     'char',
                     ['3'],
-                    'NOT NULL DEFAULT \'\'',
+                    "NOT NULL DEFAULT ''",
                     ''
                 )
             )
@@ -75,7 +75,7 @@ return new Schema()
                     'Name',
                     'char',
                     ['52'],
-                    'NOT NULL DEFAULT \'\'',
+                    "NOT NULL DEFAULT ''",
                     ''
                 )
             )
@@ -93,7 +93,7 @@ return new Schema()
                     'Code2',
                     'char',
                     ['2'],
-                    'NOT NULL DEFAULT \'\'',
+                    "NOT NULL DEFAULT ''",
                     ''
                 )
             )
@@ -137,7 +137,7 @@ return new Schema()
                     'CountryCode',
                     'char',
                     ['3'],
-                    'NOT NULL DEFAULT \'\'',
+                    "NOT NULL DEFAULT ''",
                     ''
                 )
             )
@@ -146,7 +146,7 @@ return new Schema()
                     'Language',
                     'char',
                     ['30'],
-                    'NOT NULL DEFAULT \'\'',
+                    "NOT NULL DEFAULT ''",
                     ''
                 )
             )
@@ -155,7 +155,7 @@ return new Schema()
                     'Percentage',
                     'decimal',
                     ['4', '1'],
-                    'NOT NULL DEFAULT \'0.0\'',
+                    "NOT NULL DEFAULT '0.0'",
                     ''
                 )
             )
@@ -164,7 +164,7 @@ return new Schema()
                     'IsOfficial',
                     'enum',
                     ['T', 'F'],
-                    'NOT NULL DEFAULT \'F\'',
+                    "NOT NULL DEFAULT 'F'",
                     ''
                 )
             )

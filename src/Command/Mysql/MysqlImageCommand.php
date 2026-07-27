@@ -15,10 +15,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 class MysqlImageCommand extends MysqlCommandAbstract
 {
     protected const string OPTION_TEMPLATE = 'template';
+
     protected const string OPTION_TYPE = 'type';
+
     protected const string DEFAULT_TEMPLATE = 'src/Template/Plantuml/v2.twig';
+
     protected const string DEFAULT_TYPE = ImageType::Png->value;
+
     protected const string PLANTUML_BIN = 'bin/plantuml-mit-1.2026.6.jar';
+
     protected const string TEMP_DIR = 'tmp';
 
     protected function configure(): void

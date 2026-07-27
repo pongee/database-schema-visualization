@@ -114,7 +114,7 @@ class Json implements ExportInterface
 
     private function getPrimaryKey(TableInterface $table): array
     {
-        if ($table->primaryKey) {
+        if ($table->primaryKey !== null) {
             return [
                 'columns' => $table->primaryKey->columns,
                 'otherParameters' => $table->primaryKey->otherParameters,

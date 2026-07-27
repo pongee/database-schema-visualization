@@ -18,6 +18,7 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\SchemaInterface;
 abstract class ParserAbstract implements ParserInterface
 {
     abstract protected function parseCreateCondition(string $createTableSchema): ?TableInterface;
+
     abstract protected function getTableNameFromCreateTableSchema(string $createTableSchema): string;
 
     public function run(
@@ -227,7 +228,7 @@ abstract class ParserAbstract implements ParserInterface
     protected function replaceCharactersInString(string $schema, array $replacePairs): string
     {
         return preg_replace_callback(
-            '#(\'.*\')#Uxsm',
+            "#('.*')#Uxsm",
             static fn($matches): string => strtr(
                 $matches[0],
                 $replacePairs
@@ -257,7 +258,7 @@ abstract class ParserAbstract implements ParserInterface
         preg_match_all(
             '
             #
-            
+
                 (?<createConditions>
                     CREATE\s+TABLE\s+.+\(.*\).*
                     (;|$)

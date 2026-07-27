@@ -6,11 +6,12 @@ use Rector\Config\RectorConfig;
 
 return RectorConfig::configure()
     ->withRootFiles()
+    ->withPhpSets()
     ->withPreparedSets(
         deadCode: true,
+        codingStyle: true,
         typeDeclarations: true,
         privatization: true,
         earlyReturn: true
     )
-    ->withPhpSets()
     ->withCodeQualityLevel(20);
