@@ -1,5 +1,8 @@
 .DEFAULT_GOAL := help
-.PHONY: install test phpstan phpcs phpcbf rector rector-dry-run check help
+.PHONY: install test phpstan phpcs phpcbf rector rector-dry-run check docker-build docker-buildx help
+
+IMAGE ?= database-schema-visualization
+PLATFORMS ?= linux/amd64,linux/arm64
 
 install: ## Install composer dependencies
 	composer install
@@ -21,6 +24,12 @@ rector: ## Apply rector rules
 
 rector-dry-run: ## Show rector changes without applying them
 	composer run-script rector-dry-run
+
+docker-build: ## Build the Docker image for the local platform
+	docker build -t $(IMAGE) .
+
+docker-buildx: ## Build the image for amd64 and arm64 (set PUSH=1 to push)
+	docker buildx build --platform $(PLATFORMS) $(if $(PUSH),--push,) -t $(IMAGE) .
 
 check: ## Run every CI check (test, phpstan, rector, phpcs)
 	$(MAKE) test
