@@ -11,8 +11,7 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Schema;
 
 return new Schema()
     ->addTable(
-        new Table()
-            ->setName('employees')
+        new Table('employees')
             ->addColumn(
                 new Column(
                     'emp_no',
@@ -70,8 +69,7 @@ return new Schema()
             ->setPrimaryKey(new PrimaryKey(['emp_no']))
     )
     ->addTable(
-        new Table()
-            ->setName('departments')
+        new Table('departments')
             ->addColumn(
                 new Column(
                     'dept_no',
@@ -99,8 +97,7 @@ return new Schema()
             ->setPrimaryKey(new PrimaryKey(['dept_no']))
     )
     ->addTable(
-        new Table()
-            ->setName('dept_manager')
+        new Table('dept_manager')
             ->addColumn(
                 new Column(
                     'emp_no',
@@ -140,8 +137,7 @@ return new Schema()
             ->setPrimaryKey(new PrimaryKey(['emp_no', 'dept_no']))
     )
     ->addTable(
-        new Table()
-            ->setName('dept_emp')
+        new Table('dept_emp')
             ->addColumn(
                 new Column(
                     'emp_no',
@@ -181,8 +177,7 @@ return new Schema()
             ->setPrimaryKey(new PrimaryKey(['emp_no', 'dept_no']))
     )
     ->addTable(
-        new Table()
-            ->setName('titles')
+        new Table('titles')
             ->addColumn(
                 new Column(
                     'emp_no',
@@ -222,8 +217,7 @@ return new Schema()
             ->setPrimaryKey(new PrimaryKey(['emp_no', 'title', 'from_date']))
     )
     ->addTable(
-        new Table()
-            ->setName('salaries')
+        new Table('salaries')
             ->addColumn(
                 new Column(
                     'emp_no',

@@ -14,8 +14,7 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Schema;
 
 return new Schema()
     ->addTable(
-        new Table()
-            ->setName('actor')
+        new Table('actor')
             ->addColumn(
                 new Column(
                     'actor_id',
@@ -61,8 +60,7 @@ return new Schema()
             )
     )
     ->addTable(
-        new Table()
-            ->setName('address')
+        new Table('address')
             ->addColumn(
                 new Column(
                     'address_id',
@@ -152,8 +150,7 @@ return new Schema()
         )
     )
     ->addTable(
-        new Table()
-            ->setName('category')
+        new Table('category')
             ->addColumn(
                 new Column(
                     'category_id',
@@ -184,8 +181,7 @@ return new Schema()
             ->setPrimaryKey(new PrimaryKey(['category_id']))
     )
     ->addTable(
-        new Table()
-            ->setName('city')
+        new Table('city')
             ->addColumn(
                 new Column(
                     'city_id',
@@ -239,8 +235,7 @@ return new Schema()
         )
     )
     ->addTable(
-        new Table()
-            ->setName('country')
+        new Table('country')
             ->addColumn(
                 new Column(
                     'country_id',
@@ -271,8 +266,7 @@ return new Schema()
             ->setPrimaryKey(new PrimaryKey(['country_id']))
     )
     ->addTable(
-        new Table()
-            ->setName('customer')
+        new Table('customer')
             ->addColumn(
                 new Column(
                     'customer_id',
@@ -391,8 +385,7 @@ return new Schema()
         )
     )
     ->addTable(
-        new Table()
-            ->setName('film')
+        new Table('film')
             ->addColumn(
                 new Column(
                     'film_id',
@@ -552,8 +545,7 @@ return new Schema()
         )
     )
     ->addTable(
-        new Table()
-            ->setName('film_actor')
+        new Table('film_actor')
             ->addColumn(
                 new Column(
                     'actor_id',
@@ -606,8 +598,7 @@ return new Schema()
         )
     )
     ->addTable(
-        new Table()
-            ->setName('film_category')
+        new Table('film_category')
             ->addColumn(
                 new Column(
                     'film_id',
@@ -654,8 +645,7 @@ return new Schema()
         )
     )
     ->addTable(
-        new Table()
-            ->setName('film_text')
+        new Table('film_text')
             ->addColumn(
                 new Column(
                     'film_id',
@@ -692,8 +682,7 @@ return new Schema()
             )
     )
     ->addTable(
-        new Table()
-            ->setName('inventory')
+        new Table('inventory')
             ->addColumn(
                 new Column(
                     'inventory_id',
@@ -761,8 +750,7 @@ return new Schema()
         )
     )
     ->addTable(
-        new Table()
-            ->setName('language')
+        new Table('language')
             ->addColumn(
                 new Column(
                     'language_id',
@@ -793,8 +781,7 @@ return new Schema()
             ->setPrimaryKey(new PrimaryKey(['language_id']))
     )
     ->addTable(
-        new Table()
-            ->setName('payment')
+        new Table('payment')
             ->addColumn(
                 new Column(
                     'payment_id',
@@ -897,8 +884,7 @@ return new Schema()
         )
     )
     ->addTable(
-        new Table()
-            ->setName('rental')
+        new Table('rental')
             ->addColumn(
                 new Column(
                     'rental_id',
@@ -1013,8 +999,7 @@ return new Schema()
         )
     )
     ->addTable(
-        new Table()
-            ->setName('staff')
+        new Table('staff')
             ->addColumn(
                 new Column(
                     'staff_id',
@@ -1145,8 +1130,7 @@ return new Schema()
         )
     )
     ->addTable(
-        new Table()
-            ->setName('store')
+        new Table('store')
             ->addColumn(
                 new Column(
                     'store_id',

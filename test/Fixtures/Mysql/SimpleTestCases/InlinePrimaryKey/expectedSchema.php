@@ -9,8 +9,7 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Schema;
 
 return new Schema()
     ->addTable(
-        new Table()
-            ->setName('session')
+        new Table('session')
             ->addColumn(
                 new Column(
                     'id',

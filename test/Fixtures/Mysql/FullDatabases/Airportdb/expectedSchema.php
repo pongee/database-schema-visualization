@@ -15,8 +15,7 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Schema;
 
 return new Schema()
     ->addTable(
-        new Table()
-            ->setName('airline')
+        new Table('airline')
             ->addColumn(
                 new Column(
                     'airline_id',
@@ -68,8 +67,7 @@ return new Schema()
             ->setPrimaryKey(new PrimaryKey(['airline_id']))
     )
     ->addTable(
-        new Table()
-            ->setName('airplane')
+        new Table('airplane')
             ->addColumn(
                 new Column(
                     'airplane_id',
@@ -115,8 +113,7 @@ return new Schema()
             ->setPrimaryKey(new PrimaryKey(['airplane_id']))
     )
     ->addTable(
-        new Table()
-            ->setName('airplane_type')
+        new Table('airplane_type')
             ->addColumn(
                 new Column(
                     'type_id',
@@ -153,8 +150,7 @@ return new Schema()
             ->setPrimaryKey(new PrimaryKey(['type_id']))
     )
     ->addTable(
-        new Table()
-            ->setName('airport')
+        new Table('airport')
             ->addColumn(
                 new Column(
                     'airport_id',
@@ -212,8 +208,7 @@ return new Schema()
             ->setPrimaryKey(new PrimaryKey(['airport_id']))
     )
     ->addTable(
-        new Table()
-            ->setName('airport_geo')
+        new Table('airport_geo')
             ->addColumn(
                 new Column(
                     'airport_id',
@@ -286,8 +281,7 @@ return new Schema()
             ->setPrimaryKey(new PrimaryKey(['airport_id']))
     )
     ->addTable(
-        new Table()
-            ->setName('airport_reachable')
+        new Table('airport_reachable')
             ->addColumn(
                 new Column(
                     'airport_id',
@@ -309,8 +303,7 @@ return new Schema()
             ->setPrimaryKey(new PrimaryKey(['airport_id']))
     )
     ->addTable(
-        new Table()
-            ->setName('booking')
+        new Table('booking')
             ->addColumn(
                 new Column(
                     'booking_id',
@@ -377,8 +370,7 @@ return new Schema()
             ->setPrimaryKey(new PrimaryKey(['booking_id']))
     )
     ->addTable(
-        new Table()
-            ->setName('employee')
+        new Table('employee')
             ->addColumn(
                 new Column(
                     'employee_id',
@@ -523,8 +515,7 @@ return new Schema()
             ->setPrimaryKey(new PrimaryKey(['employee_id']))
     )
     ->addTable(
-        new Table()
-            ->setName('flight')
+        new Table('flight')
             ->addColumn(
                 new Column(
                     'flight_id',
@@ -642,8 +633,7 @@ return new Schema()
             ->setPrimaryKey(new PrimaryKey(['flight_id']))
     )
     ->addTable(
-        new Table()
-            ->setName('flight_log')
+        new Table('flight_log')
             ->addColumn(
                 new Column(
                     'flight_log_id',
@@ -824,8 +814,7 @@ return new Schema()
             ->setPrimaryKey(new PrimaryKey(['flight_log_id']))
     )
     ->addTable(
-        new Table()
-            ->setName('flightschedule')
+        new Table('flightschedule')
             ->addColumn(
                 new Column(
                     'flightno',
@@ -964,8 +953,7 @@ return new Schema()
             ->setPrimaryKey(new PrimaryKey(['flightno']))
     )
     ->addTable(
-        new Table()
-            ->setName('passenger')
+        new Table('passenger')
             ->addColumn(
                 new Column(
                     'passenger_id',
@@ -1011,8 +999,7 @@ return new Schema()
             ->setPrimaryKey(new PrimaryKey(['passenger_id']))
     )
     ->addTable(
-        new Table()
-            ->setName('passengerdetails')
+        new Table('passengerdetails')
             ->addColumn(
                 new Column(
                     'passenger_id',
@@ -1097,8 +1084,7 @@ return new Schema()
             ->setPrimaryKey(new PrimaryKey(['passenger_id']))
     )
     ->addTable(
-        new Table()
-            ->setName('weatherdata')
+        new Table('weatherdata')
             ->addColumn(
                 new Column(
                     'log_date',

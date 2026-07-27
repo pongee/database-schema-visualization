@@ -26,8 +26,7 @@ class MysqlParser extends ParserAbstract
 {
     protected function parseCreateCondition(string $createTableSchema): ?TableInterface
     {
-        $table = new Table();
-        $table->setName($this->getTableNameFromCreateTableSchema($createTableSchema));
+        $table = new Table($this->getTableNameFromCreateTableSchema($createTableSchema));
 
         foreach ($this->getColumnsWithoutRequiredTypeParametersFromCreateTableSchema($createTableSchema) as $column) {
             $table->addColumn($column);
@@ -472,7 +471,7 @@ class MysqlParser extends ParserAbstract
 
     protected function getInlinePrimaryKey(TableInterface $table): ?PrimaryKeyInterface
     {
-        foreach ($table->getColumns() as $column) {
+        foreach ($table->columns as $column) {
             if (preg_match('/\bPRIMARY\s+KEY\b/i', $column->otherParameters)) {
                 return new PrimaryKey([$column->name]);
             }

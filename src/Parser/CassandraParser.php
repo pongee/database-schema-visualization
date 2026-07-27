@@ -49,8 +49,7 @@ class CassandraParser extends ParserAbstract
 
     protected function parseCreateCondition(string $createTableSchema): ?TableInterface
     {
-        $table = new Table();
-        $table->setName($this->getTableNameFromCreateTableSchema($createTableSchema));
+        $table = new Table($this->getTableNameFromCreateTableSchema($createTableSchema));
 
         foreach ($this->getColumnsWithoutRequiredTypeParametersFromCreateTableSchema($createTableSchema) as $column) {
             $table->addColumn($column);
@@ -534,12 +533,12 @@ class CassandraParser extends ParserAbstract
         ConnectionCollectionInterface $connections
     ): ConnectionCollection {
         $allDefinedTables = array_map(
-            fn(TableInterface $table): string => $table->getName(),
+            fn(TableInterface $table): string => $table->name,
             $tables->getIterator()->getArrayCopy()
         );
 
         foreach ($tables as $table) {
-            foreach ($table->getColumns() as $column) {
+            foreach ($table->columns as $column) {
                 if (!in_array($column->type, ['set', 'map', 'frozen'])) {
                     continue;
                 }
@@ -548,7 +547,7 @@ class CassandraParser extends ParserAbstract
                     if (!isset($allDefinedTables[$typeParameter])) {
                         continue;
                     }
-                    $connections->add(new OneToManyConnection($table->getName(), $typeParameter, [], []));
+                    $connections->add(new OneToManyConnection($table->name, $typeParameter, [], []));
                 }
             }
         }

@@ -11,7 +11,7 @@ class TableCollection implements TableCollectionInterface
 
     public function add(TableInterface $table): self
     {
-        $this->tables[$table->getName()] = $table;
+        $this->tables[$table->name] = $table;
 
         return $this;
     }

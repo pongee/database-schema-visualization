@@ -16,15 +16,15 @@ class TableCollectionTest extends TestCase
     {
         return [
             [
-                new Table()->setName('member'),
+                new Table('member'),
             ],
             [
-                new Table()->setName('account'),
+                new Table('account'),
             ],
             [
-                new Table()->setName('member'),
-                new Table()->setName('account'),
-                new Table()->setName('log'),
+                new Table('member'),
+                new Table('account'),
+                new Table('log'),
             ],
         ];
     }

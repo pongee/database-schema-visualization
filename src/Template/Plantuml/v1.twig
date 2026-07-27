@@ -123,8 +123,8 @@ skinparam linetype polyline
 left to right direction
 
 {% for table in tables %}
-    table({{ table.getName() }}) {
-    {% for column in table.getColumns() %}
+    table({{ table.name }}) {
+    {% for column in table.columns %}
         {% if column.typeParameters %}
             {% if column.otherParameters %}
                 {% if column.comment is not empty %}
@@ -156,15 +156,15 @@ left to right direction
         {% endif %}
     {% endfor %}
 
-    {% if table.getPrimaryKey() %}
-        {% if table.getPrimaryKey().otherParameters %}
-            [\t]primary_key('{{ table.getPrimaryKey().columns|join(', ') }}', '{{ table.getPrimaryKey().otherParameters|replace({"'": '"'})|raw }}')
+    {% if table.primaryKey %}
+        {% if table.primaryKey.otherParameters %}
+            [\t]primary_key('{{ table.primaryKey.columns|join(', ') }}', '{{ table.primaryKey.otherParameters|replace({"'": '"'})|raw }}')
         {% else %}
-            [\t]primary_key('{{ table.getPrimaryKey().columns|join(', ') }}')
+            [\t]primary_key('{{ table.primaryKey.columns|join(', ') }}')
         {% endif %}
     {% endif %}
 
-    {% for simpleIndex in table.getSimpleIndexes() %}
+    {% for simpleIndex in table.simpleIndexes %}
         {% if simpleIndex.otherParameters %}
             [\t]index('{{ simpleIndex.columns|join(', ') }}', '{{ simpleIndex.otherParameters|replace({"'": '"'})|raw }}')
         {% else %}
@@ -172,7 +172,7 @@ left to right direction
         {% endif %}
     {% endfor %}
 
-    {% for uniqueIndex in table.getUniqueIndexes() %}
+    {% for uniqueIndex in table.uniqueIndexes %}
         {% if uniqueIndex.otherParameters %}
             [\t]unique_index('{{ uniqueIndex.columns|join(', ') }}', '{{ uniqueIndex.otherParameters|replace({"'": '"'})|raw }}')
         {% else %}
@@ -180,7 +180,7 @@ left to right direction
         {% endif %}
     {% endfor %}
 
-    {% for fulltextIndex in table.getFullTextIndexes() %}
+    {% for fulltextIndex in table.fulltextIndexes %}
         {% if fulltextIndex.otherParameters %}
             [\t]fulltext_index('{{ fulltextIndex.columns|join(', ') }}', '{{ fulltextIndex.otherParameters|replace({"'": '"'})|raw }}')
         {% else %}
@@ -188,7 +188,7 @@ left to right direction
         {% endif %}
     {% endfor %}
 
-    {% for spatialIndex in table.getSpatialIndexes() %}
+    {% for spatialIndex in table.spatialIndexes %}
         {% if spatialIndex.otherParameters %}
             [\t]spatial_index('{{ spatialIndex.columns|join(', ') }}', '{{ spatialIndex.otherParameters|replace({"'": '"'})|raw }}')
         {% else %}

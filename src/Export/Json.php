@@ -20,7 +20,7 @@ class Json implements ExportInterface
         ];
 
         foreach ($schema->getTables() as $table) {
-            $return['tables'][$table->getName()] = [
+            $return['tables'][$table->name] = [
                 'columns' => $this->getColumns($table),
                 'indexes' => [
                     'simple' => $this->getSimpleIndexes($table),
@@ -45,7 +45,7 @@ class Json implements ExportInterface
     private function getColumns(TableInterface $table): array
     {
         $columns = [];
-        foreach ($table->getColumns() as $column) {
+        foreach ($table->columns as $column) {
             $columns[] = [
                 'name' => $column->name,
                 'type' => $column->type,
@@ -61,7 +61,7 @@ class Json implements ExportInterface
     private function getSimpleIndexes(TableInterface $table): array
     {
         $indexes = [];
-        foreach ($table->getSimpleIndexes() as $index) {
+        foreach ($table->simpleIndexes as $index) {
             $indexes[] = $this->getIndexData($index);
         }
 
@@ -85,7 +85,7 @@ class Json implements ExportInterface
     private function getSpatialIndexes(TableInterface $table): array
     {
         $indexes = [];
-        foreach ($table->getSpatialIndexes() as $index) {
+        foreach ($table->spatialIndexes as $index) {
             $indexes[] = $this->getIndexData($index);
         }
 
@@ -95,7 +95,7 @@ class Json implements ExportInterface
     private function getFulltextIndexes(TableInterface $table): array
     {
         $indexes = [];
-        foreach ($table->getFulltextIndexes() as $index) {
+        foreach ($table->fulltextIndexes as $index) {
             $indexes[] = $this->getIndexData($index);
         }
 
@@ -105,7 +105,7 @@ class Json implements ExportInterface
     private function getUniqueIndexes(TableInterface $table): array
     {
         $indexes = [];
-        foreach ($table->getUniqueIndexes() as $index) {
+        foreach ($table->uniqueIndexes as $index) {
             $indexes[] = $this->getIndexData($index);
         }
 
@@ -114,10 +114,10 @@ class Json implements ExportInterface
 
     private function getPrimaryKey(TableInterface $table): array
     {
-        if ($table->getPrimaryKey()) {
+        if ($table->primaryKey) {
             return [
-                'columns' => $table->getPrimaryKey()->columns,
-                'otherParameters' => $table->getPrimaryKey()->otherParameters,
+                'columns' => $table->primaryKey->columns,
+                'otherParameters' => $table->primaryKey->otherParameters,
             ];
         }
 

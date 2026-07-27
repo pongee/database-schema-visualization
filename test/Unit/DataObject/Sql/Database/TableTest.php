@@ -109,7 +109,7 @@ class TableTest extends TestCase
 
     public function testInstanceOf(): void
     {
-        $sut = new Table();
+        $sut = new Table('foo');
 
         $this->assertInstanceOf(TableInterface::class, $sut);
     }
@@ -117,31 +117,30 @@ class TableTest extends TestCase
     #[DataProvider('getNamesProvider')]
     public function testName(string $name): void
     {
-        $sut = new Table();
-        $sut->setName($name);
+        $sut = new Table($name);
 
-        $this->assertEquals($name, $sut->getName());
+        $this->assertEquals($name, $sut->name);
     }
 
     #[DataProvider('getPrimaryKeysProvider')]
     public function testPrimaryKey(PrimaryKeyInterface $primaryKey): void
     {
-        $sut = new Table();
+        $sut = new Table('foo');
 
         $sut->setPrimaryKey($primaryKey);
-        $this->assertEquals($primaryKey, $sut->getPrimaryKey());
+        $this->assertEquals($primaryKey, $sut->primaryKey);
     }
 
     #[DataProvider('getColumnsDataProvider')]
     public function testColumn(ColumnInterface ...$columns): void
     {
-        $sut = new Table();
+        $sut = new Table('foo');
 
         foreach ($columns as $column) {
             $sut->addColumn($column);
         }
 
-        foreach ($sut->getColumns() as $column) {
+        foreach ($sut->columns as $column) {
             $this->assertInstanceOf(ColumnInterface::class, $column);
         }
     }
@@ -149,13 +148,13 @@ class TableTest extends TestCase
     #[DataProvider('getKeysDataProvider')]
     public function testKey(SimpleIndexInterface ...$simpleIndexes): void
     {
-        $sut = new Table();
+        $sut = new Table('foo');
 
         foreach ($simpleIndexes as $simpleIndex) {
             $sut->addSimpleIndex($simpleIndex);
         }
 
-        foreach ($sut->getSimpleIndexes() as $simpleIndex) {
+        foreach ($sut->simpleIndexes as $simpleIndex) {
             $this->assertInstanceOf(SimpleIndexInterface::class, $simpleIndex);
             $this->assertTrue(in_array($simpleIndex, $simpleIndexes, true));
         }
@@ -164,13 +163,13 @@ class TableTest extends TestCase
     #[DataProvider('getUniqueIndexesDataProvider')]
     public function testUniqueKey(UniqueIndexInterface ...$uniquekeys): void
     {
-        $sut = new Table();
+        $sut = new Table('foo');
 
         foreach ($uniquekeys as $uniquekey) {
             $sut->addUniqueIndex($uniquekey);
         }
 
-        foreach ($sut->getUniqueIndexes() as $uniqueIndex) {
+        foreach ($sut->uniqueIndexes as $uniqueIndex) {
             $this->assertInstanceOf(UniqueIndexInterface::class, $uniqueIndex);
             $this->assertTrue(in_array($uniqueIndex, $uniquekeys));
         }
@@ -179,13 +178,13 @@ class TableTest extends TestCase
     #[DataProvider('getFulltextIndexesDataProvider')]
     public function testFulltextKey(FulltextIndexInterface ...$fulltextIndexes): void
     {
-        $sut = new Table();
+        $sut = new Table('foo');
 
         foreach ($fulltextIndexes as $fulltextIndex) {
             $sut->addFullTextIndex($fulltextIndex);
         }
 
-        foreach ($sut->getFulltextIndexes() as $fulltextIndex) {
+        foreach ($sut->fulltextIndexes as $fulltextIndex) {
             $this->assertInstanceOf(FulltextIndexInterface::class, $fulltextIndex);
             $this->assertTrue(in_array($fulltextIndex, $fulltextIndexes));
         }
@@ -194,13 +193,13 @@ class TableTest extends TestCase
     #[DataProvider('getSpatialIndexesDataProvider')]
     public function testSpatialKey(SpatialIndexInterface ...$spatialIndexes): void
     {
-        $sut = new Table();
+        $sut = new Table('foo');
 
         foreach ($spatialIndexes as $spatialIndex) {
             $sut->addSpatialIndex($spatialIndex);
         }
 
-        foreach ($sut->getSpatialIndexes() as $spatialIndex) {
+        foreach ($sut->spatialIndexes as $spatialIndex) {
             $this->assertInstanceOf(SpatialIndexInterface::class, $spatialIndex);
             $this->assertTrue(in_array($spatialIndex, $spatialIndexes));
         }

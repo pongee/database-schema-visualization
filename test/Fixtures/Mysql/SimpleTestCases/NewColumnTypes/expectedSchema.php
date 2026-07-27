@@ -8,8 +8,7 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Schema;
 
 return new Schema()
     ->addTable(
-        new Table()
-            ->setName('metrics')
+        new Table('metrics')
             ->addColumn(
                 new Column(
                     'id',

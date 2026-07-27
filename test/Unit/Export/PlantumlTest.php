@@ -27,21 +27,18 @@ class PlantumlTest extends TestCase
             [
                 new Schema()
                     ->addTable(
-                        new Table()
-                            ->setName('member')
+                        new Table('member')
                             ->addColumn(new Column('id', 'INT', [10], 'NOT NULL DEFAULT', 'The id'))
                     ),
             ],
             [
                 new Schema()
                     ->addTable(
-                        new Table()
-                            ->setName('member')
+                        new Table('member')
                             ->addColumn(new Column('id', 'INT', [10], 'NOT NULL DEFAULT', 'The id'))
                     )
                     ->addTable(
-                        new Table()
-                            ->setName('member_data')
+                        new Table('member_data')
                             ->addColumn(new Column('id', 'INT', [10], 'NOT NULL DEFAULT', ''))
                             ->addColumn(new Column('member_id', 'INT', [10], 'NOT NULL', ''))
                             ->addColumn(new Column('type', 'VARCHAR', [64], 'NOT NULL', ''))
@@ -53,8 +50,7 @@ class PlantumlTest extends TestCase
                             ->addUniqueIndex(new UniqueIndex('idx_member_id', ['member_id'], 'USING HASH'))
                     )
                     ->addTable(
-                        new Table()
-                            ->setName('member_log')
+                        new Table('member_log')
                             ->addColumn(new Column('id', 'INT', [10], 'NOT NULL DEFAULT', 'The id'))
                             ->addColumn(new Column('member_id', 'INT', [10], 'NOT NULL', 'The member id'))
                             ->addColumn(new Column('log', 'VARCHAR', [255], 'NOT NULL', 'The log'))

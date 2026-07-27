@@ -27,8 +27,7 @@ class V2TemplateTest extends TestCase
             'columns only' => [
                 new Schema()
                     ->addTable(
-                        new Table()
-                            ->setName('actor')
+                        new Table('actor')
                             ->addColumn(new Column('actor_id', 'SMALLINT', [], 'UNSIGNED NOT NULL AUTO_INCREMENT', ''))
                             ->addColumn(new Column('first_name', 'VARCHAR', [45], 'NOT NULL', ''))
                             ->addColumn(new Column('last_name', 'VARCHAR', [45], 'NOT NULL', ''))
@@ -43,8 +42,7 @@ class V2TemplateTest extends TestCase
                             )
                     )
                     ->addTable(
-                        new Table()
-                            ->setName('address')
+                        new Table('address')
                             ->addColumn(
                                 new Column('address_id', 'SMALLINT', [], 'UNSIGNED UNSIGNED NOT NULL AUTO_INCREMENT', 'The address id')
                             )
@@ -70,8 +68,7 @@ PUML,
             'single table with a primary key' => [
                 new Schema()
                     ->addTable(
-                        new Table()
-                            ->setName('member')
+                        new Table('member')
                             ->addColumn(new Column('id', 'INT', [10], 'NOT NULL DEFAULT', ''))
                     ),
                 <<<'PUML'
@@ -83,14 +80,12 @@ PUML,
             'every section and connection' => [
                 new Schema()
                     ->addTable(
-                        new Table()
-                            ->setName('member')
+                        new Table('member')
                             ->addColumn(new Column('id', 'INT', [10], 'NOT NULL DEFAULT', ''))
                             ->setPrimaryKey(new PrimaryKey(['id']))
                     )
                     ->addTable(
-                        new Table()
-                            ->setName('member_data')
+                        new Table('member_data')
                             ->addColumn(new Column('id', 'INT', [10], 'NOT NULL DEFAULT', ''))
                             ->addColumn(new Column('member_id', 'INT', [10], 'NOT NULL', ''))
                             ->addColumn(new Column('type', 'VARCHAR', [64], 'NOT NULL', ''))
@@ -101,8 +96,7 @@ PUML,
                             ->addUniqueIndex(new UniqueIndex('idx_member_id', ['member_id']))
                     )
                     ->addTable(
-                        new Table()
-                            ->setName('member_log')
+                        new Table('member_log')
                             ->addColumn(new Column('id', 'INT', [10], 'NOT NULL DEFAULT', ''))
                             ->addColumn(new Column('member_id', 'INT', [10], 'NOT NULL', ''))
                             ->addColumn(new Column('action', 'ENUM', ['login', 'logout'], '', ''))
@@ -155,8 +149,7 @@ PUML,
             'new types, composite primary key and multi-column index' => [
                 new Schema()
                     ->addTable(
-                        new Table()
-                            ->setName('measurement')
+                        new Table('measurement')
                             ->addColumn(new Column('id', 'SERIAL', [], '', ''))
                             ->addColumn(new Column('sensor_id', 'INT', [10], 'NOT NULL', ''))
                             ->addColumn(new Column('score', 'NUMERIC', [10, 2], 'NOT NULL', ''))

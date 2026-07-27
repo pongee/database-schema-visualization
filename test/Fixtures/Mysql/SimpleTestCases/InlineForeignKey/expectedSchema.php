@@ -10,8 +10,7 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Schema;
 
 return new Schema()
     ->addTable(
-        new Table()
-            ->setName('user')
+        new Table('user')
             ->addColumn(
                 new Column(
                     'id',
@@ -24,8 +23,7 @@ return new Schema()
             ->setPrimaryKey(new PrimaryKey(['id']))
     )
     ->addTable(
-        new Table()
-            ->setName('post')
+        new Table('post')
             ->addColumn(
                 new Column(
                     'id',

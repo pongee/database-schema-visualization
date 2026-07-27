@@ -20,12 +20,12 @@ class SchemaTest extends TestCase
     {
         return [
             [
-                new Table(),
+                new Table('member'),
             ],
             [
-                new Table(),
-                new Table(),
-                new Table(),
+                new Table('member'),
+                new Table('member_data'),
+                new Table('member_log'),
             ],
         ];
     }

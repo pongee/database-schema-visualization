@@ -23,39 +23,25 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\Uniqu
 
 class Table implements TableInterface
 {
-    private string $name = '';
+    public readonly ColumnCollectionInterface $columns;
 
-    private readonly ColumnCollectionInterface|ColumnCollection $columns;
+    public ?PrimaryKeyInterface $primaryKey = null;
 
-    private ?PrimaryKeyInterface $primaryKey = null;
+    public readonly SimpleIndexCollectionInterface $simpleIndexes;
 
-    private readonly SimpleIndexCollection|SimpleIndexCollectionInterface $simpleIndexes;
+    public readonly UniqueIndexCollectionInterface $uniqueIndexes;
 
-    private readonly UniqueIndexCollectionInterface|UniqueIndexCollection $uniqueIndexes;
+    public readonly FulltextIndexCollectionInterface $fulltextIndexes;
 
-    private readonly FulltextIndexCollectionInterface|FulltextIndexCollection $fulltextIndexes;
+    public readonly SpatialIndexCollectionInterface $spatialIndexes;
 
-    private readonly SpatialIndexCollection|SpatialIndexCollectionInterface $spatialIndexes;
-
-    public function __construct()
+    public function __construct(public readonly string $name)
     {
         $this->columns = new ColumnCollection();
         $this->simpleIndexes = new SimpleIndexCollection();
         $this->uniqueIndexes = new UniqueIndexCollection();
         $this->fulltextIndexes = new FulltextIndexCollection();
         $this->spatialIndexes = new SpatialIndexCollection();
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     public function addColumn(ColumnInterface $column): self
@@ -93,40 +79,10 @@ class Table implements TableInterface
         return $this;
     }
 
-    public function getColumns(): ColumnCollectionInterface
-    {
-        return $this->columns;
-    }
-
-    public function getPrimaryKey(): ?PrimaryKeyInterface
-    {
-        return $this->primaryKey;
-    }
-
     public function setPrimaryKey(PrimaryKeyInterface $primaryKey): self
     {
         $this->primaryKey = $primaryKey;
 
         return $this;
-    }
-
-    public function getSimpleIndexes(): SimpleIndexCollectionInterface
-    {
-        return $this->simpleIndexes;
-    }
-
-    public function getUniqueIndexes(): UniqueIndexCollectionInterface
-    {
-        return $this->uniqueIndexes;
-    }
-
-    public function getFulltextIndexes(): FulltextIndexCollectionInterface
-    {
-        return $this->fulltextIndexes;
-    }
-
-    public function getSpatialIndexes(): SpatialIndexCollectionInterface
-    {
-        return $this->spatialIndexes;
     }
 }

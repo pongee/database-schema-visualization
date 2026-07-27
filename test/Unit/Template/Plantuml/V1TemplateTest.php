@@ -29,8 +29,7 @@ class V1TemplateTest extends TestCase
             [
                 new Schema()
                     ->addTable(
-                        new Table()
-                            ->setName('actor')
+                        new Table('actor')
                             ->addColumn(
                                 new Column(
                                     'actor_id',
@@ -69,8 +68,7 @@ class V1TemplateTest extends TestCase
                             )
                     )
                     ->addTable(
-                        new Table()
-                            ->setName('address')
+                        new Table('address')
                             ->addColumn(
                                 new Column(
                                     'address_id',
@@ -126,8 +124,7 @@ table(address) {
             [
                 new Schema()
                     ->addTable(
-                        new Table()
-                            ->setName('member')
+                        new Table('member')
                             ->addColumn(
                                 new Column(
                                     'id',
@@ -147,8 +144,7 @@ table(member) {
             [
                 new Schema()
                     ->addTable(
-                        new Table()
-                            ->setName('member')
+                        new Table('member')
                             ->addColumn(
                                 new Column(
                                     'id',
@@ -161,8 +157,7 @@ table(member) {
                             ->setPrimaryKey(new PrimaryKey(['id']))
                     )
                     ->addTable(
-                        new Table()
-                            ->setName('member_data')
+                        new Table('member_data')
                             ->addColumn(
                                 new Column(
                                     'id',
@@ -226,8 +221,7 @@ table(member) {
                             )
                     )
                     ->addTable(
-                        new Table()
-                            ->setName('member_log')
+                        new Table('member_log')
                             ->addColumn(
                                 new Column(
                                     'id',
@@ -371,8 +365,7 @@ connection_one_to_many(member_log, member)
             'new types, composite primary key and multi-column index' => [
                 new Schema()
                     ->addTable(
-                        new Table()
-                            ->setName('measurement')
+                        new Table('measurement')
                             ->addColumn(new Column('id', 'SERIAL', [], '', ''))
                             ->addColumn(new Column('sensor_id', 'INT', [10], 'NOT NULL', ''))
                             ->addColumn(new Column('score', 'NUMERIC', [10, 2], 'NOT NULL', ''))

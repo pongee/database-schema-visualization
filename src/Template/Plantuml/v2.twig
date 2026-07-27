@@ -83,23 +83,23 @@ skinparam linetype polyline
 left to right direction
 [\n]
 {% for table in tables %}
-    $table({{ table.getName() }})
-    {% for column in table.getColumns() -%}
+    $table({{ table.name }})
+    {% for column in table.columns -%}
         [\t]$column('{{ column.name }}', '{{ column.type }}{% if column.typeParameters %}[{{ column.typeParameters|join(', ') }}]{% endif %}', '{{ column.otherParameters|replace({"'": '"'})|raw }}', '{{ column.comment|replace({"'": '"'})|raw }}')
     {% endfor -%}
-    {% if table.getPrimaryKey() %}
-        [\t]$primary_key('{{ table.getPrimaryKey().columns|join(', ') }}', '{{ table.getPrimaryKey().otherParameters|replace({"'": '"'})|raw }}')
+    {% if table.primaryKey %}
+        [\t]$primary_key('{{ table.primaryKey.columns|join(', ') }}', '{{ table.primaryKey.otherParameters|replace({"'": '"'})|raw }}')
     {% endif -%}
-    {% for simpleIndex in table.getSimpleIndexes() -%}
+    {% for simpleIndex in table.simpleIndexes -%}
         [\t]$index('{{ simpleIndex.columns|join(', ') }}', '{{ simpleIndex.otherParameters|replace({"'": '"'})|raw }}')
     {% endfor -%}
-    {% for uniqueIndex in table.getUniqueIndexes() -%}
+    {% for uniqueIndex in table.uniqueIndexes -%}
         [\t]$unique_index('{{ uniqueIndex.columns|join(', ') }}', '{{ uniqueIndex.otherParameters|replace({"'": '"'})|raw }}')
     {% endfor -%}
-    {% for fulltextIndex in table.getFullTextIndexes() -%}
+    {% for fulltextIndex in table.fulltextIndexes -%}
         [\t]$fulltext_index('{{ fulltextIndex.columns|join(', ') }}', '{{ fulltextIndex.otherParameters|replace({"'": '"'})|raw }}')
     {% endfor -%}
-    {% for spatialIndex in table.getSpatialIndexes() -%}
+    {% for spatialIndex in table.spatialIndexes -%}
         [\t]$spatial_index('{{ spatialIndex.columns|join(', ') }}', '{{ spatialIndex.otherParameters|replace({"'": '"'})|raw }}')
     {% endfor -%}
     }

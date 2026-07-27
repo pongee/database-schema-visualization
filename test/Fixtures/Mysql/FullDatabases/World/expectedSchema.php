@@ -11,8 +11,7 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Schema;
 
 return new Schema()
     ->addTable(
-        new Table()
-            ->setName('city')
+        new Table('city')
             ->addColumn(
                 new Column(
                     'ID',
@@ -75,8 +74,7 @@ return new Schema()
         )
     )
     ->addTable(
-        new Table()
-            ->setName('country')
+        new Table('country')
             ->addColumn(
                 new Column(
                     'Code',
@@ -215,8 +213,7 @@ return new Schema()
             ->setPrimaryKey(new PrimaryKey(['Code']))
     )
     ->addTable(
-        new Table()
-            ->setName('countrylanguage')
+        new Table('countrylanguage')
             ->addColumn(
                 new Column(
                     'CountryCode',

@@ -338,9 +338,9 @@ abstract class ParserAbstract implements ParserInterface
             foreach ($connections as $connection) {
                 if (
                     $connection->getChildTableName() === '*'
-                    || $connection->getChildTableName() === $iteratedTable->getName()
+                    || $connection->getChildTableName() === $iteratedTable->name
                 ) {
-                    $columns = $iteratedTable->getColumns();
+                    $columns = $iteratedTable->columns;
 
                     if (empty(array_diff($connection->getChildTableColumns(), $columns->getColumnsName()))) {
                         $parentTable = $tables->offsetGet($connection->getParentTableName());
@@ -350,25 +350,25 @@ abstract class ParserAbstract implements ParserInterface
                             && empty(
                                 array_diff(
                                     $connection->getParentTableColumns(),
-                                    $parentTable->getColumns()->getColumnsName()
+                                    $parentTable->columns->getColumnsName()
                                 )
                             )
-                            && $connection->getParentTableName() !== $iteratedTable->getName()
+                            && $connection->getParentTableName() !== $iteratedTable->name
                         ) {
                             $childTableColumns = $connection->getChildTableColumns();
                             sort($childTableColumns);
 
                             $oneToOne = false;
 
-                            foreach ($iteratedTable->getUniqueIndexes() as $uniqueIndex) {
+                            foreach ($iteratedTable->uniqueIndexes as $uniqueIndex) {
                                 if ($uniqueIndex->columns === $childTableColumns) {
                                     $oneToOne = true;
                                 }
                             }
 
                             if (
-                                $iteratedTable->getPrimaryKey() instanceof PrimaryKeyInterface
-                                && $iteratedTable->getPrimaryKey()->columns === $childTableColumns
+                                $iteratedTable->primaryKey instanceof PrimaryKeyInterface
+                                && $iteratedTable->primaryKey->columns === $childTableColumns
                             ) {
                                 $oneToOne = true;
                             }
@@ -376,7 +376,7 @@ abstract class ParserAbstract implements ParserInterface
                             if ($oneToOne) {
                                 $connectionCollection->add(
                                     new OneToOneConnection(
-                                        $iteratedTable->getName(),
+                                        $iteratedTable->name,
                                         $connection->getParentTableName(),
                                         $connection->getChildTableColumns(),
                                         $connection->getParentTableColumns()
@@ -385,7 +385,7 @@ abstract class ParserAbstract implements ParserInterface
                             } else {
                                 $connectionCollection->add(
                                     new OneToManyConnection(
-                                        $iteratedTable->getName(),
+                                        $iteratedTable->name,
                                         $connection->getParentTableName(),
                                         $connection->getChildTableColumns(),
                                         $connection->getParentTableColumns()
