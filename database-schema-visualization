@@ -1,6 +1,12 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
+use Pongee\DatabaseSchemaVisualization\Command\ImageCommand;
+use Pongee\DatabaseSchemaVisualization\Command\JsonCommand;
+use Pongee\DatabaseSchemaVisualization\Command\MarkdownCommand;
+use Pongee\DatabaseSchemaVisualization\Command\PlantumlCommand;
+use Pongee\DatabaseSchemaVisualization\Parser\CassandraParser;
+use Pongee\DatabaseSchemaVisualization\Parser\MysqlParser;
 use Symfony\Component\Console\Application;
 
 foreach ([__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.php', __DIR__ . '/vendor/autoload.php'] as $autoload) {
@@ -10,32 +16,22 @@ foreach ([__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.php', 
     }
 }
 
-$parser = new \Pongee\DatabaseSchemaVisualization\Parser\MysqlParser();
+$rootDir = getcwd();
+
+$mysqlParser     = new MysqlParser();
+$cassandraParser = new CassandraParser();
 
 $application = new Application();
 
-$application->addCommand(
-    new \Pongee\DatabaseSchemaVisualization\Command\Mysql\MysqlPlantumlCommand(
-        $parser, getcwd()
-    )
-);
-
-$application->addCommand(
-    new \Pongee\DatabaseSchemaVisualization\Command\Mysql\MysqlJsonCommand(
-        $parser, getcwd()
-    )
-);
-
-$application->addCommand(
-    new \Pongee\DatabaseSchemaVisualization\Command\Mysql\MysqlImageCommand(
-        $parser, getcwd()
-    )
-);
-
-$application->addCommand(
-    new \Pongee\DatabaseSchemaVisualization\Command\Mysql\MysqlMarkdownCommand(
-        $parser, getcwd()
-    )
-);
+$application->addCommands([
+    new PlantumlCommand($mysqlParser, $rootDir, 'mysql:plantuml'),
+    new JsonCommand($mysqlParser, $rootDir, 'mysql:json'),
+    new ImageCommand($mysqlParser, $rootDir, 'mysql:image'),
+    new MarkdownCommand($mysqlParser, $rootDir, 'mysql:markdown'),
+    new PlantumlCommand($cassandraParser, $rootDir, 'cassandra:plantuml'),
+    new JsonCommand($cassandraParser, $rootDir, 'cassandra:json'),
+    new ImageCommand($cassandraParser, $rootDir, 'cassandra:image'),
+    new MarkdownCommand($cassandraParser, $rootDir, 'cassandra:markdown'),
+]);
 
 $application->run();

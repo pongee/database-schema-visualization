@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Pongee\DatabaseSchemaVisualization\Test\Unit\Command\Mysql;
+namespace Pongee\DatabaseSchemaVisualization\Test\Unit\Command;
 
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Pongee\DatabaseSchemaVisualization\Command\Mysql\MysqlJsonCommand;
+use Pongee\DatabaseSchemaVisualization\Command\JsonCommand;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\ConnectionCollection;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\NotDefinedConnection;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Schema;
@@ -16,19 +16,19 @@ use RuntimeException as RuntimeExceptionAlias;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
-class MysqlJsonCommandTest extends TestCase
+class JsonCommandTest extends TestCase
 {
     public function testName(): void
     {
         $this->assertNotEmpty($this->getCommand()->getName());
     }
 
-    private function getCommand(string $rootDir = ''): MysqlJsonCommand
+    private function getCommand(string $rootDir = '', string $name = 'mysql:json'): JsonCommand
     {
-        /** @var ParserInterface&Stub $mysqlParser */
-        $mysqlParser = $this->createStub(ParserInterface::class);
+        /** @var ParserInterface&Stub $parser */
+        $parser = $this->createStub(ParserInterface::class);
 
-        return new MysqlJsonCommand($mysqlParser, $rootDir);
+        return new JsonCommand($parser, $rootDir, $name);
     }
 
     public function testDescription(): void
@@ -44,6 +44,14 @@ class MysqlJsonCommandTest extends TestCase
         );
     }
 
+    public function testCassandraSynopsis(): void
+    {
+        $this->assertEquals(
+            'cassandra:json [-c|--connection CONNECTION] [--] <file>',
+            $this->getCommand('', 'cassandra:json')->getSynopsis()
+        );
+    }
+
     public function testNoParameters(): void
     {
         $this->expectException(RuntimeExceptionAlias::class);
@@ -51,7 +59,7 @@ class MysqlJsonCommandTest extends TestCase
 
         $parser = new MysqlParser();
 
-        $command = new MysqlJsonCommand($parser, '');
+        $command = new JsonCommand($parser, '', 'mysql:json');
         $command->run(
             new ArrayInput([]),
             new BufferedOutput()
@@ -76,7 +84,7 @@ class MysqlJsonCommandTest extends TestCase
             )
             ->willReturn(new Schema());
 
-        $sut = new MysqlJsonCommand($parser, FIXTURES_DIRECTORY);
+        $sut = new JsonCommand($parser, FIXTURES_DIRECTORY, 'mysql:json');
         $sut->run(
             new ArrayInput([
                 'file' => $fakeSqlName,

@@ -23,21 +23,23 @@ The aim of this project is to generate database documentation from sql schema.
 $ composer require pongee/database-schema-visualization
 ```
 ## Commands
-Every command reads an SQL schema file and writes the result to **stdout**, so redirect it into a file. Foreign keys are resolved automatically from the schema; use `--connection` to force additional ones.
+Every command reads a schema file and writes the result to **stdout**, so redirect it into a file. Foreign keys are resolved automatically from the schema; use `--connection` to force additional ones.
+
+Each command exists for both MySQL (`mysql:`) and Apache Cassandra (`cassandra:`):
 
 | Command | Output |
 | --- | --- |
-| `mysql:json` | JSON |
-| `mysql:plantuml` | PlantUML raw text |
-| `mysql:markdown` | Markdown |
-| `mysql:image` | PNG / SVG image |
+| `mysql:json` / `cassandra:json` | JSON |
+| `mysql:plantuml` / `cassandra:plantuml` | PlantUML raw text |
+| `mysql:markdown` / `cassandra:markdown` | Markdown |
+| `mysql:image` / `cassandra:image` | PNG / SVG image |
 
 Argument and options:
 
 | Name | Description |
 | --- | --- |
-| `file` | Path to the SQL schema file. **Required.** |
-| `--type`, `-it` | Image format for `mysql:image`: `png` (default) or `svg`. |
+| `file` | Path to the schema file. **Required.** |
+| `--type`, `-it` | Image format for the `image` commands: `png` (default) or `svg`. |
 | `--template`, `-t` | Twig template used for rendering. Defaults to the bundled v2 template. |
 | `--connection`, `-c` | Force a foreign key when the schema defines none. Format: `child_table.column=>parent_table.column` (repeatable). |
 

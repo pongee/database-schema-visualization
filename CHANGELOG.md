@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Anonymous FOREIGN KEY (without a CONSTRAINT name) parsing
 - MySQL employees, world_x and airportdb sample databases as full-database test fixtures
 - Modern PlantUML template (`v2`) using the current preprocessor, set as the default (legacy `v1` still available)
+- Apache Cassandra CLI commands (`cassandra:json`, `cassandra:plantuml`, `cassandra:markdown`, `cassandra:image`)
+- Docker image published to the GitHub Container Registry, built natively for linux/amd64 and linux/arm64
 
 ### Fixed
 - GEOMETRYCOLLECTION type was never recognized (typo in the type list)
@@ -28,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Expose DataObjects (Column, Index, Table, Schema, Connection) via readonly / property-hook properties instead of getters
 - Validate the image `--type` option with an `ImageType` enum
 - Group generated example outputs per database under `example/output/<db>/`
+- Replace the per-database command classes (`Command\Mysql\*`) with database-agnostic, reusable command classes under `Command\` whose command name is passed in the constructor
 
 ## [4.0.0] - 2024-01-04
 ### Changed

@@ -2,33 +2,32 @@
 
 declare(strict_types=1);
 
-namespace Pongee\DatabaseSchemaVisualization\Test\Unit\Command\Mysql;
+namespace Pongee\DatabaseSchemaVisualization\Test\Unit\Command;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
-use Pongee\DatabaseSchemaVisualization\Command\Mysql\MysqlPlantumlCommand;
+use Pongee\DatabaseSchemaVisualization\Command\PlantumlCommand;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\ConnectionCollection;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\NotDefinedConnection;
-use Pongee\DatabaseSchemaVisualization\Parser\MysqlParser;
 use Pongee\DatabaseSchemaVisualization\Parser\ParserInterface;
 use RuntimeException as RuntimeExceptionAlias;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
-class MysqlPlantumlCommandTest extends TestCase
+class PlantumlCommandTest extends TestCase
 {
     public function testName(): void
     {
         $this->assertNotEmpty($this->getCommand()->getName());
     }
 
-    private function getCommand(string $rootDir = ''): MysqlPlantumlCommand
+    private function getCommand(string $rootDir = '', string $name = 'mysql:plantuml'): PlantumlCommand
     {
-        /** @var ParserInterface&Stub $mysqlParser */
-        $mysqlParser = $this->createStub(ParserInterface::class);
+        /** @var ParserInterface&Stub $parser */
+        $parser = $this->createStub(ParserInterface::class);
 
-        return new MysqlPlantumlCommand($mysqlParser, $rootDir);
+        return new PlantumlCommand($parser, $rootDir, $name);
     }
 
     public function testDescription(): void
@@ -41,6 +40,14 @@ class MysqlPlantumlCommandTest extends TestCase
         $this->assertEquals(
             'mysql:plantuml [-t|--template [TEMPLATE]] [-c|--connection CONNECTION] [--] <file>',
             $this->getCommand()->getSynopsis()
+        );
+    }
+
+    public function testCassandraSynopsis(): void
+    {
+        $this->assertEquals(
+            'cassandra:plantuml [-t|--template [TEMPLATE]] [-c|--connection CONNECTION] [--] <file>',
+            $this->getCommand('', 'cassandra:plantuml')->getSynopsis()
         );
     }
 
@@ -105,7 +112,7 @@ class MysqlPlantumlCommandTest extends TestCase
                     ->add(new NotDefinedConnection('log', 'user', ['user_id'], ['user_id']))
             );
 
-        $sut = new MysqlPlantumlCommand($parser, FIXTURES_DIRECTORY);
+        $sut = new PlantumlCommand($parser, FIXTURES_DIRECTORY, 'mysql:plantuml');
         $sut->run(
             new ArrayInput([
                 'file' => $fakeSqlName,

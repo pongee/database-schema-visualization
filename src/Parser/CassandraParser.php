@@ -28,13 +28,6 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\TableCollection;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\TableInterface;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\SchemaInterface;
 
-/**
- * Class that knows how to parse CQL
- * At the moment its almost a copy of the MysqlParser, with some small changes
- *
- * Note:
- * This class is not complete as i am no CQL expert
- */
 final class CassandraParser extends ParserAbstract
 {
     #[Override]

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Pongee\DatabaseSchemaVisualization\Command\Mysql;
+namespace Pongee\DatabaseSchemaVisualization\Command;
 
 use Pongee\DatabaseSchemaVisualization\Export\Plantuml;
 use Pongee\DatabaseSchemaVisualization\Generator\ImageGenerator;
@@ -12,10 +12,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class MysqlImageCommand extends MysqlCommandAbstract
+final class ImageCommand extends CommandAbstract
 {
-    private const string OPTION_TEMPLATE = 'template';
-
     private const string OPTION_TYPE = 'type';
 
     private const string DEFAULT_TEMPLATE = 'src/Template/Plantuml/v2.twig';
@@ -29,15 +27,8 @@ final class MysqlImageCommand extends MysqlCommandAbstract
     protected function configure(): void
     {
         $this
-            ->setName('mysql:image')
-            ->setDescription('Generate mysql schema dump as Plantuml diagram.')
-            ->addOption(
-                self::OPTION_TEMPLATE,
-                't',
-                InputOption::VALUE_OPTIONAL,
-                '',
-                self::DEFAULT_TEMPLATE
-            )
+            ->setDescription('Generate the schema dump as an image.')
+            ->addTemplateOption(self::DEFAULT_TEMPLATE)
             ->addOption(
                 self::OPTION_TYPE,
                 'it',
@@ -49,15 +40,8 @@ final class MysqlImageCommand extends MysqlCommandAbstract
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $sqlFileContent = $this->getSqlFileContent($input);
-        $templateFileContent = $this->getTemplateFileContent($input);
-
-        $generatedPlantuml = new Plantuml($templateFileContent)->export(
-            $this->parser->run(
-                $sqlFileContent,
-                $this->getForcedConnections($input->getOption(self::OPTION_CONNECTION))
-            )
-        );
+        $schema = $this->parseSchema($input);
+        $generatedPlantuml = new Plantuml($this->getTemplateFileContent($input))->export($schema);
 
         $image = new ImageGenerator(
             $this->getImageType($input),
@@ -68,21 +52,6 @@ final class MysqlImageCommand extends MysqlCommandAbstract
         echo $image->generate($generatedPlantuml);
 
         return 0;
-    }
-
-    private function getTemplateFileContent(InputInterface $input): string
-    {
-        $templateFilePath = $this->rootDir . $input->getOption(self::OPTION_TEMPLATE);
-
-        if (!is_file($templateFilePath)) {
-            throw new RuntimeException(sprintf('Bad template file path. [%s] is not a file', $templateFilePath));
-        }
-
-        if (!is_readable($templateFilePath)) {
-            throw new RuntimeException(sprintf('Bad template file path. [%s] is unreadable.', $templateFilePath));
-        }
-
-        return file_get_contents($templateFilePath);
     }
 
     private function getImageType(InputInterface $input): string
