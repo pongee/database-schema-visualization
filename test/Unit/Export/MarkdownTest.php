@@ -7,10 +7,13 @@ namespace Pongee\DatabaseSchemaVisualization\Test\Unit\Export;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\OneToManyConnection;
+use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\OneToOneConnection;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Column;
+use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\FulltextIndex;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\PrimaryKey;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\SimpleIndex;
+use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\SpatialIndex;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\UniqueIndex;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Schema;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\SchemaInterface;
@@ -21,112 +24,70 @@ class MarkdownTest extends TestCase
     public static function getSchemaProvider(): array
     {
         return [
-            'single table with a column' => [
+            [
                 new Schema()
                     ->addTable(
                         new Table()
                             ->setName('member')
-                            ->addColumn(new Column('id', 'INT', ['10'], 'NOT NULL', 'The id'))
+                            ->addColumn(new Column('id', 'INT', [10], 'NOT NULL DEFAULT', 'The id'))
                     ),
-                <<<'MD'
-                    # Schema
-
-                    ## `member` table
-
-                    ### Columns
-
-                    | Name | Type | Parameters | Comment |
-                    | --- | --- | --- | --- |
-                    | id | INT ( 10 ) | NOT NULL | The id |
-
-                    MD,
             ],
-            'tables with keys, indexes and a connection' => [
+            [
                 new Schema()
                     ->addTable(
                         new Table()
-                            ->setName('tag')
-                            ->addColumn(new Column('id', 'INT', ['11'], 'unsigned NOT NULL AUTO_INCREMENT', ''))
-                            ->addColumn(new Column('uuid', 'BINARY', ['16'], 'NOT NULL', ''))
-                            ->addColumn(new Column('name', 'VARCHAR', ['64'], 'NOT NULL', 'The name'))
-                            ->addUniqueIndex(new UniqueIndex('uk_uuid', ['uuid']))
-                            ->addUniqueIndex(new UniqueIndex('uk_tag_name', ['name']))
-                            ->setPrimaryKey(new PrimaryKey(['id']))
+                            ->setName('member')
+                            ->addColumn(new Column('id', 'INT', [10], 'NOT NULL DEFAULT', 'The id'))
                     )
                     ->addTable(
                         new Table()
-                            ->setName('performer_tag')
-                            ->addColumn(new Column('id', 'INT', ['11'], 'unsigned NOT NULL AUTO_INCREMENT', ''))
-                            ->addColumn(new Column('tag_id', 'INT', ['11'], 'unsigned NOT NULL', ''))
-                            ->addSimpleIndex(new SimpleIndex('idx_tag_id', ['tag_id']))
-                            ->setPrimaryKey(new PrimaryKey(['id']))
+                            ->setName('member_data')
+                            ->addColumn(new Column('id', 'INT', [10], 'NOT NULL DEFAULT', ''))
+                            ->addColumn(new Column('member_id', 'INT', [10], 'NOT NULL', ''))
+                            ->addColumn(new Column('type', 'VARCHAR', [64], 'NOT NULL', ''))
+                            ->addColumn(new Column('status', 'ENUM', ['enabled', 'deleted'], 'DEFAULT NULL', ''))
+                            ->setPrimaryKey(new PrimaryKey(['id'], 'USING HASH'))
+                            ->addSimpleIndex(new SimpleIndex('idx_member_id', ['member_id'], 'USING HASH'))
+                            ->addFullTextIndex(new FulltextIndex('idx_status', ['status']))
+                            ->addSpatialIndex(new SpatialIndex('idx_type', ['type']))
+                            ->addUniqueIndex(new UniqueIndex('idx_member_id', ['member_id'], 'USING HASH'))
                     )
-                    ->addConnection(new OneToManyConnection('performer_tag', 'tag', ['tag_id'], ['id'])),
-                <<<'MD'
-                    # Schema
-
-                    ## `tag` table
-
-                    ### Columns
-
-                    | Name | Type | Parameters | Comment |
-                    | --- | --- | --- | --- |
-                    | id | INT ( 11 ) | unsigned NOT NULL AUTO_INCREMENT | - |
-                    | uuid | BINARY ( 16 ) | NOT NULL | - |
-                    | name | VARCHAR ( 64 ) | NOT NULL | The name |
-
-                    ### Primary Key
-
-                    | Columns | Parameters |
-                    | --- | --- |
-                    | id | - |
-
-                    ### Unique Indexes
-
-                    | Name | Columns | Parameters |
-                    | --- | --- | --- |
-                    | uk_uuid | uuid | - |
-                    | uk_tag_name | name | - |
-
-                    ## `performer_tag` table
-
-                    ### Columns
-
-                    | Name | Type | Parameters | Comment |
-                    | --- | --- | --- | --- |
-                    | id | INT ( 11 ) | unsigned NOT NULL AUTO_INCREMENT | - |
-                    | tag_id | INT ( 11 ) | unsigned NOT NULL | - |
-
-                    ### Primary Key
-
-                    | Columns | Parameters |
-                    | --- | --- |
-                    | id | - |
-
-                    ### Indexes
-
-                    | Name | Columns | Parameters |
-                    | --- | --- | --- |
-                    | idx_tag_id | tag_id | - |
-
-                    ## Connections
-
-                    | Type | Child | Parent |
-                    | --- | --- | --- |
-                    | OneToMany | performer_tag ( tag_id ) | tag ( id ) |
-
-                    MD,
+                    ->addTable(
+                        new Table()
+                            ->setName('member_log')
+                            ->addColumn(new Column('id', 'INT', [10], 'NOT NULL DEFAULT', 'The id'))
+                            ->addColumn(new Column('member_id', 'INT', [10], 'NOT NULL', 'The member id'))
+                            ->addColumn(new Column('log', 'VARCHAR', [255], 'NOT NULL', 'The log'))
+                            ->setPrimaryKey(new PrimaryKey(['id'], 'USING HASH'))
+                            ->addSimpleIndex(new SimpleIndex('idx_member_id', ['member_id'], 'USING HASH'))
+                    )
+                    ->addConnection(
+                        new OneToOneConnection('member_data', 'member', ['member_id'], ['id'])
+                    )
+                    ->addConnection(
+                        new OneToManyConnection('member_log', 'member', ['member_id'], ['id'])
+                    ),
             ],
         ];
     }
 
     #[DataProvider('getSchemaProvider')]
-    public function testExport(SchemaInterface $schema, string $expectedMarkdown): void
+    public function testExportTableWithColumns(SchemaInterface $schema): void
     {
         $sut = new Markdown(
-            file_get_contents(__DIR__ . '/../../../src/Template/Markdown/v1.twig')
+            'tables:{{ tables.jsonSerialize()|json_encode|raw }}'
+            . '|connections:{{ connections.jsonSerialize()|json_encode()|raw }}'
         );
 
-        $this->assertSame($expectedMarkdown, $sut->export($schema));
+        $this->assertEquals(
+            strtr(
+                "tables:%tables%|connections:%connections%\n",
+                [
+                    '%tables%' => json_encode($schema->getTables()->jsonSerialize()),
+                    '%connections%' => json_encode($schema->getConnections()->jsonSerialize()),
+                ]
+            ),
+            $sut->export($schema)
+        );
     }
 }

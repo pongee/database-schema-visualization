@@ -15,8 +15,8 @@ use Symfony\Component\Console\Input\InputOption;
 
 abstract class MysqlCommandAbstract extends Command
 {
-    protected const ARGUMENT_FILE = 'file';
-    protected const OPTION_CONNECTION = 'connection';
+    protected const string ARGUMENT_FILE = 'file';
+    protected const string OPTION_CONNECTION = 'connection';
 
     protected string $rootDir;
 

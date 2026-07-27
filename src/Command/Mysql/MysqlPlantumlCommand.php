@@ -12,8 +12,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MysqlPlantumlCommand extends MysqlCommandAbstract
 {
-    protected const OPTION_TEMPLATE = 'template';
-    protected const DEFAULT_TEMPLATE = 'src/Template/Plantuml/v1.twig';
+    protected const string OPTION_TEMPLATE = 'template';
+    protected const string DEFAULT_TEMPLATE = 'src/Template/Plantuml/v1.twig';
 
     protected function configure(): void
     {
