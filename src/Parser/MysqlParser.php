@@ -356,7 +356,7 @@ class MysqlParser extends ParserAbstract
             '#
             (?!,)
             \s*
-            UNIQUE\s+(KEY|INDEX)\s+
+            UNIQUE\s*(?:(?:KEY|INDEX)\s+)?+
             `?
             (?<name>\w*)
             `?
@@ -394,7 +394,7 @@ class MysqlParser extends ParserAbstract
             '#
             (?!,)
             \s*
-            FULLTEXT\s+(KEY|INDEX)\s+
+            FULLTEXT\s*(?:(?:KEY|INDEX)\s+)?+
             `?
             (?<name>\w*)
             `?
@@ -431,7 +431,7 @@ class MysqlParser extends ParserAbstract
             '#
             (?!,)
             \s*
-            SPATIAL\s+(KEY|INDEX)\s+
+            SPATIAL\s*(?:(?:KEY|INDEX)\s+)?+
             `?
             (?<name>\w*)
             `?
