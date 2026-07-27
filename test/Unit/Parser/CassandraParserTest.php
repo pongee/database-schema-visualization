@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Test\Unit\Parser;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\ConnectionCollection;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\ConnectionCollectionInterface;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\TableInterface;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\SchemaInterface;
 use Pongee\DatabaseSchemaVisualization\Parser\CassandraParser;
-use Pongee\DatabaseSchemaVisualization\Parser\MysqlParser;
 use RecursiveIteratorIterator;
 use SplFileInfo;
 
 class CassandraParserTest extends TestCase
 {
-    public function getSchemaProvider(): array
+    public static function getSchemaProvider(): array
     {
         $directoryIterator = new RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator(FIXTURES_DIRECTORY . '/Cassandra/')
@@ -61,9 +61,7 @@ class CassandraParserTest extends TestCase
         return $providers;
     }
 
-    /**
-     * @dataProvider getSchemaProvider
-     */
+    #[DataProvider('getSchemaProvider')]
     public function testParser(
         SplFileInfo $file,
         SchemaInterface $schemaObject,
@@ -72,62 +70,62 @@ class CassandraParserTest extends TestCase
         $sut = new CassandraParser();
         $result = $sut->run(file_get_contents($file->getRealPath()), $forcedConnections); //@todo
 
-        foreach ($result->getTables() as $table) {
-            $expectedTable = $schemaObject->getTables()->offsetGet($table->getName());
+        foreach ($result->tables as $table) {
+            $expectedTable = $schemaObject->tables->offsetGet($table->name);
 
             $this->assertInstanceOf(
                 TableInterface::class,
                 $expectedTable,
-                sprintf('Bad table. Schema: %s, table: %s', $file->getRealPath(), $table->getName())
+                sprintf('Bad table. Schema: %s, table: %s', $file->getRealPath(), $table->name)
             );
 
-            foreach ($table->getColumns() as $columnName => $column) {
+            foreach ($table->columns as $columnName => $column) {
                 $this->assertEquals(
-                    $expectedTable->getColumns()->offsetGet($columnName),
+                    $expectedTable->columns->offsetGet($columnName),
                     $column,
                     sprintf(
                         "Bad column.\n Schema: %s \nTable: %s \nColumn: %s",
                         $file->getRealPath(),
-                        $table->getName(),
+                        $table->name,
                         $columnName
                     )
                 );
             }
 
             $this->assertEquals(
-                $expectedTable->getSimpleIndexes(),
-                $table->getSimpleIndexes(),
-                sprintf("Bad simple indexes. \nSchema: %s \nTable: %s", $file->getRealPath(), $table->getName())
+                $expectedTable->simpleIndexes,
+                $table->simpleIndexes,
+                sprintf("Bad simple indexes. \nSchema: %s \nTable: %s", $file->getRealPath(), $table->name)
             );
 
             $this->assertEquals(
-                $expectedTable->getUniqueIndexes(),
-                $table->getUniqueIndexes(),
-                sprintf("Bad unique indexes. \nSchema: %s \nTable: %s", $file->getRealPath(), $table->getName())
+                $expectedTable->uniqueIndexes,
+                $table->uniqueIndexes,
+                sprintf("Bad unique indexes. \nSchema: %s \nTable: %s", $file->getRealPath(), $table->name)
             );
 
             $this->assertEquals(
-                $expectedTable->getFulltextIndexes(),
-                $table->getFulltextIndexes(),
-                sprintf("Bad fulltext indexes. \nSchema: %s \nTable: %s", $file->getRealPath(), $table->getName())
+                $expectedTable->fulltextIndexes,
+                $table->fulltextIndexes,
+                sprintf("Bad fulltext indexes. \nSchema: %s \nTable: %s", $file->getRealPath(), $table->name)
             );
 
             $this->assertEquals(
-                $expectedTable->getSpatialIndexes(),
-                $table->getSpatialIndexes(),
-                sprintf("Bad spatial indexes. \nSchema: %s \ntable: %s", $file->getRealPath(), $table->getName())
+                $expectedTable->spatialIndexes,
+                $table->spatialIndexes,
+                sprintf("Bad spatial indexes. \nSchema: %s \ntable: %s", $file->getRealPath(), $table->name)
             );
 
             $this->assertEquals(
-                $expectedTable->getPrimaryKey(),
-                $table->getPrimaryKey(),
-                sprintf("Bad primary key. \nSchema: %s \nTable: %s", $file->getRealPath(), $table->getName())
+                $expectedTable->primaryKey,
+                $table->primaryKey,
+                sprintf("Bad primary key. \nSchema: %s \nTable: %s", $file->getRealPath(), $table->name)
             );
         }
 
         $this->assertEquals(
-            $schemaObject->getConnections(),
-            $result->getConnections(),
+            $schemaObject->connections,
+            $result->connections,
             sprintf('Schema %s', $file->getRealPath())
         );
 

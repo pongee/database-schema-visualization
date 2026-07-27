@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection;
 
-class OneToOneConnection extends ConnectionAbstract
+use Override;
+
+final class OneToOneConnection extends ConnectionAbstract
 {
-    public function getType(): string
-    {
-        return 'OneToOne';
+    #[Override]
+    public string $type {
+        get => 'OneToOne';
     }
 }

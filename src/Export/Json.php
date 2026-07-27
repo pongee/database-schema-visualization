@@ -10,7 +10,7 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\Named
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\TableInterface;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\SchemaInterface;
 
-class Json implements ExportInterface
+final class Json implements ExportInterface
 {
     public function export(SchemaInterface $schema): string
     {
@@ -19,8 +19,8 @@ class Json implements ExportInterface
             'connections' => [],
         ];
 
-        foreach ($schema->getTables() as $table) {
-            $return['tables'][$table->getName()] = [
+        foreach ($schema->tables as $table) {
+            $return['tables'][$table->name] = [
                 'columns' => $this->getColumns($table),
                 'indexes' => [
                     'simple' => $this->getSimpleIndexes($table),
@@ -28,12 +28,12 @@ class Json implements ExportInterface
                     'fulltext' => $this->getFulltextIndexes($table),
                     'unique' => $this->getUniqueIndexes($table),
                 ],
-                'primaryKey' => $this->getPrimiaryKey($table),
+                'primaryKey' => $this->getPrimaryKey($table),
             ];
         }
 
-        foreach ($schema->getConnections() as $connection) {
-            $return['connections'][] = $this->getConnction($connection);
+        foreach ($schema->connections as $connection) {
+            $return['connections'][] = $this->getConnection($connection);
         }
 
         return json_encode(
@@ -45,13 +45,13 @@ class Json implements ExportInterface
     private function getColumns(TableInterface $table): array
     {
         $columns = [];
-        foreach ($table->getColumns() as $column) {
+        foreach ($table->columns as $column) {
             $columns[] = [
-                'name' => $column->getName(),
-                'type' => $column->getType(),
-                'typeParameters' => $column->getTypeParameters(),
-                'otherParameters' => $column->getOtherParameters(),
-                'comment' => $column->getComment(),
+                'name' => $column->name,
+                'type' => $column->type,
+                'typeParameters' => $column->typeParameters,
+                'otherParameters' => $column->otherParameters,
+                'comment' => $column->comment,
             ];
         }
 
@@ -61,7 +61,7 @@ class Json implements ExportInterface
     private function getSimpleIndexes(TableInterface $table): array
     {
         $indexes = [];
-        foreach ($table->getSimpleIndexes() as $index) {
+        foreach ($table->simpleIndexes as $index) {
             $indexes[] = $this->getIndexData($index);
         }
 
@@ -71,12 +71,12 @@ class Json implements ExportInterface
     private function getIndexData(IndexInterface $index): array
     {
         $data = [
-            'columns' => $index->getColumns(),
-            'otherParameters' => $index->getOtherParameters(),
+            'columns' => $index->columns,
+            'otherParameters' => $index->otherParameters,
         ];
 
         if ($index instanceof NamedIndexAbstract) {
-            $data['name'] = $index->getName();
+            $data['name'] = $index->name;
         }
 
         return $data;
@@ -85,7 +85,7 @@ class Json implements ExportInterface
     private function getSpatialIndexes(TableInterface $table): array
     {
         $indexes = [];
-        foreach ($table->getSpatialIndexes() as $index) {
+        foreach ($table->spatialIndexes as $index) {
             $indexes[] = $this->getIndexData($index);
         }
 
@@ -95,7 +95,7 @@ class Json implements ExportInterface
     private function getFulltextIndexes(TableInterface $table): array
     {
         $indexes = [];
-        foreach ($table->getFulltextIndexes() as $index) {
+        foreach ($table->fulltextIndexes as $index) {
             $indexes[] = $this->getIndexData($index);
         }
 
@@ -105,33 +105,33 @@ class Json implements ExportInterface
     private function getUniqueIndexes(TableInterface $table): array
     {
         $indexes = [];
-        foreach ($table->getUniqueIndexes() as $index) {
+        foreach ($table->uniqueIndexes as $index) {
             $indexes[] = $this->getIndexData($index);
         }
 
         return $indexes;
     }
 
-    private function getPrimiaryKey(TableInterface $table): array
+    private function getPrimaryKey(TableInterface $table): array
     {
-        if ($table->getPrimaryKey()) {
+        if ($table->primaryKey !== null) {
             return [
-                'columns' => $table->getPrimaryKey()->getColumns(),
-                'otherParameters' => $table->getPrimaryKey()->getOtherParameters(),
+                'columns' => $table->primaryKey->columns,
+                'otherParameters' => $table->primaryKey->otherParameters,
             ];
         }
 
         return [];
     }
 
-    private function getConnction(ConnectionInterface $connection): array
+    private function getConnection(ConnectionInterface $connection): array
     {
         return [
-            'type' => $connection->getType(),
-            'childTableName' => $connection->getChildTableName(),
-            'childTableColumns' => $connection->getChildTableColumns(),
-            'parentTableName' => $connection->getParentTableName(),
-            'parentTableColumns' => $connection->getParentTableColumns(),
+            'type' => $connection->type,
+            'childTableName' => $connection->childTableName,
+            'childTableColumns' => $connection->childTableColumns,
+            'parentTableName' => $connection->parentTableName,
+            'parentTableColumns' => $connection->parentTableColumns,
         ];
     }
 }

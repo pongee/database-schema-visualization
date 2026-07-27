@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Test\Unit\DataObject\Sql\Database\Table\Index;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\SpatialIndex;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\SpatialIndexCollection;
@@ -11,7 +12,7 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\Spati
 
 class SpatialIndexCollectionTest extends TestCase
 {
-    public function getSpatialIndexesProvider(): array
+    public static function getSpatialIndexesProvider(): array
     {
         return [
             [
@@ -27,9 +28,7 @@ class SpatialIndexCollectionTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getSpatialIndexesProvider
-     */
+    #[DataProvider('getSpatialIndexesProvider')]
     public function testCollection(SpatialIndexInterface ...$spatialIndexes): void
     {
         $sut = new SpatialIndexCollection();

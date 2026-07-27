@@ -1,0 +1,71 @@
+# Schema
+{% for table in tables %}
+
+## `{{ table.name }}` table
+
+### Columns
+
+| Name | Type | Parameters | Comment |
+| --- | --- | --- | --- |
+{% for column in table.columns -%}
+| {{ column.name }} | {{ column.type }}{% if column.typeParameters %} ( {{ column.typeParameters|join(', ') }} ){% endif %} | {{ (column.otherParameters ?: '-')|replace({'|': '\\|'}) }} | {{ (column.comment ?: '-')|replace({'|': '\\|'}) }} |
+{% endfor -%}
+{% if table.primaryKey %}
+
+### Primary Key
+
+| Columns | Parameters |
+| --- | --- |
+| {{ table.primaryKey.columns|join(', ') }} | {{ table.primaryKey.otherParameters ?: '-' }} |
+{% endif -%}
+{% if table.simpleIndexes|length %}
+
+### Indexes
+
+| Name | Columns | Parameters |
+| --- | --- | --- |
+{% for index in table.simpleIndexes -%}
+| {{ index.name }} | {{ index.columns|join(', ') }} | {{ index.otherParameters ?: '-' }} |
+{% endfor -%}
+{% endif -%}
+{% if table.uniqueIndexes|length %}
+
+### Unique Indexes
+
+| Name | Columns | Parameters |
+| --- | --- | --- |
+{% for index in table.uniqueIndexes -%}
+| {{ index.name }} | {{ index.columns|join(', ') }} | {{ index.otherParameters ?: '-' }} |
+{% endfor -%}
+{% endif -%}
+{% if table.fulltextIndexes|length %}
+
+### Fulltext Indexes
+
+| Name | Columns | Parameters |
+| --- | --- | --- |
+{% for index in table.fulltextIndexes -%}
+| {{ index.name }} | {{ index.columns|join(', ') }} | {{ index.otherParameters ?: '-' }} |
+{% endfor -%}
+{% endif -%}
+{% if table.spatialIndexes|length %}
+
+### Spatial Indexes
+
+| Name | Columns | Parameters |
+| --- | --- | --- |
+{% for index in table.spatialIndexes -%}
+| {{ index.name }} | {{ index.columns|join(', ') }} | {{ index.otherParameters ?: '-' }} |
+{% endfor -%}
+{% endif -%}
+{% endfor -%}
+{% if connections|length %}
+
+## Connections
+
+| Type | Child | Parent |
+| --- | --- | --- |
+{% for connection in connections -%}
+| {{ connection.type }} | {{ connection.childTableName }} ( {{ connection.childTableColumns|join(', ') }} ) | {{ connection.parentTableName }} ( {{ connection.parentTableColumns|join(', ') }} ) |
+{% endfor -%}
+{% endif %}

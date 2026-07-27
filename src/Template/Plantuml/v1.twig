@@ -1,210 +1,117 @@
 @startuml
-
+[\n]
 !ifndef TABLE_BORDER_COLOR
 !define TABLE_BORDER_COLOR Chocolate
 !endif
-
+[\n]
 !ifndef TABLE_BACKGROUND_COLOR
 !define TABLE_BACKGROUND_COLOR AntiqueWhite
 !endif
-
+[\n]
 skinparam class {
-BackgroundColor TABLE_BACKGROUND_COLOR
-BorderColor TABLE_BORDER_COLOR
-ArrowColor TABLE_BORDER_COLOR
+[\t]BackgroundColor TABLE_BACKGROUND_COLOR
+[\t]BorderColor TABLE_BORDER_COLOR
+[\t]ArrowColor TABLE_BORDER_COLOR
 }
-!define table(name) class "name" << (T, TABLE_BORDER_COLOR ) >>
-
-!definelong primary_key(column1)
--<i>PK</i> [<b>column1</b>]
-!enddefinelong
-!definelong primary_key(column1, column2)
--<i>PK</i> [<b>column1, column2</b>]
-!enddefinelong
-!definelong primary_key(column1, column2, column3)
--<i>PK</i> [<b>column1, column2, column3</b>]
-!enddefinelong
-!definelong primary_key(column1, column2, column3, column4)
--<i>PK</i> [<b>column1, column2, column3, column4</b>]
-!enddefinelong
-!definelong primary_key(column1, column2, column3, column4, column5)
--<i>PK</i> [<b>column1, column2, column3, column4, column5</b>]
-!enddefinelong
-
-!definelong column(column, type)
-+<b>column</b> <u>type</u>
-!enddefinelong
-!definelong column(column, type, extra)
-+<b>column</b> <u>type</u> extra
-!enddefinelong
-!definelong column(column, type, extra, comment)
-+<b>column</b> <u>type</u> extra COMMENT 'comment'
-!enddefinelong
-
-
-!definelong index(column1)
-~<i>KEY</i> [<b>column1</b>]
-!enddefinelong
-!definelong index(column1, column2)
-~<i>KEY</i> [<b>column1, column2</b>]
-!enddefinelong
-!definelong index(column1, column2, column3)
-~<i>KEY</i> [<b>column1, column2, column3</b>]
-!enddefinelong
-!definelong index(column1, column2, column3, column4)
-~<i>KEY</i> [<b>column1, column2, column3, column4</b>]
-!enddefinelong
-!definelong index(column1, column2, column3, column4, column5)
-~<i>KEY</i> [<b>column1, column2, column3, column4, column5</b>]
-!enddefinelong
-
-
-!definelong unique_index(column1)
-#<i>UNIQUE KEY</i> [<b>column1</b>]
-!enddefinelong
-!definelong unique_index(column1, column2)
-#<i>UNIQUE KEY</i> [<b>column1, column2</b>]
-!enddefinelong
-!definelong unique_index(column1, column2, column3)
-#<i>UNIQUE KEY</i> [<b>column1, column2, column3</b>]
-!enddefinelong
-!definelong unique_index(column1, column2, column3, column4)
-#<i>UNIQUE KEY</i> [<b>column1, column2, column3, column4</b>]
-!enddefinelong
-!definelong unique_index(column1, column2, column3, column4, column5)
-#<i>UNIQUE KEY</i> [<b>column1, column2, column3, column4, column5</b>]
-!enddefinelong
-
-!definelong fulltext_index(column1)
-#<i>FULLTEXT KEY</i> [<b>column1</b>]
-!enddefinelong
-!definelong fulltext_index(column1, column2)
-#<i>FULLTEXT KEY</i> [<b>column1, column2</b>]
-!enddefinelong
-!definelong fulltext_index(column1, column2, column3)
-#<i>FULLTEXT KEY</i> [<b>column1, column2, column3</b>]
-!enddefinelong
-!definelong fulltext_index(column1, column2, column3, column4)
-#<i>FULLTEXT KEY</i> [<b>column1, column2, column3, column4</b>]
-!enddefinelong
-!definelong fulltext_index(column1, column2, column3, column4, column5)
-#<i>FULLTEXT KEY</i> [<b>column1, column2, column3, column4, column5</b>]
-!enddefinelong
-
-!definelong spatial_index(column1)
-#<i>SPATIAL KEY</i> [<b>column1</b>]
-!enddefinelong
-!definelong spatial_index(column1, column2)
-#<i>SPATIAL KEY</i> [<b>column1, column2</b>]
-!enddefinelong
-!definelong spatial_index(column1, column2, column3)
-#<i>SPATIAL KEY</i> [<b>column1, column2, column3</b>]
-!enddefinelong
-!definelong spatial_index(column1, column2, column3, column4)
-#<i>SPATIAL KEY</i> [<b>column1, column2, column3, column4</b>]
-!enddefinelong
-!definelong spatial_index(column1, column2, column3, column4, column5)
-#<i>SPATIAL KEY</i> [<b>column1, column2, column3, column4, column5</b>]
-!enddefinelong
-
-
-!definelong connection_one_to_one(from, to, alignment = "")
-from "1" -- "1" to
-!enddefinelong
-
-!definelong connection_one_to_many(from, to, alignment = "")
-from "n" }-- "1" to
-!enddefinelong
-
+[\n]
+!procedure $table($name)
+class "$name" << (T, TABLE_BORDER_COLOR ) >>
+!endprocedure
+[\n]
+!function $key_columns($columns, $otherParameters="")
+[\t]!$result = ""
+[\t]!foreach $column in %splitstr($columns, ", ")
+[\t][\t]!if ($result != "")
+[\t][\t][\t]!$result = $result + ", "
+[\t][\t]!endif
+[\t][\t]!$result = $result + $column
+[\t]!endfor
+[\t]!if ($otherParameters != "")
+[\t][\t]!$result = $result + ", " + $otherParameters
+[\t]!endif
+[\t]!return $result
+!endfunction
+[\n]
+!procedure $primary_key($columns, $otherParameters="")
+[\t]!$rendered = $key_columns($columns, $otherParameters)
+-<i>PK</i> [<b>$rendered</b>]
+!endprocedure
+[\n]
+!procedure $column($name, $type, $otherParameters="", $comment="")
+[\t]!$suffix = ""
+[\t]!if ($otherParameters != "")
+[\t][\t]!$suffix = $suffix + " " + $otherParameters
+[\t]!endif
+[\t]!if ($comment != "")
+[\t][\t]!$suffix = $suffix + " COMMENT '" + $comment + "'"
+[\t]!endif
++<b>$name</b> <u>$type</u>$suffix
+!endprocedure
+[\n]
+!procedure $index($columns, $otherParameters="")
+[\t]!$rendered = $key_columns($columns, $otherParameters)
+~<i>KEY</i> [<b>$rendered</b>]
+!endprocedure
+[\n]
+!procedure $unique_index($columns, $otherParameters="")
+[\t]!$rendered = $key_columns($columns, $otherParameters)
+#<i>UNIQUE KEY</i> [<b>$rendered</b>]
+!endprocedure
+[\n]
+!procedure $fulltext_index($columns, $otherParameters="")
+[\t]!$rendered = $key_columns($columns, $otherParameters)
+#<i>FULLTEXT KEY</i> [<b>$rendered</b>]
+!endprocedure
+[\n]
+!procedure $spatial_index($columns, $otherParameters="")
+[\t]!$rendered = $key_columns($columns, $otherParameters)
+#<i>SPATIAL KEY</i> [<b>$rendered</b>]
+!endprocedure
+[\n]
+!procedure $connection_one_to_one($from, $to)
+$from "1" -- "1" $to
+!endprocedure
+[\n]
+!procedure $connection_one_to_many($from, $to)
+$from "n" }-- "1" $to
+!endprocedure
+[\n]
 hide methods
 hide stereotypes
-
+[\n]
 skinparam linetype polyline
 left to right direction
-
+[\n]
 {% for table in tables %}
-    table({{ table.getName() }}) {
-    {% for column in table.getColumns() %}
-        {% if column.getTypeParameters() %}
-            {% if column.getOtherParameters() %}
-                {% if column.getComment() is not empty %}
-                    [\t]column('{{ column.getName() }}', '{{ column.getType() }}[{{ column.getTypeParameters()|join(', ') }}]', '{{ column.getOtherParameters()|replace({"'": '"'})|raw }}', '{{ column.getComment()|replace({"'": '"'})|raw }}')
-                {% else %}
-                    [\t]column('{{ column.getName() }}', '{{ column.getType() }}[{{ column.getTypeParameters()|join(', ') }}]', '{{ column.getOtherParameters()|replace({"'": '"'})|raw }}')
-                {% endif %}
-            {% else %}
-                {% if column.getComment() is not empty %}
-                    [\t]column('{{ column.getName() }}', '{{ column.getType() }}[{{ column.getTypeParameters()|join(', ') }}]', '', '{{ column.getComment()|replace({"'": '"'})|raw }}')
-                {% else %}
-                    [\t]column('{{ column.getName() }}', '{{ column.getType() }}[{{ column.getTypeParameters()|join(', ') }}]')
-                {% endif %}
-            {% endif %}
-        {% else %}
-            {% if column.getOtherParameters() %}
-                {% if column.getComment() is not empty %}
-                    [\t]column('{{ column.getName() }}', '{{ column.getType() }}', '{{ column.getOtherParameters()|replace({"'": '"'})|raw }}', '{{ column.getComment()|replace({"'": '"'})|raw }}')
-                {% else %}
-                    [\t]column('{{ column.getName() }}', '{{ column.getType() }}', '{{ column.getOtherParameters()|replace({"'": '"'})|raw }}')
-                {% endif %}
-            {% else %}
-                {% if column.getComment() is not empty %}
-                    [\t]column('{{ column.getName() }}', '{{ column.getType() }}', '', '{{ column.getComment()|replace({"'": '"'})|raw }}')
-                {% else %}
-                    [\t]column('{{ column.getName() }}', '{{ column.getType() }}')
-                {% endif %}
-            {% endif %}
-        {% endif %}
-    {% endfor %}
-
-    {% if table.getPrimaryKey() %}
-        {% if table.getPrimaryKey().getOtherParameters() %}
-            [\t]primary_key('{{ table.getPrimaryKey().getColumns()|join(', ') }}', '{{ table.getPrimaryKey().getOtherParameters()|replace({"'": '"'})|raw }}')
-        {% else %}
-            [\t]primary_key('{{ table.getPrimaryKey().getColumns()|join(', ') }}')
-        {% endif %}
-    {% endif %}
-
-    {% for simpleIndex in table.getSimpleIndexes() %}
-        {% if simpleIndex.getOtherParameters() %}
-            [\t]index('{{ simpleIndex.getColumns()|join(', ') }}', '{{ simpleIndex.getOtherParameters()|replace({"'": '"'})|raw }}')
-        {% else %}
-            [\t]index('{{ simpleIndex.getColumns()|join(', ') }}')
-        {% endif %}
-    {% endfor %}
-
-    {% for uniqueIndex in table.getUniqueIndexes() %}
-        {% if uniqueIndex.getOtherParameters() %}
-            [\t]unique_index('{{ uniqueIndex.getColumns()|join(', ') }}', '{{ uniqueIndex.getOtherParameters()|replace({"'": '"'})|raw }}')
-        {% else %}
-            [\t]unique_index('{{ uniqueIndex.getColumns()|join(', ') }}')
-        {% endif %}
-    {% endfor %}
-
-    {% for fulltextIndex in table.getFullTextIndexes() %}
-        {% if fulltextIndex.getOtherParameters() %}
-            [\t]fulltext_index('{{ fulltextIndex.getColumns()|join(', ') }}', '{{ fulltextIndex.getOtherParameters()|replace({"'": '"'})|raw }}')
-        {% else %}
-            [\t]fulltext_index('{{ fulltextIndex.getColumns()|join(', ') }}')
-        {% endif %}
-    {% endfor %}
-
-    {% for spatialIndex in table.getSpatialIndexes() %}
-        {% if spatialIndex.getOtherParameters() %}
-            [\t]spatial_index('{{ spatialIndex.getColumns()|join(', ') }}', '{{ spatialIndex.getOtherParameters()|replace({"'": '"'})|raw }}')
-        {% else %}
-            [\t]spatial_index('{{ spatialIndex.getColumns()|join(', ') }}')
-        {% endif %}
-    {% endfor %}
+    $table({{ table.name }}) {
+    {% for column in table.columns -%}
+        [\t]$column('{{ column.name }}', '{{ column.type }}{% if column.typeParameters %}[{{ column.typeParameters|join(', ') }}]{% endif %}', '{{ column.otherParameters|replace({"'": '"'})|raw }}', '{{ column.comment|replace({"'": '"'})|raw }}')
+    {% endfor -%}
+    {% if table.primaryKey %}
+        [\t]$primary_key('{{ table.primaryKey.columns|join(', ') }}', '{{ table.primaryKey.otherParameters|replace({"'": '"'})|raw }}')
+    {% endif -%}
+    {% for simpleIndex in table.simpleIndexes -%}
+        [\t]$index('{{ simpleIndex.columns|join(', ') }}', '{{ simpleIndex.otherParameters|replace({"'": '"'})|raw }}')
+    {% endfor -%}
+    {% for uniqueIndex in table.uniqueIndexes -%}
+        [\t]$unique_index('{{ uniqueIndex.columns|join(', ') }}', '{{ uniqueIndex.otherParameters|replace({"'": '"'})|raw }}')
+    {% endfor -%}
+    {% for fulltextIndex in table.fulltextIndexes -%}
+        [\t]$fulltext_index('{{ fulltextIndex.columns|join(', ') }}', '{{ fulltextIndex.otherParameters|replace({"'": '"'})|raw }}')
+    {% endfor -%}
+    {% for spatialIndex in table.spatialIndexes -%}
+        [\t]$spatial_index('{{ spatialIndex.columns|join(', ') }}', '{{ spatialIndex.otherParameters|replace({"'": '"'})|raw }}')
+    {% endfor -%}
     }
 {% endfor %}
 [\n]
 {% for connection in connections %}
-    {% if connection.getType() == "OneToOne" %}
-        connection_one_to_one({{ connection.getChildTableName() }}, {{ connection.getParentTableName() }})
+    {% if connection.type == "OneToOne" %}
+        $connection_one_to_one({{ connection.childTableName }}, {{ connection.parentTableName }})
     {% endif %}
-    {% if connection.getType() == "OneToMany" %}
-        connection_one_to_many({{ connection.getChildTableName() }}, {{ connection.getParentTableName() }})
+    {% if connection.type == "OneToMany" %}
+        $connection_one_to_many({{ connection.childTableName }}, {{ connection.parentTableName }})
     {% endif %}
 {% endfor %}
-
+[\n]
 @enduml

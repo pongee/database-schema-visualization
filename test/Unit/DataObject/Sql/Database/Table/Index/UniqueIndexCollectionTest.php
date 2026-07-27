@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Test\Unit\DataObject\Sql\Database\Table\Index;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\UniqueIndex;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\UniqueIndexCollection;
@@ -11,7 +12,7 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\Uniqu
 
 class UniqueIndexCollectionTest extends TestCase
 {
-    public function getUniqueIndexesProvider(): array
+    public static function getUniqueIndexesProvider(): array
     {
         return [
             [
@@ -27,9 +28,7 @@ class UniqueIndexCollectionTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getUniqueIndexesProvider
-     */
+    #[DataProvider('getUniqueIndexesProvider')]
     public function testCollection(UniqueIndexInterface ...$uniqueIndexes): void
     {
         $sut = new UniqueIndexCollection();

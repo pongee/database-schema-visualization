@@ -18,7 +18,10 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\SchemaInterface;
 abstract class ParserAbstract implements ParserInterface
 {
     abstract protected function parseCreateCondition(string $createTableSchema): ?TableInterface;
+
     abstract protected function getTableNameFromCreateTableSchema(string $createTableSchema): string;
+
+    abstract protected function getCreateTablePattern(): string;
 
     public function run(
         string $nativeSqlSchema,
@@ -49,7 +52,7 @@ abstract class ParserAbstract implements ParserInterface
         }
 
         $parseredConnections = $this->parserConnections(
-            $schema->getTables(),
+            $schema->tables,
             $connectionCollection
         );
 
@@ -78,10 +81,8 @@ abstract class ParserAbstract implements ParserInterface
         );
 
         $conditions = [];
-        if (!empty($alterTableMatches['alterTableCondition'])) {
-            foreach ($alterTableMatches['alterTableCondition'] as $index => $condition) {
-                $conditions[$alterTableMatches['childTableName'][$index]][] = $condition;
-            }
+        foreach ($alterTableMatches['alterTableCondition'] as $index => $condition) {
+            $conditions[$alterTableMatches['childTableName'][$index]][] = $condition;
         }
 
         return $this->generateConnections($conditions);
@@ -95,25 +96,25 @@ abstract class ParserAbstract implements ParserInterface
             foreach ($subConditions as $condition) {
                 preg_match_all(
                     '#
-                    FOREIGN\sKEY\s+
+                    FOREIGN\s+KEY\s+
                     \(
                         (`?)
                             (?<childTableColumns>.+)
                         \1
                     \)
-                    \s+
+                    \s*
                     REFERENCES
                     \s+
                     `?
                         (?<parentTableName>[a-z0-9_-]+)
                     `?
-                    \s+
+                    \s*
                     \(
                     `?
                         (?<parentTableColumns>.+)
                     `?
                     \)
-                #mx',
+                #mxi',
                     (string) $condition,
                     $matches
                 );
@@ -151,7 +152,7 @@ abstract class ParserAbstract implements ParserInterface
                         $connectionCollection->add(
                             new NotDefinedConnection(
                                 trim(
-                                    $tableName,
+                                    (string) $tableName,
                                     '` '
                                 ),
                                 trim(
@@ -229,7 +230,7 @@ abstract class ParserAbstract implements ParserInterface
     protected function replaceCharactersInString(string $schema, array $replacePairs): string
     {
         return preg_replace_callback(
-            '#(\'.*\')#Uxsm',
+            "#('.*')#Uxsm",
             static fn($matches): string => strtr(
                 $matches[0],
                 $replacePairs
@@ -259,9 +260,9 @@ abstract class ParserAbstract implements ParserInterface
         preg_match_all(
             '
             #
-            
+
                 (?<createConditions>
-                    CREATE\s+TABLE\s+.+\(.*\).*
+                    ' . $this->getCreateTablePattern() . '\s+.+\(.*\).*
                     (;|$)
                 )
             #xsUi',
@@ -282,26 +283,52 @@ abstract class ParserAbstract implements ParserInterface
 
     public function getConnectionsByCreateTable(string $sql): ConnectionCollectionInterface
     {
+        $conditions = [
+            $this->getTableNameFromCreateTableSchema($sql) => [$sql],
+        ];
+
+        $connectionCollection = new ConnectionCollection();
+        $connectionCollection
+            ->adds(...$this->generateConnections($conditions))
+            ->adds(...$this->getConnectionsByColumnReferences($sql));
+
+        return $connectionCollection;
+    }
+
+    private function getConnectionsByColumnReferences(string $sql): ConnectionCollectionInterface
+    {
         preg_match_all(
-            '/#
-            (
-                CONSTRAINT
-                 (?<foreignKeyCondition>.*)$
-               
-            )
-        #/mxsU',
+            '#
+            [(,]
+            (?![^,]*\bFOREIGN\s+KEY\b)
+            \s*
+            `?(?<childColumn>\w+)`?\s+
+            [^,]*?
+            \bREFERENCES\s+
+            `?(?<parentTableName>[\w-]+)`?
+            \s*\(\s*
+            `?(?<parentColumn>\w+)`?
+            \s*\)
+            #mxi',
             $sql,
-            $createTableMatches
+            $matches
         );
 
-        $conditions = [];
-        if (!empty($createTableMatches['foreignKeyCondition'])) {
-            foreach ($createTableMatches['foreignKeyCondition'] as $condition) {
-                $conditions[$this->getTableNameFromCreateTableSchema($sql)][] = $condition;
-            }
+        $connectionCollection = new ConnectionCollection();
+        $childTableName = trim($this->getTableNameFromCreateTableSchema($sql), '` ');
+
+        foreach ($matches['childColumn'] as $index => $childColumn) {
+            $connectionCollection->add(
+                new NotDefinedConnection(
+                    $childTableName,
+                    trim($matches['parentTableName'][$index], '` '),
+                    [trim($childColumn, '` ')],
+                    [trim($matches['parentColumn'][$index], '` ')]
+                )
+            );
         }
 
-        return $this->generateConnections($conditions);
+        return $connectionCollection;
     }
 
     private function parserConnections(
@@ -313,38 +340,38 @@ abstract class ParserAbstract implements ParserInterface
         foreach ($tables as $iteratedTable) {
             foreach ($connections as $connection) {
                 if (
-                    $connection->getChildTableName() === '*'
-                    || $connection->getChildTableName() === $iteratedTable->getName()
+                    $connection->childTableName === '*'
+                    || $connection->childTableName === $iteratedTable->name
                 ) {
-                    $columns = $iteratedTable->getColumns();
+                    $columns = $iteratedTable->columns;
 
-                    if (empty(array_diff($connection->getChildTableColumns(), $columns->getColumnsName()))) {
-                        $parentTable = $tables->offsetGet($connection->getParentTableName());
+                    if (empty(array_diff($connection->childTableColumns, $columns->getColumnsName()))) {
+                        $parentTable = $tables->offsetGet($connection->parentTableName);
 
                         if (
                             $parentTable instanceof TableInterface
                             && empty(
                                 array_diff(
-                                    $connection->getParentTableColumns(),
-                                    $parentTable->getColumns()->getColumnsName()
+                                    $connection->parentTableColumns,
+                                    $parentTable->columns->getColumnsName()
                                 )
                             )
-                            && $connection->getParentTableName() !== $iteratedTable->getName()
+                            && $connection->parentTableName !== $iteratedTable->name
                         ) {
-                            $childTableColumns = $connection->getChildTableColumns();
+                            $childTableColumns = $connection->childTableColumns;
                             sort($childTableColumns);
 
                             $oneToOne = false;
 
-                            foreach ($iteratedTable->getUniqueIndexes() as $uniqueIndex) {
-                                if ($uniqueIndex->getColumns() === $childTableColumns) {
+                            foreach ($iteratedTable->uniqueIndexes as $uniqueIndex) {
+                                if ($uniqueIndex->columns === $childTableColumns) {
                                     $oneToOne = true;
                                 }
                             }
 
                             if (
-                                $iteratedTable->getPrimaryKey() instanceof PrimaryKeyInterface
-                                && $iteratedTable->getPrimaryKey()->getColumns() === $childTableColumns
+                                $iteratedTable->primaryKey instanceof PrimaryKeyInterface
+                                && $iteratedTable->primaryKey->columns === $childTableColumns
                             ) {
                                 $oneToOne = true;
                             }
@@ -352,19 +379,19 @@ abstract class ParserAbstract implements ParserInterface
                             if ($oneToOne) {
                                 $connectionCollection->add(
                                     new OneToOneConnection(
-                                        $iteratedTable->getName(),
-                                        $connection->getParentTableName(),
-                                        $connection->getChildTableColumns(),
-                                        $connection->getParentTableColumns()
+                                        $iteratedTable->name,
+                                        $connection->parentTableName,
+                                        $connection->childTableColumns,
+                                        $connection->parentTableColumns
                                     )
                                 );
                             } else {
                                 $connectionCollection->add(
                                     new OneToManyConnection(
-                                        $iteratedTable->getName(),
-                                        $connection->getParentTableName(),
-                                        $connection->getChildTableColumns(),
-                                        $connection->getParentTableColumns()
+                                        $iteratedTable->name,
+                                        $connection->parentTableName,
+                                        $connection->childTableColumns,
+                                        $connection->parentTableColumns
                                     )
                                 );
                             }

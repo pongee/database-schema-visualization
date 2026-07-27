@@ -8,9 +8,9 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\SchemaInterface;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 
-class Plantuml implements ExportInterface
+final readonly class Plantuml implements ExportInterface
 {
-    protected Environment $twig;
+    private Environment $twig;
 
     public function __construct(string $template)
     {
@@ -26,8 +26,8 @@ class Plantuml implements ExportInterface
         $text = $this->twig->render(
             'template',
             [
-                'tables' => $schema->getTables(),
-                'connections' => $schema->getConnections(),
+                'tables' => $schema->tables,
+                'connections' => $schema->connections,
             ]
         );
 

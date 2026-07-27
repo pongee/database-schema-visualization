@@ -6,7 +6,7 @@ namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index
 
 interface IndexInterface
 {
-    public function getColumns(): array;
+    public array $columns { get; }
 
-    public function getOtherParameters(): string;
+    public string $otherParameters { get; }
 }

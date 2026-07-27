@@ -8,10 +8,9 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Column;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\PrimaryKey;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Schema;
 
-return (new Schema())
+return new Schema()
     ->addTable(
-        (new Table())
-            ->setName('user')
+        new Table('user')
             ->addColumn(
                 new Column(
                     'user_id',
@@ -24,8 +23,7 @@ return (new Schema())
             ->setPrimaryKey(new PrimaryKey(['user_id']))
     )
     ->addTable(
-        (new Table())
-            ->setName('log')
+        new Table('log')
             ->addColumn(
                 new Column(
                     'id',

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Test\Unit\DataObject\Sql\Database;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\TableCollection;
@@ -11,26 +12,24 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\TableInterface;
 
 class TableCollectionTest extends TestCase
 {
-    public function getTablesProvider(): array
+    public static function getTablesProvider(): array
     {
         return [
             [
-                (new Table())->setName('member'),
+                new Table('member'),
             ],
             [
-                (new Table())->setName('account'),
+                new Table('account'),
             ],
             [
-                (new Table())->setName('member'),
-                (new Table())->setName('account'),
-                (new Table())->setName('log'),
+                new Table('member'),
+                new Table('account'),
+                new Table('log'),
             ],
         ];
     }
 
-    /**
-     * @dataProvider getTablesProvider
-     */
+    #[DataProvider('getTablesProvider')]
     public function testCollection(TableInterface ...$tables): void
     {
         $sut = new TableCollection();

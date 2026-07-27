@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Test\Unit\DataObject\Sql\Database\Table\Index;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\PrimaryKey;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\PrimaryKeyInterface;
 
 class PrimaryKeyTest extends TestCase
 {
-    public function getPrimaryKeysProvider(): array
+    public static function getPrimaryKeysProvider(): array
     {
         return [
             [
@@ -33,14 +34,12 @@ class PrimaryKeyTest extends TestCase
         $this->assertInstanceOf(PrimaryKeyInterface::class, $sut);
     }
 
-    /**
-     * @dataProvider getPrimaryKeysProvider
-     */
+    #[DataProvider('getPrimaryKeysProvider')]
     public function testIndex(array $columns, string $otherParameters = ''): void
     {
         $sut = new PrimaryKey($columns, $otherParameters);
 
-        $this->assertEquals($columns, $sut->getColumns());
-        $this->assertEquals($otherParameters, $sut->getOtherParameters());
+        $this->assertEquals($columns, $sut->columns);
+        $this->assertEquals($otherParameters, $sut->otherParameters);
     }
 }

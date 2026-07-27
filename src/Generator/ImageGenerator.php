@@ -10,16 +10,14 @@ use RuntimeException;
 use SplFileObject;
 use Twig\Environment;
 
-class ImageGenerator
+final readonly class ImageGenerator
 {
-    private const PLANTUML_LIMIT_SIZE = 16384;
-
-    protected Environment $twig;
+    private const int PLANTUML_LIMIT_SIZE = 16384;
 
     public function __construct(
-        private readonly string $imageType,
-        private readonly string $plantumlJarPath,
-        private readonly string $outputFolder
+        private string $imageType,
+        private string $plantumlJarPath,
+        private string $outputFolder
     ) {
     }
 
@@ -28,7 +26,7 @@ class ImageGenerator
      */
     public function generate(string $plantuml): string
     {
-        $fileName = sprintf('plantuml-%s-%s', (new DateTime())->format('Y-m-d-H-i-s-u'), mt_rand());
+        $fileName = sprintf('plantuml-%s-%s', new DateTime()->format('Y-m-d-H-i-s-u'), mt_rand());
 
         $sourceFile = new SplFileObject($this->outputFolder . '/' . $fileName . '.puml', 'w');
         $sourceFile->fwrite($plantuml);
@@ -37,13 +35,13 @@ class ImageGenerator
 
         try {
             $outputFile = new SplFileObject($this->outputFolder . '/' . $fileName . '.' . $this->imageType, 'r');
-        } catch (RuntimeException $e) {
+        } catch (RuntimeException $runtimeException) {
             $this->deleteFiles($sourceFile);
 
             throw new Exception(
                 sprintf(
                     'Plantuml diagram generation failed. Original error: [%s] output: [%s]',
-                    $e->getMessage(),
+                    $runtimeException->getMessage(),
                     $output
                 )
             );

@@ -4,17 +4,12 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index;
 
-abstract class NamedIndexAbstract extends IndexAbstract
+abstract readonly class NamedIndexAbstract extends IndexAbstract implements NamedIndexInterface
 {
     public function __construct(
-        protected string $name,
-        protected array $columns,
-        protected string $otherParameters = ''
+        public string $name,
+        public array $columns,
+        public string $otherParameters = ''
     ) {
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
     }
 }

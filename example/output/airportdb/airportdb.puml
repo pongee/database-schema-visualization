@@ -1,0 +1,275 @@
+@startuml
+
+!ifndef TABLE_BORDER_COLOR
+!define TABLE_BORDER_COLOR Chocolate
+!endif
+
+!ifndef TABLE_BACKGROUND_COLOR
+!define TABLE_BACKGROUND_COLOR AntiqueWhite
+!endif
+
+skinparam class {
+	BackgroundColor TABLE_BACKGROUND_COLOR
+	BorderColor TABLE_BORDER_COLOR
+	ArrowColor TABLE_BORDER_COLOR
+}
+
+!procedure $table($name)
+class "$name" << (T, TABLE_BORDER_COLOR ) >>
+!endprocedure
+
+!function $key_columns($columns, $otherParameters="")
+	!$result = ""
+	!foreach $column in %splitstr($columns, ", ")
+		!if ($result != "")
+			!$result = $result + ", "
+		!endif
+		!$result = $result + $column
+	!endfor
+	!if ($otherParameters != "")
+		!$result = $result + ", " + $otherParameters
+	!endif
+	!return $result
+!endfunction
+
+!procedure $primary_key($columns, $otherParameters="")
+	!$rendered = $key_columns($columns, $otherParameters)
+-<i>PK</i> [<b>$rendered</b>]
+!endprocedure
+
+!procedure $column($name, $type, $otherParameters="", $comment="")
+	!$suffix = ""
+	!if ($otherParameters != "")
+		!$suffix = $suffix + " " + $otherParameters
+	!endif
+	!if ($comment != "")
+		!$suffix = $suffix + " COMMENT '" + $comment + "'"
+	!endif
++<b>$name</b> <u>$type</u>$suffix
+!endprocedure
+
+!procedure $index($columns, $otherParameters="")
+	!$rendered = $key_columns($columns, $otherParameters)
+~<i>KEY</i> [<b>$rendered</b>]
+!endprocedure
+
+!procedure $unique_index($columns, $otherParameters="")
+	!$rendered = $key_columns($columns, $otherParameters)
+#<i>UNIQUE KEY</i> [<b>$rendered</b>]
+!endprocedure
+
+!procedure $fulltext_index($columns, $otherParameters="")
+	!$rendered = $key_columns($columns, $otherParameters)
+#<i>FULLTEXT KEY</i> [<b>$rendered</b>]
+!endprocedure
+
+!procedure $spatial_index($columns, $otherParameters="")
+	!$rendered = $key_columns($columns, $otherParameters)
+#<i>SPATIAL KEY</i> [<b>$rendered</b>]
+!endprocedure
+
+!procedure $connection_one_to_one($from, $to)
+$from "1" -- "1" $to
+!endprocedure
+
+!procedure $connection_one_to_many($from, $to)
+$from "n" }-- "1" $to
+!endprocedure
+
+hide methods
+hide stereotypes
+
+skinparam linetype polyline
+left to right direction
+
+$table(airline) {
+	$column('airline_id', 'smallint', 'NOT NULL AUTO_INCREMENT', '')
+	$column('iata', 'char[2]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
+	$column('airlinename', 'varchar[30]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
+	$column('base_airport', 'smallint', 'NOT NULL', '')
+	$primary_key('airline_id', '')
+	$index('base_airport', '')
+	$unique_index('iata', '')
+}
+$table(airplane) {
+	$column('airplane_id', 'int', 'NOT NULL AUTO_INCREMENT', '')
+	$column('capacity', 'mediumint', 'unsigned NOT NULL', '')
+	$column('type_id', 'int', 'NOT NULL', '')
+	$column('airline_id', 'int', 'NOT NULL', '')
+	$primary_key('airplane_id', '')
+	$index('type_id', '')
+}
+$table(airplane_type) {
+	$column('type_id', 'int', 'NOT NULL AUTO_INCREMENT', '')
+	$column('identifier', 'varchar[50]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
+	$column('description', 'text', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci', '')
+	$primary_key('type_id', '')
+	$fulltext_index('identifier, description', '')
+}
+$table(airport) {
+	$column('airport_id', 'smallint', 'NOT NULL AUTO_INCREMENT', '')
+	$column('iata', 'char[3]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
+	$column('icao', 'char[4]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
+	$column('name', 'varchar[50]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
+	$primary_key('airport_id', '')
+	$index('name', '')
+	$index('iata', '')
+	$unique_index('icao', '')
+}
+$table(airport_geo) {
+	$column('airport_id', 'smallint', 'NOT NULL', '')
+	$column('name', 'varchar[50]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
+	$column('city', 'varchar[50]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
+	$column('country', 'varchar[50]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
+	$column('latitude', 'decimal[11, 8]', 'NOT NULL', '')
+	$column('longitude', 'decimal[11, 8]', 'NOT NULL', '')
+	$column('geolocation', 'point', 'NOT NULL', '')
+	$primary_key('airport_id', '')
+	$spatial_index('geolocation', '')
+}
+$table(airport_reachable) {
+	$column('airport_id', 'smallint', 'NOT NULL', '')
+	$column('hops', 'int', 'DEFAULT NULL', '')
+	$primary_key('airport_id', '')
+}
+$table(booking) {
+	$column('booking_id', 'int', 'NOT NULL AUTO_INCREMENT', '')
+	$column('flight_id', 'int', 'NOT NULL', '')
+	$column('seat', 'char[4]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
+	$column('passenger_id', 'int', 'NOT NULL', '')
+	$column('price', 'decimal[10, 2]', 'NOT NULL', '')
+	$primary_key('booking_id', '')
+	$index('flight_id', '')
+	$index('passenger_id', '')
+	$unique_index('flight_id, seat', '')
+}
+$table(employee) {
+	$column('employee_id', 'int', 'NOT NULL AUTO_INCREMENT', '')
+	$column('firstname', 'varchar[100]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
+	$column('lastname', 'varchar[100]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
+	$column('birthdate', 'date', 'NOT NULL', '')
+	$column('sex', 'char[1]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
+	$column('street', 'varchar[100]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
+	$column('city', 'varchar[100]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
+	$column('zip', 'smallint', 'NOT NULL', '')
+	$column('country', 'varchar[100]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
+	$column('emailaddress', 'varchar[120]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
+	$column('telephoneno', 'varchar[30]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
+	$column('salary', 'decimal[8, 2]', 'DEFAULT NULL', '')
+	$column('username', 'varchar[20]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
+	$column('password', 'char[32]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
+	$column('department', 'enum[Marketing, Buchhaltung, Management, Logistik, Flugfeld]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
+	$primary_key('employee_id', '')
+	$unique_index('username', '')
+}
+$table(flight) {
+	$column('flight_id', 'int', 'NOT NULL AUTO_INCREMENT', '')
+	$column('flightno', 'char[8]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
+	$column('from', 'smallint', 'NOT NULL', '')
+	$column('to', 'smallint', 'NOT NULL', '')
+	$column('departure', 'datetime', 'NOT NULL', '')
+	$column('arrival', 'datetime', 'NOT NULL', '')
+	$column('airline_id', 'smallint', 'NOT NULL', '')
+	$column('airplane_id', 'int', 'NOT NULL', '')
+	$primary_key('flight_id', '')
+	$index('from', '')
+	$index('to', '')
+	$index('departure', '')
+	$index('arrival', '')
+	$index('airline_id', '')
+	$index('airplane_id', '')
+	$index('flightno', '')
+}
+$table(flight_log) {
+	$column('flight_log_id', 'int', 'unsigned NOT NULL AUTO_INCREMENT', '')
+	$column('log_date', 'datetime', 'NOT NULL', '')
+	$column('user', 'varchar[100]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
+	$column('flight_id', 'int', 'NOT NULL', '')
+	$column('flightno_old', 'char[8]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
+	$column('flightno_new', 'char[8]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
+	$column('from_old', 'smallint', 'NOT NULL', '')
+	$column('to_old', 'smallint', 'NOT NULL', '')
+	$column('from_new', 'smallint', 'NOT NULL', '')
+	$column('to_new', 'smallint', 'NOT NULL', '')
+	$column('departure_old', 'datetime', 'NOT NULL', '')
+	$column('arrival_old', 'datetime', 'NOT NULL', '')
+	$column('departure_new', 'datetime', 'NOT NULL', '')
+	$column('arrival_new', 'datetime', 'NOT NULL', '')
+	$column('airplane_id_old', 'int', 'NOT NULL', '')
+	$column('airplane_id_new', 'int', 'NOT NULL', '')
+	$column('airline_id_old', 'smallint', 'NOT NULL', '')
+	$column('airline_id_new', 'smallint', 'NOT NULL', '')
+	$column('comment', 'varchar[200]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
+	$primary_key('flight_log_id', '')
+	$index('flight_id', '')
+}
+$table(flightschedule) {
+	$column('flightno', 'char[8]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
+	$column('from', 'smallint', 'NOT NULL', '')
+	$column('to', 'smallint', 'NOT NULL', '')
+	$column('departure', 'time', 'NOT NULL', '')
+	$column('arrival', 'time', 'NOT NULL', '')
+	$column('airline_id', 'smallint', 'NOT NULL', '')
+	$column('monday', 'tinyint[1]', 'DEFAULT "0"', '')
+	$column('tuesday', 'tinyint[1]', 'DEFAULT "0"', '')
+	$column('wednesday', 'tinyint[1]', 'DEFAULT "0"', '')
+	$column('thursday', 'tinyint[1]', 'DEFAULT "0"', '')
+	$column('friday', 'tinyint[1]', 'DEFAULT "0"', '')
+	$column('saturday', 'tinyint[1]', 'DEFAULT "0"', '')
+	$column('sunday', 'tinyint[1]', 'DEFAULT "0"', '')
+	$primary_key('flightno', '')
+	$index('from', '')
+	$index('to', '')
+	$index('airline_id', '')
+}
+$table(passenger) {
+	$column('passenger_id', 'int', 'NOT NULL AUTO_INCREMENT', '')
+	$column('passportno', 'char[9]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
+	$column('firstname', 'varchar[100]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
+	$column('lastname', 'varchar[100]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
+	$primary_key('passenger_id', '')
+	$unique_index('passportno', '')
+}
+$table(passengerdetails) {
+	$column('passenger_id', 'int', 'NOT NULL', '')
+	$column('birthdate', 'date', 'NOT NULL', '')
+	$column('sex', 'char[1]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
+	$column('street', 'varchar[100]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
+	$column('city', 'varchar[100]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
+	$column('zip', 'smallint', 'NOT NULL', '')
+	$column('country', 'varchar[100]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL', '')
+	$column('emailaddress', 'varchar[120]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
+	$column('telephoneno', 'varchar[30]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
+	$primary_key('passenger_id', '')
+}
+$table(weatherdata) {
+	$column('log_date', 'date', 'NOT NULL', '')
+	$column('time', 'time', 'NOT NULL', '')
+	$column('station', 'int', 'NOT NULL', '')
+	$column('temp', 'decimal[3, 1]', 'NOT NULL', '')
+	$column('humidity', 'decimal[4, 1]', 'NOT NULL', '')
+	$column('airpressure', 'decimal[10, 2]', 'NOT NULL', '')
+	$column('wind', 'decimal[5, 2]', 'NOT NULL', '')
+	$column('winddirection', 'smallint', 'NOT NULL', '')
+	$column('weather', 'enum[Nebel-Schneefall, Schneefall, Regen, Regen-Schneefall, Nebel-Regen, Nebel-Regen-Gewitter, Gewitter, Nebel, Regen-Gewitter]', 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL', '')
+	$primary_key('log_date, time, station', '')
+}
+
+$connection_one_to_many(airline, airport)
+$connection_one_to_many(airplane, airplane_type)
+$connection_one_to_one(airport_geo, airport)
+$connection_one_to_one(airport_reachable, airport)
+$connection_one_to_many(booking, flight)
+$connection_one_to_many(booking, passenger)
+$connection_one_to_many(flight, airport)
+$connection_one_to_many(flight, airport)
+$connection_one_to_many(flight, airline)
+$connection_one_to_many(flight, airplane)
+$connection_one_to_many(flight, flightschedule)
+$connection_one_to_many(flight_log, flight)
+$connection_one_to_many(flightschedule, airport)
+$connection_one_to_many(flightschedule, airport)
+$connection_one_to_many(flightschedule, airline)
+$connection_one_to_one(passengerdetails, passenger)
+
+@enduml

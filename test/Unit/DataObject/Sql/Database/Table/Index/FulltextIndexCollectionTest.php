@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Test\Unit\DataObject\Sql\Database\Table\Index;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\FulltextIndex;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\FulltextIndexCollection;
 
 class FulltextIndexCollectionTest extends TestCase
 {
-    public function getFulltextIndexesProvider(): array
+    public static function getFulltextIndexesProvider(): array
     {
         return [
             [
@@ -26,9 +27,7 @@ class FulltextIndexCollectionTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getFulltextIndexesProvider
-     */
+    #[DataProvider('getFulltextIndexesProvider')]
     public function testCollection(FulltextIndex ...$indexes): void
     {
         $sut = new FulltextIndexCollection();

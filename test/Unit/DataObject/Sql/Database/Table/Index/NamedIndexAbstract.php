@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 abstract class NamedIndexAbstract extends TestCase
 {
-    public function getIndexProvider(): array
+    public static function getIndexProvider(): array
     {
         return [
             ['idx_member_id', ['member_id']],

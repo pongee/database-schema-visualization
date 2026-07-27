@@ -6,7 +6,7 @@ namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index
 
 use ArrayIterator;
 
-class SpatialIndexIterator extends ArrayIterator
+final class SpatialIndexIterator extends ArrayIterator
 {
     public function current(): ?SpatialIndex
     {

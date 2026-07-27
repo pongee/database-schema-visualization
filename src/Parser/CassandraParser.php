@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Parser;
 
+use Override;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\ConnectionCollection;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\ConnectionCollectionInterface;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\OneToManyConnection;
@@ -27,29 +28,22 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\TableCollection;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\TableInterface;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\SchemaInterface;
 
-/**
- * Class that knows how to parse CQL
- * At the moment its almost a copy of the MysqlParser, with some small changes
- *
- * Note:
- * This class is not complete as i am no CQL expert
- */
-class CassandraParser extends ParserAbstract
+final class CassandraParser extends ParserAbstract
 {
+    #[Override]
     public function run(
         string $nativeSqlSchema,
         ConnectionCollectionInterface $forcedConnectionCollection
     ): SchemaInterface {
         $runResult = parent::run($nativeSqlSchema, $forcedConnectionCollection);
-        $this->handleMapAndSetConnections($runResult->getTables(), $runResult->getConnections());
+        $this->handleMapAndSetConnections($runResult->tables, $runResult->connections);
         return $runResult;
     }
 
 
-    protected function parseCreateCondition(string $createTableSchema): ?TableInterface
+    protected function parseCreateCondition(string $createTableSchema): TableInterface
     {
-        $table = new Table();
-        $table->setName($this->getTableNameFromCreateTableSchema($createTableSchema));
+        $table = new Table($this->getTableNameFromCreateTableSchema($createTableSchema));
 
         foreach ($this->getColumnsWithoutRequiredTypeParametersFromCreateTableSchema($createTableSchema) as $column) {
             $table->addColumn($column);
@@ -83,11 +77,16 @@ class CassandraParser extends ParserAbstract
         return $table;
     }
 
+    #[Override]
+    protected function getCreateTablePattern(): string
+    {
+        return 'CREATE\s+(?:TABLE|TYPE)';
+    }
+
     protected function getTableNameFromCreateTableSchema(string $createTableSchema): string
     {
-        // CQL: TYPE can be treated as a table. And we need to show/store TYPEs so we can reference them
         preg_match(
-            '/CREATE\s+(TABLE|TYPE).*\s*`?(?<name>(\w|[-])+)`?\s*\(/Uis',
+            '/' . $this->getCreateTablePattern() . '.*\s*`?(?<name>(\w|[-])+)`?\s*\(/Uis',
             $createTableSchema,
             $matches
         );
@@ -95,7 +94,7 @@ class CassandraParser extends ParserAbstract
         return !empty($matches['name']) ? $this->trimName($matches['name']) : '';
     }
 
-    protected function trimName(string $string): string
+    private function trimName(string $string): string
     {
         return trim(
             $string,
@@ -103,7 +102,7 @@ class CassandraParser extends ParserAbstract
         );
     }
 
-    protected function getColumnsWithoutRequiredTypeParametersFromCreateTableSchema(
+    private function getColumnsWithoutRequiredTypeParametersFromCreateTableSchema(
         string $createTableSchema
     ): Table\ColumnCollectionInterface {
         preg_match_all(
@@ -191,12 +190,14 @@ class CassandraParser extends ParserAbstract
                     )
                 );
             }
+
             // MAP Cassandra special types
             if (0 === stripos($matches['type'][$i], 'uuid')) {
                 $matches['type'][$i] = 'VARCHAR';
                 $typeParameters[] = '32';
                 $matches['comment'][$i] .= ' CQL: UUID';
             }
+
             if (0 === stripos($matches['type'][$i], 'counter')) {
                 $matches['type'][$i] = 'BIGINT';
                 $matches['comment'][$i] .= ' CQL: counter';
@@ -216,28 +217,28 @@ class CassandraParser extends ParserAbstract
         return $columnCollection;
     }
 
-    protected function trimNames(string ...$strings): array
+    private function trimNames(string ...$strings): array
     {
         return array_map(
-            fn($string): string => $this->trimName($string),
+            $this->trimName(...),
             $strings
         );
     }
 
-    protected function getFormatedParameters(string ...$strings): array
+    private function getFormatedParameters(string ...$strings): array
     {
         return array_map(
-            fn($string): string => $this->getFormatedParameter($string),
+            $this->getFormatedParameter(...),
             $strings
         );
     }
 
-    protected function getFormatedParameter(string $string): string
+    private function getFormatedParameter(string $string): string
     {
         return preg_replace('/[\r\n]+/m', ' ', trim($string));
     }
 
-    protected function getColumnsWithRequiredTypeParametersFromCreateTableSchema(
+    private function getColumnsWithRequiredTypeParametersFromCreateTableSchema(
         string $createTableSchema
     ): Table\ColumnCollectionInterface {
         preg_match_all(
@@ -279,7 +280,7 @@ class CassandraParser extends ParserAbstract
 
         foreach ($matches['name'] as $i => $columName) {
             $columnType = $matches['type'][$i];
-            if (in_array($columnType, ['map', 'set', 'frozen'])) {
+            if (in_array($columnType, ['map', 'set', 'frozen'], true)) {
                 $wasFrozen = false !== stripos($matches['typeParameters'][$i], 'frozen');
                 $matches['typeParameters'][$i] = str_replace(
                     ['frozen<', 'frozen <', '>'],
@@ -312,7 +313,7 @@ class CassandraParser extends ParserAbstract
         return $columnCollection;
     }
 
-    protected function getSimpleIndexesFromCreateTableSchema(string $createTableSchema): SimpleIndexCollectionInterface
+    private function getSimpleIndexesFromCreateTableSchema(string $createTableSchema): SimpleIndexCollectionInterface
     {
         preg_match_all(
             '#
@@ -354,7 +355,7 @@ class CassandraParser extends ParserAbstract
         return $keyCollection;
     }
 
-    protected function getUniqueIndexesFromCreateTableSchema(string $createTableSchema): UniqueIndexCollectionInterface
+    private function getUniqueIndexesFromCreateTableSchema(string $createTableSchema): UniqueIndexCollectionInterface
     {
         preg_match_all(
             '#
@@ -397,7 +398,7 @@ class CassandraParser extends ParserAbstract
         return $keyCollection;
     }
 
-    protected function getFulltextIndexesFromCreateTableSchema(
+    private function getFulltextIndexesFromCreateTableSchema(
         string $createTableSchema
     ): FulltextIndexCollectionInterface {
         preg_match_all(
@@ -440,7 +441,7 @@ class CassandraParser extends ParserAbstract
         return $keyCollection;
     }
 
-    protected function getSpatialIndexesFromCreateTableSchema(
+    private function getSpatialIndexesFromCreateTableSchema(
         string $createTableSchema
     ): SpatialIndexCollectionInterface {
         preg_match_all(
@@ -483,7 +484,7 @@ class CassandraParser extends ParserAbstract
         return $keyCollection;
     }
 
-    protected function getPrimaryKeyFromCreateTableSchema(string $createTableSchema): ?PrimaryKeyInterface
+    private function getPrimaryKeyFromCreateTableSchema(string $createTableSchema): ?PrimaryKeyInterface
     {
         preg_match(
             '#
@@ -512,14 +513,7 @@ class CassandraParser extends ParserAbstract
         return null;
     }
 
-    protected function getCreateTableConditions(string $schema): array
-    {
-        // treat types as tables so we can reference and show them
-        $schema = str_replace('CREATE TYPE', 'CREATE TABLE', $schema);
-
-        return parent::getCreateTableConditions($schema);
-    }
-
+    #[Override]
     public function getConnectionsByCreateTable(string $sql): ConnectionCollectionInterface
     {
         // nothing to do here, this is done later as we need to know which tables/types actually exist
@@ -531,21 +525,22 @@ class CassandraParser extends ParserAbstract
         ConnectionCollectionInterface $connections
     ): ConnectionCollection {
         $allDefinedTables = array_map(
-            fn(TableInterface $table): string => $table->getName(),
+            fn(TableInterface $table): string => $table->name,
             $tables->getIterator()->getArrayCopy()
         );
 
         foreach ($tables as $table) {
-            foreach ($table->getColumns() as $column) {
-                if (!in_array($column->getType(), ['set', 'map', 'frozen'])) {
+            foreach ($table->columns as $column) {
+                if (!in_array($column->type, ['set', 'map', 'frozen'])) {
                     continue;
                 }
 
-                foreach ($column->getTypeParameters() as $typeParameter) {
+                foreach ($column->typeParameters as $typeParameter) {
                     if (!isset($allDefinedTables[$typeParameter])) {
                         continue;
                     }
-                    $connections->add(new OneToManyConnection($table->getName(), $typeParameter, [], []));
+
+                    $connections->add(new OneToManyConnection($table->name, $typeParameter, [], []));
                 }
             }
         }

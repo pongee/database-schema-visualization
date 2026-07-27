@@ -10,10 +10,9 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\Simpl
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\UniqueIndex;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Schema;
 
-return (new Schema())
+return new Schema()
     ->addTable(
-        (new Table())
-            ->setName('user')
+        new Table('user')
             ->addColumn(
                 new Column(
                     'id',

@@ -6,6 +6,16 @@ namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table;
 
 interface ColumnInterface
 {
+    public string $name { get; }
+
+    public string $type { get; }
+
+    public array $typeParameters { get; }
+
+    public string $otherParameters { get; }
+
+    public string $comment { get; }
+
     public function __construct(
         string $name,
         string $type,
@@ -13,14 +23,4 @@ interface ColumnInterface
         string $otherParameters,
         string $comment
     );
-
-    public function getName(): string;
-
-    public function getType(): string;
-
-    public function getTypeParameters(): array;
-
-    public function getOtherParameters(): string;
-
-    public function getComment(): string;
 }

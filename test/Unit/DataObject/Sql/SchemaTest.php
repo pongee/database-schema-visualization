@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Test\Unit\DataObject\Sql\Table\Database;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\ConnectionInterface;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\OneToManyConnection;
@@ -15,21 +16,21 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\SchemaInterface;
 
 class SchemaTest extends TestCase
 {
-    public function getTablesProvider(): array
+    public static function getTablesProvider(): array
     {
         return [
             [
-                new Table(),
+                new Table('member'),
             ],
             [
-                new Table(),
-                new Table(),
-                new Table(),
+                new Table('member'),
+                new Table('member_data'),
+                new Table('member_log'),
             ],
         ];
     }
 
-    public function getConnectionProvider(): array
+    public static function getConnectionProvider(): array
     {
         return [
             [
@@ -49,9 +50,7 @@ class SchemaTest extends TestCase
         $this->assertInstanceOf(SchemaInterface::class, $sut);
     }
 
-    /**
-     * @dataProvider getTablesProvider
-     */
+    #[DataProvider('getTablesProvider')]
     public function testTable(TableInterface ...$tables): void
     {
         $sut = new Schema();
@@ -60,14 +59,12 @@ class SchemaTest extends TestCase
             $sut->addTable($table);
         }
 
-        foreach ($sut->getTables() as $table) {
+        foreach ($sut->tables as $table) {
             $this->assertTrue(in_array($table, $tables, true));
         }
     }
 
-    /**
-     * @dataProvider getConnectionProvider
-     */
+    #[DataProvider('getConnectionProvider')]
     public function testConnection(ConnectionInterface ...$connections): void
     {
         $sut = new Schema();
@@ -76,7 +73,7 @@ class SchemaTest extends TestCase
             $sut->addConnection($connection);
         }
 
-        foreach ($sut->getConnections() as $connection) {
+        foreach ($sut->connections as $connection) {
             $this->assertTrue(in_array($connection, $connections, true));
         }
     }

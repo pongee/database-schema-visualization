@@ -6,7 +6,7 @@ namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index
 
 interface NamedIndexInterface extends IndexInterface
 {
-    public function __construct(string $name, array $columns, string $otherParameters = '');
+    public string $name { get; }
 
-    public function getName(): string;
+    public function __construct(string $name, array $columns, string $otherParameters = '');
 }

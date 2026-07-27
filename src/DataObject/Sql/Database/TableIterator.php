@@ -6,7 +6,7 @@ namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database;
 
 use ArrayIterator;
 
-class TableIterator extends ArrayIterator
+final class TableIterator extends ArrayIterator
 {
     public function current(): ?TableInterface
     {

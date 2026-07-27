@@ -1,0 +1,4 @@
+CREATE TABLE `session` (
+  `id` int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `token` varchar(64) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

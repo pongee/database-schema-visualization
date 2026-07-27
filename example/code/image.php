@@ -16,11 +16,11 @@ $sqlSchema = '
 ';
 
 $mysqlParser                = new MysqlParser();
-$plantumlExport             = new Plantuml(file_get_contents(__DIR__ . '/../../src/Template/Plantuml/v1.twig'));
+$plantumlExport             = new Plantuml(file_get_contents(__DIR__ . '/../../src/Template/Plantuml/v2.twig'));
 $forcedConnectionCollection = new ConnectionCollection();
 $imageGenerator             = new ImageGenerator(
     'png', // or svg
-    __DIR__ . '/../../bin/plantuml.jar',
+    __DIR__ . '/../../bin/plantuml-mit-1.2026.6.jar',
     __DIR__ . '/../../tmp/'
 );
 

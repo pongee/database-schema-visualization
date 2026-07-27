@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index;
 
-class FulltextIndexCollection implements FulltextIndexCollectionInterface
+final class FulltextIndexCollection implements FulltextIndexCollectionInterface
 {
     /** @var FulltextIndexInterface[] */
     private array $fulltextIndexes = [];

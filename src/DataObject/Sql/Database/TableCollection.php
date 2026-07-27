@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database;
 
-class TableCollection implements TableCollectionInterface
+final class TableCollection implements TableCollectionInterface
 {
     /** @var TableInterface[] */
     private array $tables = [];
 
     public function add(TableInterface $table): self
     {
-        $this->tables[$table->getName()] = $table;
+        $this->tables[$table->name] = $table;
 
         return $this;
     }

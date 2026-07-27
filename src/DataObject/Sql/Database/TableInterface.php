@@ -18,11 +18,21 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\Uniqu
 
 interface TableInterface
 {
-    public function __construct();
+    public string $name { get; }
 
-    public function getName(): string;
+    public ColumnCollectionInterface $columns { get; }
 
-    public function setName(string $name);
+    public ?PrimaryKeyInterface $primaryKey { get; }
+
+    public SimpleIndexCollectionInterface $simpleIndexes { get; }
+
+    public UniqueIndexCollectionInterface $uniqueIndexes { get; }
+
+    public FulltextIndexCollectionInterface $fulltextIndexes { get; }
+
+    public SpatialIndexCollectionInterface $spatialIndexes { get; }
+
+    public function __construct(string $name);
 
     public function setPrimaryKey(PrimaryKeyInterface $primaryKey);
 
@@ -35,16 +45,4 @@ interface TableInterface
     public function addFullTextIndex(FulltextIndexInterface $fulltextIndex);
 
     public function addSpatialIndex(SpatialIndexInterface $spatialIndex);
-
-    public function getColumns(): ColumnCollectionInterface;
-
-    public function getPrimaryKey(): ?PrimaryKeyInterface;
-
-    public function getSimpleIndexes(): SimpleIndexCollectionInterface;
-
-    public function getUniqueIndexes(): UniqueIndexCollectionInterface;
-
-    public function getFulltextIndexes(): FulltextIndexCollectionInterface;
-
-    public function getSpatialIndexes(): SpatialIndexCollectionInterface;
 }

@@ -6,7 +6,7 @@ namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index
 
 use ArrayIterator;
 
-class UniqueIndexIterator extends ArrayIterator
+final class UniqueIndexIterator extends ArrayIterator
 {
     public function current(): ?UniqueIndex
     {

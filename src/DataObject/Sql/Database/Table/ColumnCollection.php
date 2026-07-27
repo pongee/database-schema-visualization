@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table;
 
-class ColumnCollection implements ColumnCollectionInterface
+final class ColumnCollection implements ColumnCollectionInterface
 {
     /** @var ColumnInterface[] */
     private array $columns = [];
 
     public function add(ColumnInterface $column): void
     {
-        $this->columns[$column->getName()] = $column;
+        $this->columns[$column->name] = $column;
     }
 
     public function getColumnsName(): array
