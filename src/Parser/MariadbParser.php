@@ -5,23 +5,19 @@ declare(strict_types=1);
 namespace Pongee\DatabaseSchemaVisualization\Parser;
 
 use Override;
-use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\ConnectionCollectionInterface;
-use Pongee\DatabaseSchemaVisualization\DataObject\Sql\SchemaInterface;
 
 final class MariadbParser extends MysqlParser
 {
     #[Override]
-    public function run(
-        string $nativeSqlSchema,
-        ConnectionCollectionInterface $forcedConnectionCollection
-    ): SchemaInterface {
-        $nativeSqlSchema = preg_replace(
+    protected function getCreateTableConditions(string $schema): array
+    {
+        $schema = preg_replace(
             '/\bCREATE\s+OR\s+REPLACE\s+TABLE\b/i',
             'CREATE TABLE',
-            $nativeSqlSchema
+            $schema
         );
 
-        return parent::run($nativeSqlSchema, $forcedConnectionCollection);
+        return parent::getCreateTableConditions($schema);
     }
 
     /**
