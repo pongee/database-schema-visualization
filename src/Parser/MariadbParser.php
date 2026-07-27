@@ -9,15 +9,9 @@ use Override;
 final class MariadbParser extends MysqlParser
 {
     #[Override]
-    protected function getCreateTableConditions(string $schema): array
+    protected function getCreateTablePattern(): string
     {
-        $schema = preg_replace(
-            '/\bCREATE\s+OR\s+REPLACE\s+TABLE\b/i',
-            'CREATE TABLE',
-            $schema
-        );
-
-        return parent::getCreateTableConditions($schema);
+        return 'CREATE\s+(?:OR\s+REPLACE\s+)?TABLE';
     }
 
     /**

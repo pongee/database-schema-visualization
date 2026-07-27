@@ -121,7 +121,7 @@ class MysqlParser extends ParserAbstract
     protected function getTableNameFromCreateTableSchema(string $createTableSchema): string
     {
         preg_match(
-            '/CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?`?(?<name>[^`(]+?)`?\s*\(/i',
+            '/' . $this->getCreateTablePattern() . '\s+(?:IF\s+NOT\s+EXISTS\s+)?`?(?<name>[^`(]+?)`?\s*\(/i',
             $createTableSchema,
             $matches
         );

@@ -246,6 +246,11 @@ abstract class ParserAbstract implements ParserInterface
         );
     }
 
+    protected function getCreateTablePattern(): string
+    {
+        return 'CREATE\s+TABLE';
+    }
+
     protected function getCreateTableConditions(string $schema): array
     {
         $semicolonReplaceString = $this->getSafeRandomString($schema);
@@ -260,7 +265,7 @@ abstract class ParserAbstract implements ParserInterface
             #
 
                 (?<createConditions>
-                    CREATE\s+TABLE\s+.+\(.*\).*
+                    ' . $this->getCreateTablePattern() . '\s+.+\(.*\).*
                     (;|$)
                 )
             #xsUi',
