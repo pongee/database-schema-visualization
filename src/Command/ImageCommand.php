@@ -16,7 +16,7 @@ final class ImageCommand extends CommandAbstract
 {
     private const string OPTION_TYPE = 'type';
 
-    private const string DEFAULT_TEMPLATE = 'src/Template/Plantuml/v2.twig';
+    private const string DEFAULT_TEMPLATE = 'src/Template/Plantuml/v1.twig';
 
     private const string DEFAULT_TYPE = ImageType::Png->value;
 

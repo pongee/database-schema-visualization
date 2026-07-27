@@ -40,7 +40,7 @@ Argument and options:
 | --- | --- |
 | `file` | Path to the schema file. **Required.** |
 | `--type` | Image format for the `image` commands: `png` (default) or `svg`. |
-| `--template` | Twig template used for rendering. Defaults to the bundled v2 template. |
+| `--template` | Twig template used for rendering. Defaults to the bundled template. |
 
 ## Usage
 The command, argument and options are the same across every run mode below — see [Commands](#commands) for the full list.
@@ -101,7 +101,7 @@ $sqlSchema = '
 
 $sqlParser                = new MysqlParser();
 // $cqlParser                = new \Pongee\DatabaseSchemaVisualization\Parser\CassandraParser();
-$plantumlExport             = new Plantuml(file_get_contents(__DIR__ . '/../../src/Template/Plantuml/v2.twig'));
+$plantumlExport             = new Plantuml(file_get_contents(__DIR__ . '/../../src/Template/Plantuml/v1.twig'));
 $forcedConnectionCollection = new ConnectionCollection();
 $imageGenerator             = new ImageGenerator(
     'png',

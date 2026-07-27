@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class PlantumlCommand extends CommandAbstract
 {
-    private const string DEFAULT_TEMPLATE = 'src/Template/Plantuml/v2.twig';
+    private const string DEFAULT_TEMPLATE = 'src/Template/Plantuml/v1.twig';
 
     protected function configure(): void
     {

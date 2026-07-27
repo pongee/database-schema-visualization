@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Inline PRIMARY KEY and inline (column-level) FOREIGN KEY parsing
 - Anonymous FOREIGN KEY (without a CONSTRAINT name) parsing
 - MySQL employees, world_x and airportdb sample databases as full-database test fixtures
-- Modern PlantUML template (`v2`) using the current preprocessor, set as the default (legacy `v1` still available)
+- Rewrite the PlantUML template to use the current preprocessor (`!function`/`!procedure`/`!foreach`), replacing the legacy `!definelong` template
 - Apache Cassandra CLI commands (`cassandra:json`, `cassandra:plantuml`, `cassandra:markdown`, `cassandra:image`)
 - Docker image published to the GitHub Container Registry, built natively for linux/amd64 and linux/arm64
 
