@@ -6,6 +6,7 @@ namespace Pongee\DatabaseSchemaVisualization\Command\Mysql;
 
 use Pongee\DatabaseSchemaVisualization\Export\Plantuml;
 use Pongee\DatabaseSchemaVisualization\Generator\ImageGenerator;
+use Pongee\DatabaseSchemaVisualization\Generator\ImageType;
 use RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -16,10 +17,9 @@ class MysqlImageCommand extends MysqlCommandAbstract
     protected const string OPTION_TEMPLATE = 'template';
     protected const string OPTION_TYPE = 'type';
     protected const string DEFAULT_TEMPLATE = 'src/Template/Plantuml/v2.twig';
-    protected const string DEFAULT_TYPE = 'png';
+    protected const string DEFAULT_TYPE = ImageType::Png->value;
     protected const string PLANTUML_BIN = 'bin/plantuml-mit-1.2026.6.jar';
     protected const string TEMP_DIR = 'tmp';
-    protected const array ALLOWED_IMAGE_TYPES = ['png', 'svg'];
 
     protected function configure(): void
     {
@@ -82,17 +82,17 @@ class MysqlImageCommand extends MysqlCommandAbstract
 
     protected function getImageType(InputInterface $input): string
     {
-        $imageType = $input->getOption(self::OPTION_TYPE);
+        $imageType = ImageType::tryFrom((string) $input->getOption(self::OPTION_TYPE));
 
-        if (!in_array($imageType, static::ALLOWED_IMAGE_TYPES, true)) {
+        if (!$imageType instanceof ImageType) {
             throw new RuntimeException(
                 sprintf(
                     'Not allowed image type. Allowed: [%s]',
-                    implode(',', self::ALLOWED_IMAGE_TYPES)
+                    implode(',', array_column(ImageType::cases(), 'value'))
                 )
             );
         }
 
-        return $imageType;
+        return $imageType->value;
     }
 }

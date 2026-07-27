@@ -33,7 +33,7 @@ class Json implements ExportInterface
         }
 
         foreach ($schema->getConnections() as $connection) {
-            $return['connections'][] = $this->getConnction($connection);
+            $return['connections'][] = $this->getConnection($connection);
         }
 
         return json_encode(
@@ -124,7 +124,7 @@ class Json implements ExportInterface
         return [];
     }
 
-    private function getConnction(ConnectionInterface $connection): array
+    private function getConnection(ConnectionInterface $connection): array
     {
         return [
             'type' => $connection->getType(),
