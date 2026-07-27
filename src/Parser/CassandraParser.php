@@ -42,7 +42,7 @@ class CassandraParser extends ParserAbstract
         ConnectionCollectionInterface $forcedConnectionCollection
     ): SchemaInterface {
         $runResult = parent::run($nativeSqlSchema, $forcedConnectionCollection);
-        $this->handleMapAndSetConnections($runResult->getTables(), $runResult->getConnections());
+        $this->handleMapAndSetConnections($runResult->tables, $runResult->connections);
         return $runResult;
     }
 

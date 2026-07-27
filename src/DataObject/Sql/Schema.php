@@ -13,37 +13,27 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\TableInterface;
 
 class Schema implements SchemaInterface
 {
-    protected TableCollectionInterface $tableCollection;
+    public private(set) TableCollectionInterface $tables;
 
-    protected ConnectionCollectionInterface $connectionCollection;
+    public private(set) ConnectionCollectionInterface $connections;
 
     public function __construct()
     {
-        $this->tableCollection = new TableCollection();
-        $this->connectionCollection = new ConnectionCollection();
+        $this->tables = new TableCollection();
+        $this->connections = new ConnectionCollection();
     }
 
     public function addTable(TableInterface $table): self
     {
-        $this->tableCollection->add($table);
+        $this->tables->add($table);
 
         return $this;
-    }
-
-    public function getTables(): TableCollectionInterface
-    {
-        return $this->tableCollection;
     }
 
     public function addConnection(ConnectionInterface $connection): self
     {
-        $this->connectionCollection->add($connection);
+        $this->connections->add($connection);
 
         return $this;
-    }
-
-    public function getConnections(): ConnectionCollection
-    {
-        return $this->connectionCollection;
     }
 }

@@ -49,7 +49,7 @@ abstract class ParserAbstract implements ParserInterface
         }
 
         $parseredConnections = $this->parserConnections(
-            $schema->getTables(),
+            $schema->tables,
             $connectionCollection
         );
 
@@ -337,25 +337,25 @@ abstract class ParserAbstract implements ParserInterface
         foreach ($tables as $iteratedTable) {
             foreach ($connections as $connection) {
                 if (
-                    $connection->getChildTableName() === '*'
-                    || $connection->getChildTableName() === $iteratedTable->name
+                    $connection->childTableName === '*'
+                    || $connection->childTableName === $iteratedTable->name
                 ) {
                     $columns = $iteratedTable->columns;
 
-                    if (empty(array_diff($connection->getChildTableColumns(), $columns->getColumnsName()))) {
-                        $parentTable = $tables->offsetGet($connection->getParentTableName());
+                    if (empty(array_diff($connection->childTableColumns, $columns->getColumnsName()))) {
+                        $parentTable = $tables->offsetGet($connection->parentTableName);
 
                         if (
                             $parentTable instanceof TableInterface
                             && empty(
                                 array_diff(
-                                    $connection->getParentTableColumns(),
+                                    $connection->parentTableColumns,
                                     $parentTable->columns->getColumnsName()
                                 )
                             )
-                            && $connection->getParentTableName() !== $iteratedTable->name
+                            && $connection->parentTableName !== $iteratedTable->name
                         ) {
-                            $childTableColumns = $connection->getChildTableColumns();
+                            $childTableColumns = $connection->childTableColumns;
                             sort($childTableColumns);
 
                             $oneToOne = false;
@@ -377,18 +377,18 @@ abstract class ParserAbstract implements ParserInterface
                                 $connectionCollection->add(
                                     new OneToOneConnection(
                                         $iteratedTable->name,
-                                        $connection->getParentTableName(),
-                                        $connection->getChildTableColumns(),
-                                        $connection->getParentTableColumns()
+                                        $connection->parentTableName,
+                                        $connection->childTableColumns,
+                                        $connection->parentTableColumns
                                     )
                                 );
                             } else {
                                 $connectionCollection->add(
                                     new OneToManyConnection(
                                         $iteratedTable->name,
-                                        $connection->getParentTableName(),
-                                        $connection->getChildTableColumns(),
-                                        $connection->getParentTableColumns()
+                                        $connection->parentTableName,
+                                        $connection->childTableColumns,
+                                        $connection->parentTableColumns
                                     )
                                 );
                             }

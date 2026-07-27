@@ -26,8 +26,8 @@ class Plantuml implements ExportInterface
         $text = $this->twig->render(
             'template',
             [
-                'tables' => $schema->getTables(),
-                'connections' => $schema->getConnections(),
+                'tables' => $schema->tables,
+                'connections' => $schema->connections,
             ]
         );
 

@@ -19,7 +19,7 @@ class Json implements ExportInterface
             'connections' => [],
         ];
 
-        foreach ($schema->getTables() as $table) {
+        foreach ($schema->tables as $table) {
             $return['tables'][$table->name] = [
                 'columns' => $this->getColumns($table),
                 'indexes' => [
@@ -32,7 +32,7 @@ class Json implements ExportInterface
             ];
         }
 
-        foreach ($schema->getConnections() as $connection) {
+        foreach ($schema->connections as $connection) {
             $return['connections'][] = $this->getConnection($connection);
         }
 
@@ -128,10 +128,10 @@ class Json implements ExportInterface
     {
         return [
             'type' => $connection->getType(),
-            'childTableName' => $connection->getChildTableName(),
-            'childTableColumns' => $connection->getChildTableColumns(),
-            'parentTableName' => $connection->getParentTableName(),
-            'parentTableColumns' => $connection->getParentTableColumns(),
+            'childTableName' => $connection->childTableName,
+            'childTableColumns' => $connection->childTableColumns,
+            'parentTableName' => $connection->parentTableName,
+            'parentTableColumns' => $connection->parentTableColumns,
         ];
     }
 }

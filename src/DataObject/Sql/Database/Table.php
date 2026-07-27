@@ -35,8 +35,9 @@ class Table implements TableInterface
 
     public private(set) SpatialIndexCollectionInterface $spatialIndexes;
 
-    public function __construct(public readonly string $name)
-    {
+    public function __construct(
+        public readonly string $name
+    ) {
         $this->columns = new ColumnCollection();
         $this->simpleIndexes = new SimpleIndexCollection();
         $this->uniqueIndexes = new UniqueIndexCollection();

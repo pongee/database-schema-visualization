@@ -70,8 +70,8 @@ class MysqlParserTest extends TestCase
         $sut = new MysqlParser();
         $result = $sut->run(file_get_contents($file->getRealPath()), $forcedConnections); //@todo
 
-        foreach ($result->getTables() as $table) {
-            $expectedTable = $schemaObject->getTables()->offsetGet($table->name);
+        foreach ($result->tables as $table) {
+            $expectedTable = $schemaObject->tables->offsetGet($table->name);
 
             $this->assertInstanceOf(
                 TableInterface::class,
@@ -124,8 +124,8 @@ class MysqlParserTest extends TestCase
         }
 
         $this->assertEquals(
-            $schemaObject->getConnections(),
-            $result->getConnections(),
+            $schemaObject->connections,
+            $result->connections,
             sprintf('Schema %s', $file->getRealPath())
         );
 

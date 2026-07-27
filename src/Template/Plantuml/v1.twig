@@ -200,10 +200,10 @@ left to right direction
 [\n]
 {% for connection in connections %}
     {% if connection.getType() == "OneToOne" %}
-        connection_one_to_one({{ connection.getChildTableName() }}, {{ connection.getParentTableName() }})
+        connection_one_to_one({{ connection.childTableName }}, {{ connection.parentTableName }})
     {% endif %}
     {% if connection.getType() == "OneToMany" %}
-        connection_one_to_many({{ connection.getChildTableName() }}, {{ connection.getParentTableName() }})
+        connection_one_to_many({{ connection.childTableName }}, {{ connection.parentTableName }})
     {% endif %}
 {% endfor %}
 

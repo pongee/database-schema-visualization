@@ -24,9 +24,9 @@ class OneToOneConnectionTest extends ConnectionAbstract
         );
 
         $this->assertEquals('OneToOne', $oneToOneConnection->getType());
-        $this->assertEquals($childTablename, $oneToOneConnection->getChildTableName());
-        $this->assertEquals($parentTableName, $oneToOneConnection->getParentTableName());
-        $this->assertEquals($childTableColumns, $oneToOneConnection->getChildTableColumns());
-        $this->assertEquals($parentTableColumns, $oneToOneConnection->getParentTableColumns());
+        $this->assertEquals($childTablename, $oneToOneConnection->childTableName);
+        $this->assertEquals($parentTableName, $oneToOneConnection->parentTableName);
+        $this->assertEquals($childTableColumns, $oneToOneConnection->childTableColumns);
+        $this->assertEquals($parentTableColumns, $oneToOneConnection->parentTableColumns);
     }
 }

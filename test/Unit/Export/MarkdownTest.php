@@ -79,8 +79,8 @@ class MarkdownTest extends TestCase
             strtr(
                 "tables:%tables%|connections:%connections%\n",
                 [
-                    '%tables%' => json_encode($schema->getTables()->jsonSerialize()),
-                    '%connections%' => json_encode($schema->getConnections()->jsonSerialize()),
+                    '%tables%' => json_encode($schema->tables->jsonSerialize()),
+                    '%connections%' => json_encode($schema->connections->jsonSerialize()),
                 ]
             ),
             $sut->export($schema)

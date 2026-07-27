@@ -59,7 +59,7 @@ class SchemaTest extends TestCase
             $sut->addTable($table);
         }
 
-        foreach ($sut->getTables() as $table) {
+        foreach ($sut->tables as $table) {
             $this->assertTrue(in_array($table, $tables, true));
         }
     }
@@ -73,7 +73,7 @@ class SchemaTest extends TestCase
             $sut->addConnection($connection);
         }
 
-        foreach ($sut->getConnections() as $connection) {
+        foreach ($sut->connections as $connection) {
             $this->assertTrue(in_array($connection, $connections, true));
         }
     }
