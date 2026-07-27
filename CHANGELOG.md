@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The `--connection` command option and the option shortcuts (`-c`, `-t`, `-it`)
 
 ### Fixed
+- Short-form generated columns (`col type AS (expr) [STORED|VIRTUAL]`, without `GENERATED ALWAYS`) leaked a truncated expression into the column parameters
 - `UNIQUE`, `FULLTEXT` and `SPATIAL` index definitions written without the `KEY`/`INDEX` keyword (e.g. `UNIQUE (email)`, `FULLTEXT(description)`) were dropped
 - Column `COMMENT` escapes (`''` and `\'`) are now unescaped instead of kept raw
 - `ENUM`/`SET` values containing a comma (e.g. `enum('on,hold','closed')`) were split into separate values

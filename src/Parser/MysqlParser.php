@@ -227,7 +227,7 @@ class MysqlParser extends ParserAbstract
 
     private function stripUnsupportedClauses(string $otherParameters): string
     {
-        return trim((string) preg_replace('/\b(REFERENCES|GENERATED)\b.*$/is', '', $otherParameters));
+        return trim((string) preg_replace('/\b(?:REFERENCES|GENERATED)\b.*$|\bAS\s*\(.*$/is', '', $otherParameters));
     }
 
     private function cleanIndexColumns(string $rawColumns): array
