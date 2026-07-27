@@ -9,13 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - MySQL column types: NUMERIC, REAL, DEC, FIXED, SERIAL, VECTOR and the INT1-INT8/MIDDLEINT aliases
 - Inline PRIMARY KEY and inline (column-level) FOREIGN KEY parsing
 - Anonymous FOREIGN KEY (without a CONSTRAINT name) parsing
-- MySQL employees sample database as a full-database test fixture
+- MySQL employees, world_x and airportdb sample databases as full-database test fixtures
 
 ### Fixed
 - GEOMETRYCOLLECTION type was never recognized (typo in the type list)
 - Index columns with a prefix length or ASC/DESC direction, and composite indexes mixing them
 - Backtick-quoted table names containing spaces
 - Whitespace robustness for UNIQUE/FULLTEXT/SPATIAL keys and REFERENCES clauses
+- Generated-column (GENERATED ALWAYS AS ...) definitions no longer leak into column parameters
 
 ### Changed
 - Switch to PHP 8.5

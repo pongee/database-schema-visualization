@@ -187,7 +187,7 @@ class MysqlParser extends ParserAbstract
                     $columName,
                     $matches['type'][$i],
                     $this->getFormatedParameters(...$typeParameters),
-                    $this->stripInlineReferences($this->getFormatedParameter($matches['otherParameters'][$i])),
+                    $this->stripUnsupportedClauses($this->getFormatedParameter($matches['otherParameters'][$i])),
                     $matches['comment'][$i]
                 )
             );
@@ -217,9 +217,9 @@ class MysqlParser extends ParserAbstract
         return preg_replace('/[\r\n]+/m', ' ', trim($string));
     }
 
-    protected function stripInlineReferences(string $otherParameters): string
+    protected function stripUnsupportedClauses(string $otherParameters): string
     {
-        return trim((string) preg_replace('/\bREFERENCES\b.*$/is', '', $otherParameters));
+        return trim((string) preg_replace('/\b(REFERENCES|GENERATED)\b.*$/is', '', $otherParameters));
     }
 
     protected function cleanIndexColumns(string $rawColumns): array
@@ -288,7 +288,7 @@ class MysqlParser extends ParserAbstract
                             $matches['typeParameters'][$i]
                         )
                     ),
-                    $this->stripInlineReferences($this->getFormatedParameter($matches['otherParameters'][$i])),
+                    $this->stripUnsupportedClauses($this->getFormatedParameter($matches['otherParameters'][$i])),
                     $matches['comment'][$i]
                 )
             );
