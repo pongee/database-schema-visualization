@@ -164,7 +164,7 @@ $sqlSchema = '
 ';
 
 $mysqlParser                = new MysqlParser();
-$markdownExport             = new Markdown();
+$markdownExport             = new Markdown(file_get_contents('./src/Template/Markdown/v1.twig'));
 $forcedConnectionCollection = new ConnectionCollection();
 
 $schema = $mysqlParser->run($sqlSchema, $forcedConnectionCollection);

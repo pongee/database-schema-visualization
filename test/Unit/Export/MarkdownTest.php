@@ -123,7 +123,9 @@ class MarkdownTest extends TestCase
     #[DataProvider('getSchemaProvider')]
     public function testExport(SchemaInterface $schema, string $expectedMarkdown): void
     {
-        $sut = new Markdown();
+        $sut = new Markdown(
+            file_get_contents(__DIR__ . '/../../../src/Template/Markdown/v1.twig')
+        );
 
         $this->assertSame($expectedMarkdown, $sut->export($schema));
     }

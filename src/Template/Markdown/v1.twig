@@ -1,0 +1,71 @@
+# Schema
+{% for table in tables %}
+
+## `{{ table.getName() }}` table
+
+### Columns
+
+| Name | Type | Parameters | Comment |
+| --- | --- | --- | --- |
+{% for column in table.getColumns() -%}
+| {{ column.getName() }} | {{ column.getType() }}{% if column.getTypeParameters() %} ( {{ column.getTypeParameters()|join(', ') }} ){% endif %} | {{ (column.getOtherParameters() ?: '-')|replace({'|': '\\|'}) }} | {{ (column.getComment() ?: '-')|replace({'|': '\\|'}) }} |
+{% endfor -%}
+{% if table.getPrimaryKey() %}
+
+### Primary Key
+
+| Columns | Parameters |
+| --- | --- |
+| {{ table.getPrimaryKey().getColumns()|join(', ') }} | {{ table.getPrimaryKey().getOtherParameters() ?: '-' }} |
+{% endif -%}
+{% if table.getSimpleIndexes()|length %}
+
+### Indexes
+
+| Name | Columns | Parameters |
+| --- | --- | --- |
+{% for index in table.getSimpleIndexes() -%}
+| {{ index.getName() }} | {{ index.getColumns()|join(', ') }} | {{ index.getOtherParameters() ?: '-' }} |
+{% endfor -%}
+{% endif -%}
+{% if table.getUniqueIndexes()|length %}
+
+### Unique Indexes
+
+| Name | Columns | Parameters |
+| --- | --- | --- |
+{% for index in table.getUniqueIndexes() -%}
+| {{ index.getName() }} | {{ index.getColumns()|join(', ') }} | {{ index.getOtherParameters() ?: '-' }} |
+{% endfor -%}
+{% endif -%}
+{% if table.getFulltextIndexes()|length %}
+
+### Fulltext Indexes
+
+| Name | Columns | Parameters |
+| --- | --- | --- |
+{% for index in table.getFulltextIndexes() -%}
+| {{ index.getName() }} | {{ index.getColumns()|join(', ') }} | {{ index.getOtherParameters() ?: '-' }} |
+{% endfor -%}
+{% endif -%}
+{% if table.getSpatialIndexes()|length %}
+
+### Spatial Indexes
+
+| Name | Columns | Parameters |
+| --- | --- | --- |
+{% for index in table.getSpatialIndexes() -%}
+| {{ index.getName() }} | {{ index.getColumns()|join(', ') }} | {{ index.getOtherParameters() ?: '-' }} |
+{% endfor -%}
+{% endif -%}
+{% endfor -%}
+{% if connections|length %}
+
+## Connections
+
+| Type | Child | Parent |
+| --- | --- | --- |
+{% for connection in connections -%}
+| {{ connection.getType() }} | {{ connection.getChildTableName() }} ( {{ connection.getChildTableColumns()|join(', ') }} ) | {{ connection.getParentTableName() }} ( {{ connection.getParentTableColumns()|join(', ') }} ) |
+{% endfor -%}
+{% endif %}
