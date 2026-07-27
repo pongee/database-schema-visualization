@@ -22,8 +22,62 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\Uniqu
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\UniqueIndexCollectionInterface;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\TableInterface;
 
-final class MysqlParser extends ParserAbstract
+class MysqlParser extends ParserAbstract
 {
+    /**
+     * @return list<string>
+     */
+    protected function getColumnTypes(): array
+    {
+        return [
+            'TINYINT', 'BOOLEAN', 'BOOL',
+            'SMALLINT',
+            'MEDIUMINT',
+            'MIDDLEINT',
+            'BIGINT',
+            'INTEGER',
+            'INT1', 'INT2', 'INT3', 'INT4', 'INT8',
+            'INT',
+            'SERIAL',
+            'BIT',
+            'FLOAT',
+            'DOUBLE',
+            'REAL',
+            'DECIMAL',
+            'NUMERIC',
+            'FIXED',
+            'DEC',
+            'VARCHAR',
+            'CHAR',
+            'TINYTEXT',
+            'MEDIUMTEXT',
+            'LONGTEXT',
+            'TEXT',
+            'JSON',
+            'VECTOR',
+            'VARBINARY',
+            'BINARY',
+            'TINYBLOB',
+            'MEDIUMBLOB',
+            'LONGBLOB',
+            'BLOB',
+            'DATETIME',
+            'TIMESTAMP',
+            'DATE',
+            'TIME',
+            'YEAR',
+            'GEOMETRYCOLLECTION',
+            'GEOMCOLLECTION',
+            'MULTILINESTRING',
+            'MULTIPOLYGON',
+            'MULTIPOINT',
+            'LINESTRING',
+            'POLYGON',
+            'POINT',
+            'GEOMETRY',
+        ];
+    }
+
     protected function parseCreateCondition(string $createTableSchema): TableInterface
     {
         $table = new Table($this->getTableNameFromCreateTableSchema($createTableSchema));
@@ -94,59 +148,7 @@ final class MysqlParser extends ParserAbstract
             (?<name>\w+)
             `?
             \s+
-            (?<type>
-                TINYINT|BOOLEAN|BOOL|
-                SMALLINT|
-                MEDIUMINT|
-                MIDDLEINT|
-                BIGINT|
-                INTEGER|
-                INT1|INT2|INT3|INT4|INT8|
-                INT|
-                SERIAL|
-                BIT|
-                FLOAT|
-                DOUBLE|
-                REAL|
-                DECIMAL|
-                NUMERIC|
-                FIXED|
-                DEC|
-
-                VARCHAR|
-                CHAR|
-                TINYTEXT|
-                MEDIUMTEXT|
-                LONGTEXT|
-                TEXT|
-
-                JSON|
-
-                VECTOR|
-
-                VARBINARY|
-                BINARY|
-                TINYBLOB|
-                MEDIUMBLOB|
-                LONGBLOB|
-                BLOB|
-
-                DATETIME|
-                TIMESTAMP|
-                DATE|
-                TIME|
-                YEAR|
-
-                GEOMETRYCOLLECTION|
-                GEOMCOLLECTION|
-                MULTILINESTRING|
-                MULTIPOLYGON|
-                MULTIPOINT|
-                LINESTRING|
-                POLYGON|
-                POINT|
-                GEOMETRY
-            )
+            (?<type>' . implode('|', $this->getColumnTypes()) . ')
             (?U:
                 \s*
                 \(
