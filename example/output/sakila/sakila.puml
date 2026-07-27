@@ -6,52 +6,54 @@
 !define TABLE_BACKGROUND_COLOR AntiqueWhite
 !endif
 skinparam class {
-BackgroundColor TABLE_BACKGROUND_COLOR
-BorderColor TABLE_BORDER_COLOR
-ArrowColor TABLE_BORDER_COLOR
+	BackgroundColor TABLE_BACKGROUND_COLOR
+	BorderColor TABLE_BORDER_COLOR
+	ArrowColor TABLE_BORDER_COLOR
 }
-!define table(name) class "name" << (T, TABLE_BORDER_COLOR ) >>
+!procedure $table($name)
+class "$name" << (T, TABLE_BORDER_COLOR ) >> {
+!endprocedure
 !function $key_columns($columns, $otherParameters="")
-!$result = ""
-!foreach $column in %splitstr($columns, ", ")
-!if ($result != "")
-!$result = $result + ", "
-!endif
-!$result = $result + $column
-!endfor
-!if ($otherParameters != "")
-!$result = $result + ", " + $otherParameters
-!endif
-!return $result
+	!$result = ""
+	!foreach $column in %splitstr($columns, ", ")
+		!if ($result != "")
+			!$result = $result + ", "
+		!endif
+		!$result = $result + $column
+	!endfor
+	!if ($otherParameters != "")
+		!$result = $result + ", " + $otherParameters
+	!endif
+	!return $result
 !endfunction
 !procedure $primary_key($columns, $otherParameters="")
-!$rendered = $key_columns($columns, $otherParameters)
+	!$rendered = $key_columns($columns, $otherParameters)
 -<i>PK</i> [<b>$rendered</b>]
 !endprocedure
 !procedure $column($name, $type, $otherParameters="", $comment="")
-!$suffix = ""
-!if ($otherParameters != "")
-!$suffix = $suffix + " " + $otherParameters
-!endif
-!if ($comment != "")
-!$suffix = $suffix + " COMMENT '" + $comment + "'"
-!endif
+	!$suffix = ""
+	!if ($otherParameters != "")
+		!$suffix = $suffix + " " + $otherParameters
+	!endif
+	!if ($comment != "")
+		!$suffix = $suffix + " COMMENT '" + $comment + "'"
+	!endif
 +<b>$name</b> <u>$type</u>$suffix
 !endprocedure
 !procedure $index($columns, $otherParameters="")
-!$rendered = $key_columns($columns, $otherParameters)
+	!$rendered = $key_columns($columns, $otherParameters)
 ~<i>KEY</i> [<b>$rendered</b>]
 !endprocedure
 !procedure $unique_index($columns, $otherParameters="")
-!$rendered = $key_columns($columns, $otherParameters)
+	!$rendered = $key_columns($columns, $otherParameters)
 #<i>UNIQUE KEY</i> [<b>$rendered</b>]
 !endprocedure
 !procedure $fulltext_index($columns, $otherParameters="")
-!$rendered = $key_columns($columns, $otherParameters)
+	!$rendered = $key_columns($columns, $otherParameters)
 #<i>FULLTEXT KEY</i> [<b>$rendered</b>]
 !endprocedure
 !procedure $spatial_index($columns, $otherParameters="")
-!$rendered = $key_columns($columns, $otherParameters)
+	!$rendered = $key_columns($columns, $otherParameters)
 #<i>SPATIAL KEY</i> [<b>$rendered</b>]
 !endprocedure
 !procedure $connection_one_to_one($from, $to)
@@ -64,7 +66,7 @@ hide methods
 hide stereotypes
 skinparam linetype polyline
 left to right direction
-table(actor) {
+$table(actor)
 	$column('actor_id', 'SMALLINT', 'UNSIGNED NOT NULL AUTO_INCREMENT', '')
 	$column('first_name', 'VARCHAR[45]', 'NOT NULL', '')
 	$column('last_name', 'VARCHAR[45]', 'NOT NULL', '')
@@ -72,7 +74,7 @@ table(actor) {
 	$primary_key('actor_id', '')
 	$index('last_name', '')
 }
-table(address) {
+$table(address)
 	$column('address_id', 'SMALLINT', 'UNSIGNED NOT NULL AUTO_INCREMENT', '')
 	$column('address', 'VARCHAR[50]', 'NOT NULL', '')
 	$column('address2', 'VARCHAR[50]', 'DEFAULT NULL', '')
@@ -84,13 +86,13 @@ table(address) {
 	$primary_key('address_id', '')
 	$index('city_id', '')
 }
-table(category) {
+$table(category)
 	$column('category_id', 'TINYINT', 'UNSIGNED NOT NULL AUTO_INCREMENT', '')
 	$column('name', 'VARCHAR[25]', 'NOT NULL', '')
 	$column('last_update', 'TIMESTAMP', 'NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP', '')
 	$primary_key('category_id', '')
 }
-table(city) {
+$table(city)
 	$column('city_id', 'SMALLINT', 'UNSIGNED NOT NULL AUTO_INCREMENT', '')
 	$column('city', 'VARCHAR[50]', 'NOT NULL', '')
 	$column('country_id', 'SMALLINT', 'UNSIGNED NOT NULL', '')
@@ -98,13 +100,13 @@ table(city) {
 	$primary_key('city_id', '')
 	$index('country_id', '')
 }
-table(country) {
+$table(country)
 	$column('country_id', 'SMALLINT', 'UNSIGNED NOT NULL AUTO_INCREMENT', '')
 	$column('country', 'VARCHAR[50]', 'NOT NULL', '')
 	$column('last_update', 'TIMESTAMP', 'NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP', '')
 	$primary_key('country_id', '')
 }
-table(customer) {
+$table(customer)
 	$column('customer_id', 'SMALLINT', 'UNSIGNED NOT NULL AUTO_INCREMENT', '')
 	$column('store_id', 'TINYINT', 'UNSIGNED NOT NULL', '')
 	$column('first_name', 'VARCHAR[45]', 'NOT NULL', '')
@@ -119,7 +121,7 @@ table(customer) {
 	$index('address_id', '')
 	$index('last_name', '')
 }
-table(film) {
+$table(film)
 	$column('film_id', 'SMALLINT', 'UNSIGNED NOT NULL AUTO_INCREMENT', '')
 	$column('title', 'VARCHAR[255]', 'NOT NULL', '')
 	$column('description', 'TEXT', 'DEFAULT NULL', '')
@@ -138,27 +140,27 @@ table(film) {
 	$index('language_id', '')
 	$index('original_language_id', '')
 }
-table(film_actor) {
+$table(film_actor)
 	$column('actor_id', 'SMALLINT', 'UNSIGNED NOT NULL', '')
 	$column('film_id', 'SMALLINT', 'UNSIGNED NOT NULL', '')
 	$column('last_update', 'TIMESTAMP', 'NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP', '')
 	$primary_key('actor_id, film_id', '')
 	$index('film_id', '')
 }
-table(film_category) {
+$table(film_category)
 	$column('film_id', 'SMALLINT', 'UNSIGNED NOT NULL', '')
 	$column('category_id', 'TINYINT', 'UNSIGNED NOT NULL', '')
 	$column('last_update', 'TIMESTAMP', 'NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP', '')
 	$primary_key('film_id, category_id', '')
 }
-table(film_text) {
+$table(film_text)
 	$column('film_id', 'SMALLINT', 'NOT NULL', '')
 	$column('title', 'VARCHAR[255]', 'NOT NULL', '')
 	$column('description', 'TEXT', '', '')
 	$primary_key('film_id', '')
 	$fulltext_index('title, description', '')
 }
-table(inventory) {
+$table(inventory)
 	$column('inventory_id', 'MEDIUMINT', 'UNSIGNED NOT NULL AUTO_INCREMENT', '')
 	$column('film_id', 'SMALLINT', 'UNSIGNED NOT NULL', '')
 	$column('store_id', 'TINYINT', 'UNSIGNED NOT NULL', '')
@@ -167,13 +169,13 @@ table(inventory) {
 	$index('film_id', '')
 	$index('store_id, film_id', '')
 }
-table(language) {
+$table(language)
 	$column('language_id', 'TINYINT', 'UNSIGNED NOT NULL AUTO_INCREMENT', '')
 	$column('name', 'CHAR[20]', 'NOT NULL', '')
 	$column('last_update', 'TIMESTAMP', 'NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP', '')
 	$primary_key('language_id', '')
 }
-table(payment) {
+$table(payment)
 	$column('payment_id', 'SMALLINT', 'UNSIGNED NOT NULL AUTO_INCREMENT', '')
 	$column('customer_id', 'SMALLINT', 'UNSIGNED NOT NULL', '')
 	$column('staff_id', 'TINYINT', 'UNSIGNED NOT NULL', '')
@@ -185,7 +187,7 @@ table(payment) {
 	$index('staff_id', '')
 	$index('customer_id', '')
 }
-table(rental) {
+$table(rental)
 	$column('rental_id', 'INT', 'NOT NULL AUTO_INCREMENT', '')
 	$column('rental_date', 'DATETIME', 'NOT NULL', '')
 	$column('inventory_id', 'MEDIUMINT', 'UNSIGNED NOT NULL', '')
@@ -199,7 +201,7 @@ table(rental) {
 	$index('staff_id', '')
 	$unique_index('rental_date, inventory_id, customer_id', '')
 }
-table(staff) {
+$table(staff)
 	$column('staff_id', 'TINYINT', 'UNSIGNED NOT NULL AUTO_INCREMENT', '')
 	$column('first_name', 'VARCHAR[45]', 'NOT NULL', '')
 	$column('last_name', 'VARCHAR[45]', 'NOT NULL', '')
@@ -215,7 +217,7 @@ table(staff) {
 	$index('store_id', '')
 	$index('address_id', '')
 }
-table(store) {
+$table(store)
 	$column('store_id', 'TINYINT', 'UNSIGNED NOT NULL AUTO_INCREMENT', '')
 	$column('manager_staff_id', 'TINYINT', 'UNSIGNED NOT NULL', '')
 	$column('address_id', 'SMALLINT', 'UNSIGNED NOT NULL', '')
