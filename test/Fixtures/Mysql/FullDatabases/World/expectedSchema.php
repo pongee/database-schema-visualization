@@ -9,9 +9,9 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\Prima
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\SimpleIndex;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Schema;
 
-return (new Schema())
+return new Schema()
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('city')
             ->addColumn(
                 new Column(
@@ -75,7 +75,7 @@ return (new Schema())
         )
     )
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('country')
             ->addColumn(
                 new Column(
@@ -215,7 +215,7 @@ return (new Schema())
             ->setPrimaryKey(new PrimaryKey(['Code']))
     )
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('countrylanguage')
             ->addColumn(
                 new Column(

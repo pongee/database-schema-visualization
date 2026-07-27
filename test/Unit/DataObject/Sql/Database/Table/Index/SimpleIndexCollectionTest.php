@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Test\Unit\DataObject\Sql\Database\Table\Index;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\SimpleIndex;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\SimpleIndexCollection;
@@ -11,7 +12,7 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\Simpl
 
 class SimpleIndexCollectionTest extends TestCase
 {
-    public function getSimpleIndexesProvider(): array
+    public static function getSimpleIndexesProvider(): array
     {
         return [
             [
@@ -27,9 +28,7 @@ class SimpleIndexCollectionTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getSimpleIndexesProvider
-     */
+    #[DataProvider('getSimpleIndexesProvider')]
     public function testCollection(SimpleIndexInterface ...$simpleIndexes): void
     {
         $sut = new SimpleIndexCollection();

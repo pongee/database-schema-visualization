@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Test\Unit\DataObject\Sql\Database;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\ConnectionCollection;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\ConnectionInterface;
@@ -12,7 +13,7 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\OneToO
 
 class ConnectionCollectionTest extends TestCase
 {
-    public function getCollectionProvider(): array
+    public static function getCollectionProvider(): array
     {
         return [
             [
@@ -29,9 +30,7 @@ class ConnectionCollectionTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getCollectionProvider
-     */
+    #[DataProvider('getCollectionProvider')]
     public function testCollection(ConnectionInterface ...$connections): void
     {
         $sut = new ConnectionCollection();

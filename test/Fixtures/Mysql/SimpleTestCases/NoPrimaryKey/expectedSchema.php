@@ -7,9 +7,9 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Column;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\SimpleIndex;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Schema;
 
-return (new Schema())
+return new Schema()
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('user')
             ->addColumn(
                 new Column(

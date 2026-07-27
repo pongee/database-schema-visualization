@@ -12,7 +12,7 @@ use Twig\Environment;
 
 class ImageGenerator
 {
-    private const PLANTUML_LIMIT_SIZE = 16384;
+    private const int PLANTUML_LIMIT_SIZE = 16384;
 
     protected Environment $twig;
 
@@ -28,7 +28,7 @@ class ImageGenerator
      */
     public function generate(string $plantuml): string
     {
-        $fileName = sprintf('plantuml-%s-%s', (new DateTime())->format('Y-m-d-H-i-s-u'), mt_rand());
+        $fileName = sprintf('plantuml-%s-%s', new DateTime()->format('Y-m-d-H-i-s-u'), mt_rand());
 
         $sourceFile = new SplFileObject($this->outputFolder . '/' . $fileName . '.puml', 'w');
         $sourceFile->fwrite($plantuml);

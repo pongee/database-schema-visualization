@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Test\Unit\Export;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\OneToManyConnection;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\OneToOneConnection;
@@ -20,13 +21,13 @@ use Pongee\DatabaseSchemaVisualization\Export\Json;
 
 class JsonTest extends TestCase
 {
-    public function getSchemaProvider(): array
+    public static function getSchemaProvider(): array
     {
         return [
             [
-                (new Schema())
+                new Schema()
                     ->addTable(
-                        (new Table())
+                        new Table()
                             ->setName('member')
                             ->addColumn(new Column('id', 'INT', [10], 'NOT NULL DEFAULT', 'The id'))
                     ),
@@ -52,14 +53,14 @@ class JsonTest extends TestCase
 ',
             ],
             [
-                (new Schema())
+                new Schema()
                     ->addTable(
-                        (new Table())
+                        new Table()
                             ->setName('member')
                             ->addColumn(new Column('id', 'INT', [10], 'NOT NULL DEFAULT', 'The id'))
                     )
                     ->addTable(
-                        (new Table())
+                        new Table()
                             ->setName('member_data')
                             ->addColumn(new Column('id', 'INT', [10], 'NOT NULL DEFAULT', ''))
                             ->addColumn(new Column('member_id', 'INT', [10], 'NOT NULL', ''))
@@ -72,7 +73,7 @@ class JsonTest extends TestCase
                             ->addUniqueIndex(new UniqueIndex('idx_member_id', ['member_id'], 'USING HASH'))
                     )
                     ->addTable(
-                        (new Table())
+                        new Table()
                             ->setName('member_log')
                             ->addColumn(new Column('id', 'INT', [10], 'NOT NULL DEFAULT', 'The id'))
                             ->addColumn(new Column('member_id', 'INT', [10], 'NOT NULL', 'The member id'))
@@ -236,9 +237,7 @@ class JsonTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getSchemaProvider
-     */
+    #[DataProvider('getSchemaProvider')]
     public function testExportTableWithColumns(SchemaInterface $schema, string $expectedJson): void
     {
         $sut = new Json();

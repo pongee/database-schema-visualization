@@ -22,7 +22,7 @@ class MysqlJsonCommand extends MysqlCommandAbstract
         $sqlFileContent = $this->getSqlFileContent($input);
 
         $output->write(
-            (new Json())->export(
+            new Json()->export(
                 $this->parser->run(
                     $sqlFileContent,
                     $this->getForcedConnections($input->getOption(self::OPTION_CONNECTION))

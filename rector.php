@@ -1,24 +1,20 @@
 <?php
 
 declare(strict_types=1);
+
 use Rector\Config\RectorConfig;
-use Rector\DeadCode\Rector\ClassMethod\RemoveUselessParamTagRector;
-use Rector\DeadCode\Rector\ClassMethod\RemoveUselessReturnTagRector;
-use Rector\DeadCode\Rector\Node\RemoveNonExistingVarAnnotationRector;
-use Rector\DeadCode\Rector\Property\RemoveUselessReadOnlyTagRector;
-use Rector\DeadCode\Rector\Property\RemoveUselessVarTagRector;
 
 return RectorConfig::configure()
-    ->withRules([
-        RemoveUselessParamTagRector::class,
-        RemoveUselessReturnTagRector::class,
-        RemoveUselessReadOnlyTagRector::class,
-        RemoveNonExistingVarAnnotationRector::class,
-        RemoveUselessVarTagRector::class,
+    ->withPaths([
+        __DIR__ . '/example',
+        __DIR__ . '/src',
+        __DIR__ . '/test',
     ])
     ->withPreparedSets(
         typeDeclarations: true,
+        privatization: true,
+        earlyReturn: true
     )
-    ->withPhpSets(
-        php81: true,
-    );
+    ->withPhpSets(php85: true)
+    ->withDeadCodeLevel(30)
+    ->withCodeQualityLevel(20);

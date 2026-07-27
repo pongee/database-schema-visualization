@@ -36,6 +36,7 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\SchemaInterface;
  */
 class CassandraParser extends ParserAbstract
 {
+    #[\Override]
     public function run(
         string $nativeSqlSchema,
         ConnectionCollectionInterface $forcedConnectionCollection
@@ -219,7 +220,7 @@ class CassandraParser extends ParserAbstract
     protected function trimNames(string ...$strings): array
     {
         return array_map(
-            fn($string): string => $this->trimName($string),
+            $this->trimName(...),
             $strings
         );
     }
@@ -227,7 +228,7 @@ class CassandraParser extends ParserAbstract
     protected function getFormatedParameters(string ...$strings): array
     {
         return array_map(
-            fn($string): string => $this->getFormatedParameter($string),
+            $this->getFormatedParameter(...),
             $strings
         );
     }
@@ -512,6 +513,7 @@ class CassandraParser extends ParserAbstract
         return null;
     }
 
+    #[\Override]
     protected function getCreateTableConditions(string $schema): array
     {
         // treat types as tables so we can reference and show them
@@ -520,6 +522,7 @@ class CassandraParser extends ParserAbstract
         return parent::getCreateTableConditions($schema);
     }
 
+    #[\Override]
     public function getConnectionsByCreateTable(string $sql): ConnectionCollectionInterface
     {
         // nothing to do here, this is done later as we need to know which tables/types actually exist

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Test\Unit\DataObject\Sql\Database\Table;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Column;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\ColumnCollection;
@@ -11,7 +12,7 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\ColumnInter
 
 class ColumnCollectionTest extends TestCase
 {
-    public function getColumnsProvider(): array
+    public static function getColumnsProvider(): array
     {
         return [
             [
@@ -29,9 +30,7 @@ class ColumnCollectionTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider getColumnsProvider
-     */
+    #[DataProvider('getColumnsProvider')]
     public function testCollection(ColumnInterface ...$columns): void
     {
         $sut = new ColumnCollection();

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pongee\DatabaseSchemaVisualization\Test\Unit\Command\Mysql;
 
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Pongee\DatabaseSchemaVisualization\Command\Mysql\MysqlPlantumlCommand;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\ConnectionCollection;
@@ -23,8 +24,8 @@ class MysqlPlantumlCommandTest extends TestCase
 
     private function getCommand(string $rootDir = ''): MysqlPlantumlCommand
     {
-        /** @var MysqlParser&MockObject $mysqlParser */
-        $mysqlParser = $this->createMock(MysqlParser::class);
+        /** @var MysqlParser&Stub $mysqlParser */
+        $mysqlParser = $this->createStub(MysqlParser::class);
 
         return new MysqlPlantumlCommand($mysqlParser, $rootDir);
     }
@@ -99,7 +100,7 @@ class MysqlPlantumlCommandTest extends TestCase
             ->method('run')
             ->with(
                 $fakeSqlContent,
-                (new ConnectionCollection())
+                new ConnectionCollection()
                     ->add(new NotDefinedConnection('log', 'user', ['user_id'], ['user_id']))
             );
 

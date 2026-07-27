@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Test\Unit\Tempalte\Plantuml;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\OneToManyConnection;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\OneToOneConnection;
@@ -22,13 +23,13 @@ class V1TemplateTest extends TestCase
 {
     protected Plantuml $plantuml;
 
-    public function getSchemaProvider(): array
+    public static function getSchemaProvider(): array
     {
         return [
             [
-                (new Schema())
+                new Schema()
                     ->addTable(
-                        (new Table())
+                        new Table()
                             ->setName('actor')
                             ->addColumn(
                                 new Column(
@@ -68,7 +69,7 @@ class V1TemplateTest extends TestCase
                             )
                     )
                     ->addTable(
-                        (new Table())
+                        new Table()
                             ->setName('address')
                             ->addColumn(
                                 new Column(
@@ -123,9 +124,9 @@ table(address) {
 ",
             ],
             [
-                (new Schema())
+                new Schema()
                     ->addTable(
-                        (new Table())
+                        new Table()
                             ->setName('member')
                             ->addColumn(
                                 new Column(
@@ -144,9 +145,9 @@ table(member) {
 ",
             ],
             [
-                (new Schema())
+                new Schema()
                     ->addTable(
-                        (new Table())
+                        new Table()
                             ->setName('member')
                             ->addColumn(
                                 new Column(
@@ -160,7 +161,7 @@ table(member) {
                             ->setPrimaryKey(new PrimaryKey(['id']))
                     )
                     ->addTable(
-                        (new Table())
+                        new Table()
                             ->setName('member_data')
                             ->addColumn(
                                 new Column(
@@ -225,7 +226,7 @@ table(member) {
                             )
                     )
                     ->addTable(
-                        (new Table())
+                        new Table()
                             ->setName('member_log')
                             ->addColumn(
                                 new Column(
@@ -370,9 +371,7 @@ connection_one_to_many(member_log, member)
         ];
     }
 
-    /**
-     * @dataProvider getSchemaProvider
-     */
+    #[DataProvider('getSchemaProvider')]
     public function testExport(SchemaInterface $schema, string $extendOutput): void
     {
         $template = file_get_contents(__DIR__ . '/../../../../src/Template/Plantuml/v1.twig');

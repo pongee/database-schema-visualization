@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Test\Unit\DataObject\Sql\Database\Connection;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\OneToManyConnection;
 
 class OneToManyConnectionTest extends ConnectionAbstract
 {
-    /**
-     * @dataProvider getConnectionProvider
-     */
+    #[DataProvider('getConnectionProvider')]
     public function testData(
         string $childTablename,
         string $parentTableName,

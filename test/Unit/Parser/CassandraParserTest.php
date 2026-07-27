@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Test\Unit\Parser;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\ConnectionCollection;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\ConnectionCollectionInterface;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\TableInterface;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\SchemaInterface;
 use Pongee\DatabaseSchemaVisualization\Parser\CassandraParser;
-use Pongee\DatabaseSchemaVisualization\Parser\MysqlParser;
 use RecursiveIteratorIterator;
 use SplFileInfo;
 
 class CassandraParserTest extends TestCase
 {
-    public function getSchemaProvider(): array
+    public static function getSchemaProvider(): array
     {
         $directoryIterator = new RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator(FIXTURES_DIRECTORY . '/Cassandra/')
@@ -61,9 +61,7 @@ class CassandraParserTest extends TestCase
         return $providers;
     }
 
-    /**
-     * @dataProvider getSchemaProvider
-     */
+    #[DataProvider('getSchemaProvider')]
     public function testParser(
         SplFileInfo $file,
         SchemaInterface $schemaObject,

@@ -184,7 +184,7 @@ class MysqlParser extends ParserAbstract
     protected function trimNames(string ...$strings): array
     {
         return array_map(
-            fn($string): string => $this->trimName($string),
+            $this->trimName(...),
             $strings
         );
     }
@@ -192,7 +192,7 @@ class MysqlParser extends ParserAbstract
     protected function getFormatedParameters(string ...$strings): array
     {
         return array_map(
-            fn($string): string => $this->getFormatedParameter($string),
+            $this->getFormatedParameter(...),
             $strings
         );
     }

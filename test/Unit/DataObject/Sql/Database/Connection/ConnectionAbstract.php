@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class ConnectionAbstract extends TestCase
 {
-    public function getConnectionProvider(): array
+    public static function getConnectionProvider(): array
     {
         return [
             ['member_data', 'member', ['member_id'], ['id']],

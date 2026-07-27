@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Test\Unit\DataObject\Sql\Table\Database;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Column;
@@ -22,7 +23,7 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\TableInterface;
 
 class TableTest extends TestCase
 {
-    public function getNamesProvider(): array
+    public static function getNamesProvider(): array
     {
         return [
             ['member'],
@@ -30,7 +31,7 @@ class TableTest extends TestCase
         ];
     }
 
-    public function getPrimaryKeysProvider(): array
+    public static function getPrimaryKeysProvider(): array
     {
         return [
             [new PrimaryKey(['member'])],
@@ -38,7 +39,7 @@ class TableTest extends TestCase
         ];
     }
 
-    public function getColumnsDataProvider(): array
+    public static function getColumnsDataProvider(): array
     {
         return [
             [
@@ -54,7 +55,7 @@ class TableTest extends TestCase
         ];
     }
 
-    public function getKeysDataProvider(): array
+    public static function getKeysDataProvider(): array
     {
         return [
             [
@@ -67,7 +68,7 @@ class TableTest extends TestCase
         ];
     }
 
-    public function getUniqueIndexesDataProvider(): array
+    public static function getUniqueIndexesDataProvider(): array
     {
         return [
             [
@@ -80,7 +81,7 @@ class TableTest extends TestCase
         ];
     }
 
-    public function getFulltextIndexesDataProvider(): array
+    public static function getFulltextIndexesDataProvider(): array
     {
         return [
             [
@@ -93,7 +94,7 @@ class TableTest extends TestCase
         ];
     }
 
-    public function getSpatialIndexesDataProvider(): array
+    public static function getSpatialIndexesDataProvider(): array
     {
         return [
             [
@@ -113,9 +114,7 @@ class TableTest extends TestCase
         $this->assertInstanceOf(TableInterface::class, $sut);
     }
 
-    /**
-     * @dataProvider getNamesProvider
-     */
+    #[DataProvider('getNamesProvider')]
     public function testName(string $name): void
     {
         $sut = new Table();
@@ -124,9 +123,7 @@ class TableTest extends TestCase
         $this->assertEquals($name, $sut->getName());
     }
 
-    /**
-     * @dataProvider getPrimaryKeysProvider
-     */
+    #[DataProvider('getPrimaryKeysProvider')]
     public function testPrimaryKey(PrimaryKeyInterface $primaryKey): void
     {
         $sut = new Table();
@@ -135,9 +132,7 @@ class TableTest extends TestCase
         $this->assertEquals($primaryKey, $sut->getPrimaryKey());
     }
 
-    /**
-     * @dataProvider getColumnsDataProvider
-     */
+    #[DataProvider('getColumnsDataProvider')]
     public function testColumn(ColumnInterface ...$columns): void
     {
         $sut = new Table();
@@ -151,9 +146,7 @@ class TableTest extends TestCase
         }
     }
 
-    /**
-     * @dataProvider getKeysDataProvider
-     */
+    #[DataProvider('getKeysDataProvider')]
     public function testKey(SimpleIndexInterface ...$simpleIndexes): void
     {
         $sut = new Table();
@@ -168,9 +161,7 @@ class TableTest extends TestCase
         }
     }
 
-    /**
-     * @dataProvider getUniqueIndexesDataProvider
-     */
+    #[DataProvider('getUniqueIndexesDataProvider')]
     public function testUniqueKey(UniqueIndexInterface ...$uniquekeys): void
     {
         $sut = new Table();
@@ -185,9 +176,7 @@ class TableTest extends TestCase
         }
     }
 
-    /**
-     * @dataProvider getFulltextIndexesDataProvider
-     */
+    #[DataProvider('getFulltextIndexesDataProvider')]
     public function testFulltextKey(FulltextIndexInterface ...$fulltextIndexes): void
     {
         $sut = new Table();
@@ -202,9 +191,7 @@ class TableTest extends TestCase
         }
     }
 
-    /**
-     * @dataProvider getSpatialIndexesDataProvider
-     */
+    #[DataProvider('getSpatialIndexesDataProvider')]
     public function testSpatialKey(SpatialIndexInterface ...$spatialIndexes): void
     {
         $sut = new Table();

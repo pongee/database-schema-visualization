@@ -47,7 +47,7 @@ class MysqlImageCommand extends MysqlCommandAbstract
         $sqlFileContent = $this->getSqlFileContent($input);
         $templateFileContent = $this->getTemplateFileContent($input);
 
-        $generatedPlantuml = (new Plantuml($templateFileContent))->export(
+        $generatedPlantuml = new Plantuml($templateFileContent)->export(
             $this->parser->run(
                 $sqlFileContent,
                 $this->getForcedConnections($input->getOption(self::OPTION_CONNECTION))

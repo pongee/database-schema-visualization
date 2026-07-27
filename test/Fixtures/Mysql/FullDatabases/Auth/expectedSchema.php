@@ -9,9 +9,9 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\Prima
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\SimpleIndex;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Schema;
 
-return (new Schema())
+return new Schema()
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('user')
             ->addColumn(
                 new Column(
@@ -58,7 +58,7 @@ return (new Schema())
             )
     )
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('developer')
             ->addColumn(
                 new Column(
@@ -129,7 +129,7 @@ return (new Schema())
             )
     )
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('log')
             ->addColumn(
                 new Column(

@@ -12,9 +12,9 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\Simpl
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\UniqueIndex;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Schema;
 
-return (new Schema())
+return new Schema()
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('actor')
             ->addColumn(
                 new Column(
@@ -61,7 +61,7 @@ return (new Schema())
             )
     )
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('address')
             ->addColumn(
                 new Column(
@@ -152,7 +152,7 @@ return (new Schema())
         )
     )
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('category')
             ->addColumn(
                 new Column(
@@ -184,7 +184,7 @@ return (new Schema())
             ->setPrimaryKey(new PrimaryKey(['category_id']))
     )
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('city')
             ->addColumn(
                 new Column(
@@ -239,7 +239,7 @@ return (new Schema())
         )
     )
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('country')
             ->addColumn(
                 new Column(
@@ -271,7 +271,7 @@ return (new Schema())
             ->setPrimaryKey(new PrimaryKey(['country_id']))
     )
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('customer')
             ->addColumn(
                 new Column(
@@ -391,7 +391,7 @@ return (new Schema())
         )
     )
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('film')
             ->addColumn(
                 new Column(
@@ -552,7 +552,7 @@ return (new Schema())
         )
     )
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('film_actor')
             ->addColumn(
                 new Column(
@@ -606,7 +606,7 @@ return (new Schema())
         )
     )
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('film_category')
             ->addColumn(
                 new Column(
@@ -654,7 +654,7 @@ return (new Schema())
         )
     )
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('film_text')
             ->addColumn(
                 new Column(
@@ -692,7 +692,7 @@ return (new Schema())
             )
     )
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('inventory')
             ->addColumn(
                 new Column(
@@ -761,7 +761,7 @@ return (new Schema())
         )
     )
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('language')
             ->addColumn(
                 new Column(
@@ -793,7 +793,7 @@ return (new Schema())
             ->setPrimaryKey(new PrimaryKey(['language_id']))
     )
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('payment')
             ->addColumn(
                 new Column(
@@ -897,7 +897,7 @@ return (new Schema())
         )
     )
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('rental')
             ->addColumn(
                 new Column(
@@ -1013,7 +1013,7 @@ return (new Schema())
         )
     )
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('staff')
             ->addColumn(
                 new Column(
@@ -1145,7 +1145,7 @@ return (new Schema())
         )
     )
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('store')
             ->addColumn(
                 new Column(

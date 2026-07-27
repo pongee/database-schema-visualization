@@ -3,4 +3,5 @@
 /doc/
 /tmp/
 /.phpunit.result.cache
+/.phpunit.cache/
 /composer.lock

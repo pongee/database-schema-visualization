@@ -6,7 +6,6 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\OneToM
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Column;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\PrimaryKey;
-use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Table\Index\SimpleIndex;
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Schema;
 
 //id UUID,
@@ -16,9 +15,9 @@ use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Schema;
 //  flags map <varchar, boolean>,
 //  data map<varchar, varchar>
 
-return (new Schema())
+return new Schema()
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('message')
             ->addColumn(
                 new Column(
@@ -82,7 +81,7 @@ return (new Schema())
             )
     )
     ->addTable(
-        (new Table())
+        new Table()
             ->setName('user_messages')
             ->addColumn(
                 new Column(

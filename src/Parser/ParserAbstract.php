@@ -78,10 +78,8 @@ abstract class ParserAbstract implements ParserInterface
         );
 
         $conditions = [];
-        if (!empty($alterTableMatches['alterTableCondition'])) {
-            foreach ($alterTableMatches['alterTableCondition'] as $index => $condition) {
-                $conditions[$alterTableMatches['childTableName'][$index]][] = $condition;
-            }
+        foreach ($alterTableMatches['alterTableCondition'] as $index => $condition) {
+            $conditions[$alterTableMatches['childTableName'][$index]][] = $condition;
         }
 
         return $this->generateConnections($conditions);
@@ -151,7 +149,7 @@ abstract class ParserAbstract implements ParserInterface
                         $connectionCollection->add(
                             new NotDefinedConnection(
                                 trim(
-                                    $tableName,
+                                    (string) $tableName,
                                     '` '
                                 ),
                                 trim(
@@ -295,10 +293,8 @@ abstract class ParserAbstract implements ParserInterface
         );
 
         $conditions = [];
-        if (!empty($createTableMatches['foreignKeyCondition'])) {
-            foreach ($createTableMatches['foreignKeyCondition'] as $condition) {
-                $conditions[$this->getTableNameFromCreateTableSchema($sql)][] = $condition;
-            }
+        foreach ($createTableMatches['foreignKeyCondition'] as $condition) {
+            $conditions[$this->getTableNameFromCreateTableSchema($sql)][] = $condition;
         }
 
         return $this->generateConnections($conditions);
