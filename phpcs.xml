@@ -2,7 +2,6 @@
 <ruleset>
 	<file>src</file>
 	<file>test</file>
-	<file>example</file>
 
 	<arg name="basepath" value="."/>
 	<arg name="colors" />
