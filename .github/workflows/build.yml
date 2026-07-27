@@ -1,4 +1,4 @@
-name: Docker
+name: Build
 
 on:
   push:
@@ -6,12 +6,15 @@ on:
     tags: ['[0-9]+.[0-9]+.[0-9]+']
 
 env:
-  IMAGE: pongee/database-schema-visualization
+  IMAGE: ghcr.io/pongee/database-schema-visualization
+
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   build:
     runs-on: ${{ matrix.runner }}
-    environment: dockerhub
     strategy:
       fail-fast: false
       matrix:
@@ -32,8 +35,9 @@ jobs:
 
       - uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - id: meta
         uses: docker/metadata-action@v5
@@ -65,7 +69,6 @@ jobs:
   merge:
     runs-on: ubuntu-latest
     needs: build
-    environment: dockerhub
     steps:
       - name: Download digests
         uses: actions/download-artifact@v4
@@ -78,8 +81,9 @@ jobs:
 
       - uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - id: meta
         uses: docker/metadata-action@v5
