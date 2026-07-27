@@ -368,6 +368,35 @@ connection_one_to_one(member_data, member)
 connection_one_to_many(member_log, member)
 ",
             ],
+            'new types, composite primary key and multi-column index' => [
+                new Schema()
+                    ->addTable(
+                        new Table()
+                            ->setName('measurement')
+                            ->addColumn(new Column('id', 'SERIAL', [], '', ''))
+                            ->addColumn(new Column('sensor_id', 'INT', [10], 'NOT NULL', ''))
+                            ->addColumn(new Column('score', 'NUMERIC', [10, 2], 'NOT NULL', ''))
+                            ->addColumn(new Column('area', 'GEOMETRYCOLLECTION', [], 'NOT NULL', ''))
+                            ->addColumn(new Column('embedding', 'VECTOR', [3], 'NOT NULL', ''))
+                            ->addColumn(new Column('label', 'VARCHAR', [64], '', ''))
+                            ->setPrimaryKey(new PrimaryKey(['sensor_id', 'id']))
+                            ->addSimpleIndex(new SimpleIndex('idx_sensor_score_label', ['sensor_id', 'score', 'label']))
+                            ->addSpatialIndex(new SpatialIndex('idx_area', ['area']))
+                    ),
+                "
+table(measurement) {
+    column('id', 'SERIAL')
+    column('sensor_id', 'INT[10]', 'NOT NULL')
+    column('score', 'NUMERIC[10, 2]', 'NOT NULL')
+    column('area', 'GEOMETRYCOLLECTION', 'NOT NULL')
+    column('embedding', 'VECTOR[3]', 'NOT NULL')
+    column('label', 'VARCHAR[64]')
+    primary_key('sensor_id, id')
+    index('sensor_id, score, label')
+    spatial_index('area')
+}
+",
+            ],
         ];
     }
 
