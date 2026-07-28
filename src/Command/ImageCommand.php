@@ -22,8 +22,6 @@ final class ImageCommand extends CommandAbstract
 
     private const string PLANTUML_BIN = 'bin/plantuml-mit-1.2026.6.jar';
 
-    private const string TEMP_DIR = 'tmp';
-
     protected function configure(): void
     {
         $this
@@ -45,8 +43,7 @@ final class ImageCommand extends CommandAbstract
 
         $image = new ImageGenerator(
             $this->getImageType($input),
-            $this->rootDir . self::PLANTUML_BIN,
-            $this->rootDir . self::TEMP_DIR
+            $this->rootDir . self::PLANTUML_BIN
         );
 
         echo $image->generate($generatedPlantuml);
@@ -54,7 +51,7 @@ final class ImageCommand extends CommandAbstract
         return 0;
     }
 
-    private function getImageType(InputInterface $input): string
+    private function getImageType(InputInterface $input): ImageType
     {
         $imageType = ImageType::tryFrom((string) $input->getOption(self::OPTION_TYPE));
 
@@ -67,6 +64,6 @@ final class ImageCommand extends CommandAbstract
             );
         }
 
-        return $imageType->value;
+        return $imageType;
     }
 }

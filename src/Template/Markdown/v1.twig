@@ -1,9 +1,8 @@
-# Schema
+## Tables
 {% for table in tables %}
+### `{{ table.name }}` table
 
-## `{{ table.name }}` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -12,7 +11,7 @@
 {% endfor -%}
 {% if table.primaryKey %}
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
@@ -20,7 +19,7 @@
 {% endif -%}
 {% if table.simpleIndexes|length %}
 
-### Indexes
+#### Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
@@ -30,7 +29,7 @@
 {% endif -%}
 {% if table.uniqueIndexes|length %}
 
-### Unique Indexes
+#### Unique Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
@@ -40,7 +39,7 @@
 {% endif -%}
 {% if table.fulltextIndexes|length %}
 
-### Fulltext Indexes
+#### Fulltext Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
@@ -50,7 +49,7 @@
 {% endif -%}
 {% if table.spatialIndexes|length %}
 
-### Spatial Indexes
+#### Spatial Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |

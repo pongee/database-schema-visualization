@@ -77,7 +77,7 @@ class MarkdownTest extends TestCase
 
         $this->assertEquals(
             strtr(
-                "tables:%tables%|connections:%connections%\n",
+                'tables:%tables%|connections:%connections%',
                 [
                     '%tables%' => json_encode($schema->tables->jsonSerialize()),
                     '%connections%' => json_encode($schema->connections->jsonSerialize()),

@@ -1,21 +1,16 @@
 @startuml
 
-!ifndef TABLE_BORDER_COLOR
-!define TABLE_BORDER_COLOR Chocolate
-!endif
-
-!ifndef TABLE_BACKGROUND_COLOR
-!define TABLE_BACKGROUND_COLOR AntiqueWhite
-!endif
+!$table_border_color ?= "Chocolate"
+!$table_background_color ?= "AntiqueWhite"
 
 skinparam class {
-	BackgroundColor TABLE_BACKGROUND_COLOR
-	BorderColor TABLE_BORDER_COLOR
-	ArrowColor TABLE_BORDER_COLOR
+	BackgroundColor $table_background_color
+	BorderColor $table_border_color
+	ArrowColor $table_border_color
 }
 
 !procedure $table($name)
-class "$name" << (T, TABLE_BORDER_COLOR ) >>
+class "$name" <<table>> << (T, $table_border_color ) >>
 !endprocedure
 
 !function $key_columns($columns, $otherParameters="")
@@ -69,16 +64,14 @@ class "$name" << (T, TABLE_BORDER_COLOR ) >>
 !endprocedure
 
 !procedure $connection_one_to_one($from, $to)
-$from "1" -- "1" $to
+	$from "1" -- "1" $to
 !endprocedure
 
 !procedure $connection_one_to_many($from, $to)
-$from "n" }-- "1" $to
+	$from "n" }-- "1" $to
 !endprocedure
 
 hide methods
-hide stereotypes
-
 skinparam linetype polyline
 left to right direction
 

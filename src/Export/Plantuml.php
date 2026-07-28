@@ -23,21 +23,11 @@ final readonly class Plantuml implements ExportInterface
 
     public function export(SchemaInterface $schema): string
     {
-        $text = $this->twig->render(
+        return $this->twig->render(
             'template',
             [
                 'tables' => $schema->tables,
                 'connections' => $schema->connections,
-            ]
-        );
-
-        $text = preg_replace('/^\s+/m', '', $text);
-
-        return strtr(
-            $text,
-            [
-                '[\t]' => "\t",
-                '[\n]' => '',
             ]
         );
     }

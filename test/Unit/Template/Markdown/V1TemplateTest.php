@@ -42,11 +42,10 @@ class V1TemplateTest extends TestCase
                             )
                     ),
                 <<<'MD'
-                    # Schema
+                    ## Tables
+                    ### `actor` table
 
-                    ## `actor` table
-
-                    ### Columns
+                    #### Columns
 
                     | Name | Type | Parameters | Comment |
                     | --- | --- | --- | --- |
@@ -89,25 +88,23 @@ class V1TemplateTest extends TestCase
                     ->addConnection(new OneToOneConnection('member_data', 'member', ['member_id'], ['id']))
                     ->addConnection(new OneToManyConnection('member_log', 'member', ['member_id'], ['id'])),
                 <<<'MD'
-                    # Schema
+                    ## Tables
+                    ### `member` table
 
-                    ## `member` table
-
-                    ### Columns
+                    #### Columns
 
                     | Name | Type | Parameters | Comment |
                     | --- | --- | --- | --- |
                     | id | INT ( 10 ) | NOT NULL DEFAULT | - |
 
-                    ### Primary Key
+                    #### Primary Key
 
                     | Columns | Parameters |
                     | --- | --- |
                     | id | - |
+                    ### `member_data` table
 
-                    ## `member_data` table
-
-                    ### Columns
+                    #### Columns
 
                     | Name | Type | Parameters | Comment |
                     | --- | --- | --- | --- |
@@ -116,28 +113,27 @@ class V1TemplateTest extends TestCase
                     | type | VARCHAR ( 64 ) | NOT NULL | - |
                     | status | ENUM ( enabled, deleted ) | DEFAULT NULL | - |
 
-                    ### Primary Key
+                    #### Primary Key
 
                     | Columns | Parameters |
                     | --- | --- |
                     | id | USING HASH |
 
-                    ### Indexes
+                    #### Indexes
 
                     | Name | Columns | Parameters |
                     | --- | --- | --- |
                     | idx_type | type | - |
                     | idx_type_status | type, status | USING HASH |
 
-                    ### Unique Indexes
+                    #### Unique Indexes
 
                     | Name | Columns | Parameters |
                     | --- | --- | --- |
                     | idx_member_id | member_id | - |
+                    ### `member_log` table
 
-                    ## `member_log` table
-
-                    ### Columns
+                    #### Columns
 
                     | Name | Type | Parameters | Comment |
                     | --- | --- | --- | --- |
@@ -145,31 +141,31 @@ class V1TemplateTest extends TestCase
                     | member_id | INT ( 10 ) | NOT NULL | - |
                     | created_at | DATETIME | NOT NULL | - |
 
-                    ### Primary Key
+                    #### Primary Key
 
                     | Columns | Parameters |
                     | --- | --- |
                     | id | USING HASH |
 
-                    ### Indexes
+                    #### Indexes
 
                     | Name | Columns | Parameters |
                     | --- | --- | --- |
                     | idx_action | action | - |
 
-                    ### Unique Indexes
+                    #### Unique Indexes
 
                     | Name | Columns | Parameters |
                     | --- | --- | --- |
                     | idx_member_id | member_id | USING HASH |
 
-                    ### Fulltext Indexes
+                    #### Fulltext Indexes
 
                     | Name | Columns | Parameters |
                     | --- | --- | --- |
                     | idx_member_id_action | member_id, action | - |
 
-                    ### Spatial Indexes
+                    #### Spatial Indexes
 
                     | Name | Columns | Parameters |
                     | --- | --- | --- |
@@ -199,11 +195,10 @@ class V1TemplateTest extends TestCase
                             ->addSpatialIndex(new SpatialIndex('idx_area', ['area']))
                     ),
                 <<<'MD'
-                    # Schema
+                    ## Tables
+                    ### `measurement` table
 
-                    ## `measurement` table
-
-                    ### Columns
+                    #### Columns
 
                     | Name | Type | Parameters | Comment |
                     | --- | --- | --- | --- |
@@ -214,19 +209,19 @@ class V1TemplateTest extends TestCase
                     | embedding | VECTOR ( 3 ) | NOT NULL | - |
                     | label | VARCHAR ( 64 ) | - | - |
 
-                    ### Primary Key
+                    #### Primary Key
 
                     | Columns | Parameters |
                     | --- | --- |
                     | sensor_id, id | - |
 
-                    ### Indexes
+                    #### Indexes
 
                     | Name | Columns | Parameters |
                     | --- | --- | --- |
                     | idx_sensor_score_label | sensor_id, score, label | - |
 
-                    ### Spatial Indexes
+                    #### Spatial Indexes
 
                     | Name | Columns | Parameters |
                     | --- | --- | --- |

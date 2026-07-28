@@ -23,17 +23,12 @@ final readonly class Markdown implements ExportInterface
 
     public function export(SchemaInterface $schema): string
     {
-        $text = $this->twig->render(
+        return $this->twig->render(
             'template',
             [
                 'tables' => $schema->tables,
                 'connections' => $schema->connections,
             ]
         );
-
-        $text = preg_replace('/^[ \t]+/m', '', $text);
-        $text = preg_replace('/\n{3,}/', "\n\n", (string) $text);
-
-        return rtrim((string) $text, "\n") . "\n";
     }
 }

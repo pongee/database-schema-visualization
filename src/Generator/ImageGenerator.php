@@ -4,20 +4,15 @@ declare(strict_types=1);
 
 namespace Pongee\DatabaseSchemaVisualization\Generator;
 
-use DateTime;
 use Exception;
-use RuntimeException;
-use SplFileObject;
-use Twig\Environment;
 
 final readonly class ImageGenerator
 {
     private const int PLANTUML_LIMIT_SIZE = 16384;
 
     public function __construct(
-        private string $imageType,
-        private string $plantumlJarPath,
-        private string $outputFolder
+        private ImageType $imageType,
+        private string $plantumlJarPath
     ) {
     }
 
@@ -26,56 +21,47 @@ final readonly class ImageGenerator
      */
     public function generate(string $plantuml): string
     {
-        $fileName = sprintf('plantuml-%s-%s', new DateTime()->format('Y-m-d-H-i-s-u'), mt_rand());
+        $command = implode(
+            ' ',
+            [
+                'java',
+                sprintf('-DPLANTUML_LIMIT_SIZE=%d', self::PLANTUML_LIMIT_SIZE),
+                '-jar',
+                escapeshellarg($this->plantumlJarPath),
+                '--pipe',
+                '--format',
+                escapeshellarg($this->imageType->value),
+            ]
+        );
 
-        $sourceFile = new SplFileObject($this->outputFolder . '/' . $fileName . '.puml', 'w');
-        $sourceFile->fwrite($plantuml);
+        $process = proc_open(
+            $command,
+            [
+                0 => ['pipe', 'r'],
+                1 => ['pipe', 'w'],
+                2 => ['pipe', 'w'],
+            ],
+            $pipes
+        );
 
-        $output = $this->generatePlantuml($sourceFile);
+        if (!is_resource($process)) {
+            throw new Exception('Plantuml diagram generation failed. Unable to start the process.');
+        }
 
-        try {
-            $outputFile = new SplFileObject($this->outputFolder . '/' . $fileName . '.' . $this->imageType, 'r');
-        } catch (RuntimeException $runtimeException) {
-            $this->deleteFiles($sourceFile);
+        fwrite($pipes[0], $plantuml);
+        fclose($pipes[0]);
 
+        $image = stream_get_contents($pipes[1]);
+        $error = stream_get_contents($pipes[2]);
+        fclose($pipes[1]);
+        fclose($pipes[2]);
+
+        if (proc_close($process) !== 0 || $image === false || $image === '') {
             throw new Exception(
-                sprintf(
-                    'Plantuml diagram generation failed. Original error: [%s] output: [%s]',
-                    $runtimeException->getMessage(),
-                    $output
-                )
+                sprintf('Plantuml diagram generation failed. Original error: [%s]', $error)
             );
         }
 
-        $plantumlPng = $outputFile->fread($outputFile->getSize());
-
-        $this->deleteFiles($sourceFile, $outputFile);
-
-        return $plantumlPng;
-    }
-
-    private function generatePlantuml(SplFileObject $sourceFile): string
-    {
-        exec(
-            sprintf(
-                'java -DPLANTUML_LIMIT_SIZE=%s -jar %s %s -t%s -output %s 2>&1',
-                self::PLANTUML_LIMIT_SIZE,
-                $this->plantumlJarPath,
-                $sourceFile->getRealPath(),
-                escapeshellarg($this->imageType),
-                $this->outputFolder
-            ),
-            $output,
-            $return
-        );
-
-        return implode("\n", $output);
-    }
-
-    private function deleteFiles(SplFileObject ...$files): void
-    {
-        foreach ($files as $file) {
-            unlink($file->getRealPath());
-        }
+        return $image;
     }
 }
