@@ -1,0 +1,1458 @@
+{
+    "tables": {
+        "airline": {
+            "columns": [
+                {
+                    "name": "airline_id",
+                    "type": "smallint",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL AUTO_INCREMENT",
+                    "comment": ""
+                },
+                {
+                    "name": "iata",
+                    "type": "char",
+                    "typeParameters": [
+                        "2"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "airlinename",
+                    "type": "varchar",
+                    "typeParameters": [
+                        "30"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "base_airport",
+                    "type": "smallint",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [
+                    {
+                        "columns": [
+                            "base_airport"
+                        ],
+                        "otherParameters": "",
+                        "name": "base_airport_idx"
+                    }
+                ],
+                "spatial": [],
+                "fulltext": [],
+                "unique": [
+                    {
+                        "columns": [
+                            "iata"
+                        ],
+                        "otherParameters": "",
+                        "name": "iata_unq"
+                    }
+                ]
+            },
+            "primaryKey": {
+                "columns": [
+                    "airline_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "airplane": {
+            "columns": [
+                {
+                    "name": "airplane_id",
+                    "type": "int",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL AUTO_INCREMENT",
+                    "comment": ""
+                },
+                {
+                    "name": "capacity",
+                    "type": "mediumint",
+                    "typeParameters": [],
+                    "otherParameters": "unsigned NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "type_id",
+                    "type": "int",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "airline_id",
+                    "type": "int",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [
+                    {
+                        "columns": [
+                            "type_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "type_id"
+                    }
+                ],
+                "spatial": [],
+                "fulltext": [],
+                "unique": []
+            },
+            "primaryKey": {
+                "columns": [
+                    "airplane_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "airplane_type": {
+            "columns": [
+                {
+                    "name": "type_id",
+                    "type": "int",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL AUTO_INCREMENT",
+                    "comment": ""
+                },
+                {
+                    "name": "identifier",
+                    "type": "varchar",
+                    "typeParameters": [
+                        "50"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "description",
+                    "type": "text",
+                    "typeParameters": [],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [],
+                "spatial": [],
+                "fulltext": [
+                    {
+                        "columns": [
+                            "identifier",
+                            "description"
+                        ],
+                        "otherParameters": "",
+                        "name": "description_full"
+                    }
+                ],
+                "unique": []
+            },
+            "primaryKey": {
+                "columns": [
+                    "type_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "airport": {
+            "columns": [
+                {
+                    "name": "airport_id",
+                    "type": "smallint",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL AUTO_INCREMENT",
+                    "comment": ""
+                },
+                {
+                    "name": "iata",
+                    "type": "char",
+                    "typeParameters": [
+                        "3"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "icao",
+                    "type": "char",
+                    "typeParameters": [
+                        "4"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "name",
+                    "type": "varchar",
+                    "typeParameters": [
+                        "50"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [
+                    {
+                        "columns": [
+                            "name"
+                        ],
+                        "otherParameters": "",
+                        "name": "name_idx"
+                    },
+                    {
+                        "columns": [
+                            "iata"
+                        ],
+                        "otherParameters": "",
+                        "name": "iata_idx"
+                    }
+                ],
+                "spatial": [],
+                "fulltext": [],
+                "unique": [
+                    {
+                        "columns": [
+                            "icao"
+                        ],
+                        "otherParameters": "",
+                        "name": "icao_unq"
+                    }
+                ]
+            },
+            "primaryKey": {
+                "columns": [
+                    "airport_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "airport_geo": {
+            "columns": [
+                {
+                    "name": "airport_id",
+                    "type": "smallint",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "name",
+                    "type": "varchar",
+                    "typeParameters": [
+                        "50"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "city",
+                    "type": "varchar",
+                    "typeParameters": [
+                        "50"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "country",
+                    "type": "varchar",
+                    "typeParameters": [
+                        "50"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "latitude",
+                    "type": "decimal",
+                    "typeParameters": [
+                        "11",
+                        "8"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "longitude",
+                    "type": "decimal",
+                    "typeParameters": [
+                        "11",
+                        "8"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "geolocation",
+                    "type": "point",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [],
+                "spatial": [
+                    {
+                        "columns": [
+                            "geolocation"
+                        ],
+                        "otherParameters": "",
+                        "name": "geolocation_spt"
+                    }
+                ],
+                "fulltext": [],
+                "unique": []
+            },
+            "primaryKey": {
+                "columns": [
+                    "airport_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "airport_reachable": {
+            "columns": [
+                {
+                    "name": "airport_id",
+                    "type": "smallint",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "hops",
+                    "type": "int",
+                    "typeParameters": [],
+                    "otherParameters": "DEFAULT NULL",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [],
+                "spatial": [],
+                "fulltext": [],
+                "unique": []
+            },
+            "primaryKey": {
+                "columns": [
+                    "airport_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "booking": {
+            "columns": [
+                {
+                    "name": "booking_id",
+                    "type": "int",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL AUTO_INCREMENT",
+                    "comment": ""
+                },
+                {
+                    "name": "flight_id",
+                    "type": "int",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "seat",
+                    "type": "char",
+                    "typeParameters": [
+                        "4"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "passenger_id",
+                    "type": "int",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "price",
+                    "type": "decimal",
+                    "typeParameters": [
+                        "10",
+                        "2"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [
+                    {
+                        "columns": [
+                            "flight_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "flight_idx"
+                    },
+                    {
+                        "columns": [
+                            "passenger_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "passenger_idx"
+                    }
+                ],
+                "spatial": [],
+                "fulltext": [],
+                "unique": [
+                    {
+                        "columns": [
+                            "flight_id",
+                            "seat"
+                        ],
+                        "otherParameters": "",
+                        "name": "seatplan_unq"
+                    }
+                ]
+            },
+            "primaryKey": {
+                "columns": [
+                    "booking_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "employee": {
+            "columns": [
+                {
+                    "name": "employee_id",
+                    "type": "int",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL AUTO_INCREMENT",
+                    "comment": ""
+                },
+                {
+                    "name": "firstname",
+                    "type": "varchar",
+                    "typeParameters": [
+                        "100"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "lastname",
+                    "type": "varchar",
+                    "typeParameters": [
+                        "100"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "birthdate",
+                    "type": "date",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "sex",
+                    "type": "char",
+                    "typeParameters": [
+                        "1"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "street",
+                    "type": "varchar",
+                    "typeParameters": [
+                        "100"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "city",
+                    "type": "varchar",
+                    "typeParameters": [
+                        "100"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "zip",
+                    "type": "smallint",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "country",
+                    "type": "varchar",
+                    "typeParameters": [
+                        "100"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "emailaddress",
+                    "type": "varchar",
+                    "typeParameters": [
+                        "120"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "telephoneno",
+                    "type": "varchar",
+                    "typeParameters": [
+                        "30"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "salary",
+                    "type": "decimal",
+                    "typeParameters": [
+                        "8",
+                        "2"
+                    ],
+                    "otherParameters": "DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "username",
+                    "type": "varchar",
+                    "typeParameters": [
+                        "20"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "password",
+                    "type": "char",
+                    "typeParameters": [
+                        "32"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "department",
+                    "type": "enum",
+                    "typeParameters": [
+                        "Marketing",
+                        "Buchhaltung",
+                        "Management",
+                        "Logistik",
+                        "Flugfeld"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [],
+                "spatial": [],
+                "fulltext": [],
+                "unique": [
+                    {
+                        "columns": [
+                            "username"
+                        ],
+                        "otherParameters": "",
+                        "name": "user_unq"
+                    }
+                ]
+            },
+            "primaryKey": {
+                "columns": [
+                    "employee_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "flight": {
+            "columns": [
+                {
+                    "name": "flight_id",
+                    "type": "int",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL AUTO_INCREMENT",
+                    "comment": ""
+                },
+                {
+                    "name": "flightno",
+                    "type": "char",
+                    "typeParameters": [
+                        "8"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "from",
+                    "type": "smallint",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "to",
+                    "type": "smallint",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "departure",
+                    "type": "datetime",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "arrival",
+                    "type": "datetime",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "airline_id",
+                    "type": "smallint",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "airplane_id",
+                    "type": "int",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [
+                    {
+                        "columns": [
+                            "from"
+                        ],
+                        "otherParameters": "",
+                        "name": "from_idx"
+                    },
+                    {
+                        "columns": [
+                            "to"
+                        ],
+                        "otherParameters": "",
+                        "name": "to_idx"
+                    },
+                    {
+                        "columns": [
+                            "departure"
+                        ],
+                        "otherParameters": "",
+                        "name": "departure_idx"
+                    },
+                    {
+                        "columns": [
+                            "arrival"
+                        ],
+                        "otherParameters": "",
+                        "name": "arrivals_idx"
+                    },
+                    {
+                        "columns": [
+                            "airline_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "airline_idx"
+                    },
+                    {
+                        "columns": [
+                            "airplane_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "airplane_idx"
+                    },
+                    {
+                        "columns": [
+                            "flightno"
+                        ],
+                        "otherParameters": "",
+                        "name": "flightno"
+                    }
+                ],
+                "spatial": [],
+                "fulltext": [],
+                "unique": []
+            },
+            "primaryKey": {
+                "columns": [
+                    "flight_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "flight_log": {
+            "columns": [
+                {
+                    "name": "flight_log_id",
+                    "type": "int",
+                    "typeParameters": [],
+                    "otherParameters": "unsigned NOT NULL AUTO_INCREMENT",
+                    "comment": ""
+                },
+                {
+                    "name": "log_date",
+                    "type": "datetime",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "user",
+                    "type": "varchar",
+                    "typeParameters": [
+                        "100"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "flight_id",
+                    "type": "int",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "flightno_old",
+                    "type": "char",
+                    "typeParameters": [
+                        "8"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "flightno_new",
+                    "type": "char",
+                    "typeParameters": [
+                        "8"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "from_old",
+                    "type": "smallint",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "to_old",
+                    "type": "smallint",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "from_new",
+                    "type": "smallint",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "to_new",
+                    "type": "smallint",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "departure_old",
+                    "type": "datetime",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "arrival_old",
+                    "type": "datetime",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "departure_new",
+                    "type": "datetime",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "arrival_new",
+                    "type": "datetime",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "airplane_id_old",
+                    "type": "int",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "airplane_id_new",
+                    "type": "int",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "airline_id_old",
+                    "type": "smallint",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "airline_id_new",
+                    "type": "smallint",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "comment",
+                    "type": "varchar",
+                    "typeParameters": [
+                        "200"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [
+                    {
+                        "columns": [
+                            "flight_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "flight_log_ibfk_1"
+                    }
+                ],
+                "spatial": [],
+                "fulltext": [],
+                "unique": []
+            },
+            "primaryKey": {
+                "columns": [
+                    "flight_log_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "flightschedule": {
+            "columns": [
+                {
+                    "name": "flightno",
+                    "type": "char",
+                    "typeParameters": [
+                        "8"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "from",
+                    "type": "smallint",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "to",
+                    "type": "smallint",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "departure",
+                    "type": "time",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "arrival",
+                    "type": "time",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "airline_id",
+                    "type": "smallint",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "monday",
+                    "type": "tinyint",
+                    "typeParameters": [
+                        "1"
+                    ],
+                    "otherParameters": "DEFAULT '0'",
+                    "comment": ""
+                },
+                {
+                    "name": "tuesday",
+                    "type": "tinyint",
+                    "typeParameters": [
+                        "1"
+                    ],
+                    "otherParameters": "DEFAULT '0'",
+                    "comment": ""
+                },
+                {
+                    "name": "wednesday",
+                    "type": "tinyint",
+                    "typeParameters": [
+                        "1"
+                    ],
+                    "otherParameters": "DEFAULT '0'",
+                    "comment": ""
+                },
+                {
+                    "name": "thursday",
+                    "type": "tinyint",
+                    "typeParameters": [
+                        "1"
+                    ],
+                    "otherParameters": "DEFAULT '0'",
+                    "comment": ""
+                },
+                {
+                    "name": "friday",
+                    "type": "tinyint",
+                    "typeParameters": [
+                        "1"
+                    ],
+                    "otherParameters": "DEFAULT '0'",
+                    "comment": ""
+                },
+                {
+                    "name": "saturday",
+                    "type": "tinyint",
+                    "typeParameters": [
+                        "1"
+                    ],
+                    "otherParameters": "DEFAULT '0'",
+                    "comment": ""
+                },
+                {
+                    "name": "sunday",
+                    "type": "tinyint",
+                    "typeParameters": [
+                        "1"
+                    ],
+                    "otherParameters": "DEFAULT '0'",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [
+                    {
+                        "columns": [
+                            "from"
+                        ],
+                        "otherParameters": "",
+                        "name": "from_idx"
+                    },
+                    {
+                        "columns": [
+                            "to"
+                        ],
+                        "otherParameters": "",
+                        "name": "to_idx"
+                    },
+                    {
+                        "columns": [
+                            "airline_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "airline_idx"
+                    }
+                ],
+                "spatial": [],
+                "fulltext": [],
+                "unique": []
+            },
+            "primaryKey": {
+                "columns": [
+                    "flightno"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "passenger": {
+            "columns": [
+                {
+                    "name": "passenger_id",
+                    "type": "int",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL AUTO_INCREMENT",
+                    "comment": ""
+                },
+                {
+                    "name": "passportno",
+                    "type": "char",
+                    "typeParameters": [
+                        "9"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "firstname",
+                    "type": "varchar",
+                    "typeParameters": [
+                        "100"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "lastname",
+                    "type": "varchar",
+                    "typeParameters": [
+                        "100"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [],
+                "spatial": [],
+                "fulltext": [],
+                "unique": [
+                    {
+                        "columns": [
+                            "passportno"
+                        ],
+                        "otherParameters": "",
+                        "name": "pass_unq"
+                    }
+                ]
+            },
+            "primaryKey": {
+                "columns": [
+                    "passenger_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "passengerdetails": {
+            "columns": [
+                {
+                    "name": "passenger_id",
+                    "type": "int",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "birthdate",
+                    "type": "date",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "sex",
+                    "type": "char",
+                    "typeParameters": [
+                        "1"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "street",
+                    "type": "varchar",
+                    "typeParameters": [
+                        "100"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "city",
+                    "type": "varchar",
+                    "typeParameters": [
+                        "100"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "zip",
+                    "type": "smallint",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "country",
+                    "type": "varchar",
+                    "typeParameters": [
+                        "100"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "emailaddress",
+                    "type": "varchar",
+                    "typeParameters": [
+                        "120"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "telephoneno",
+                    "type": "varchar",
+                    "typeParameters": [
+                        "30"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [],
+                "spatial": [],
+                "fulltext": [],
+                "unique": []
+            },
+            "primaryKey": {
+                "columns": [
+                    "passenger_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "weatherdata": {
+            "columns": [
+                {
+                    "name": "log_date",
+                    "type": "date",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "time",
+                    "type": "time",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "station",
+                    "type": "int",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "temp",
+                    "type": "decimal",
+                    "typeParameters": [
+                        "3",
+                        "1"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "humidity",
+                    "type": "decimal",
+                    "typeParameters": [
+                        "4",
+                        "1"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "airpressure",
+                    "type": "decimal",
+                    "typeParameters": [
+                        "10",
+                        "2"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "wind",
+                    "type": "decimal",
+                    "typeParameters": [
+                        "5",
+                        "2"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "winddirection",
+                    "type": "smallint",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "weather",
+                    "type": "enum",
+                    "typeParameters": [
+                        "Nebel-Schneefall",
+                        "Schneefall",
+                        "Regen",
+                        "Regen-Schneefall",
+                        "Nebel-Regen",
+                        "Nebel-Regen-Gewitter",
+                        "Gewitter",
+                        "Nebel",
+                        "Regen-Gewitter"
+                    ],
+                    "otherParameters": "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [],
+                "spatial": [],
+                "fulltext": [],
+                "unique": []
+            },
+            "primaryKey": {
+                "columns": [
+                    "log_date",
+                    "time",
+                    "station"
+                ],
+                "otherParameters": ""
+            }
+        }
+    },
+    "connections": [
+        {
+            "type": "OneToMany",
+            "childTableName": "airline",
+            "childTableColumns": [
+                "base_airport"
+            ],
+            "parentTableName": "airport",
+            "parentTableColumns": [
+                "airport_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "airplane",
+            "childTableColumns": [
+                "type_id"
+            ],
+            "parentTableName": "airplane_type",
+            "parentTableColumns": [
+                "type_id"
+            ]
+        },
+        {
+            "type": "OneToOne",
+            "childTableName": "airport_geo",
+            "childTableColumns": [
+                "airport_id"
+            ],
+            "parentTableName": "airport",
+            "parentTableColumns": [
+                "airport_id"
+            ]
+        },
+        {
+            "type": "OneToOne",
+            "childTableName": "airport_reachable",
+            "childTableColumns": [
+                "airport_id"
+            ],
+            "parentTableName": "airport",
+            "parentTableColumns": [
+                "airport_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "booking",
+            "childTableColumns": [
+                "flight_id"
+            ],
+            "parentTableName": "flight",
+            "parentTableColumns": [
+                "flight_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "booking",
+            "childTableColumns": [
+                "passenger_id"
+            ],
+            "parentTableName": "passenger",
+            "parentTableColumns": [
+                "passenger_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "flight",
+            "childTableColumns": [
+                "from"
+            ],
+            "parentTableName": "airport",
+            "parentTableColumns": [
+                "airport_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "flight",
+            "childTableColumns": [
+                "to"
+            ],
+            "parentTableName": "airport",
+            "parentTableColumns": [
+                "airport_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "flight",
+            "childTableColumns": [
+                "airline_id"
+            ],
+            "parentTableName": "airline",
+            "parentTableColumns": [
+                "airline_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "flight",
+            "childTableColumns": [
+                "airplane_id"
+            ],
+            "parentTableName": "airplane",
+            "parentTableColumns": [
+                "airplane_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "flight",
+            "childTableColumns": [
+                "flightno"
+            ],
+            "parentTableName": "flightschedule",
+            "parentTableColumns": [
+                "flightno"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "flight_log",
+            "childTableColumns": [
+                "flight_id"
+            ],
+            "parentTableName": "flight",
+            "parentTableColumns": [
+                "flight_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "flightschedule",
+            "childTableColumns": [
+                "from"
+            ],
+            "parentTableName": "airport",
+            "parentTableColumns": [
+                "airport_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "flightschedule",
+            "childTableColumns": [
+                "to"
+            ],
+            "parentTableName": "airport",
+            "parentTableColumns": [
+                "airport_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "flightschedule",
+            "childTableColumns": [
+                "airline_id"
+            ],
+            "parentTableName": "airline",
+            "parentTableColumns": [
+                "airline_id"
+            ]
+        },
+        {
+            "type": "OneToOne",
+            "childTableName": "passengerdetails",
+            "childTableColumns": [
+                "passenger_id"
+            ],
+            "parentTableName": "passenger",
+            "parentTableColumns": [
+                "passenger_id"
+            ]
+        }
+    ]
+}

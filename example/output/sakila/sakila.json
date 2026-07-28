@@ -1,0 +1,1370 @@
+{
+    "tables": {
+        "actor": {
+            "columns": [
+                {
+                    "name": "actor_id",
+                    "type": "SMALLINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL AUTO_INCREMENT",
+                    "comment": ""
+                },
+                {
+                    "name": "first_name",
+                    "type": "VARCHAR",
+                    "typeParameters": [
+                        "45"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "last_name",
+                    "type": "VARCHAR",
+                    "typeParameters": [
+                        "45"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "last_update",
+                    "type": "TIMESTAMP",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [
+                    {
+                        "columns": [
+                            "last_name"
+                        ],
+                        "otherParameters": "",
+                        "name": "idx_actor_last_name"
+                    }
+                ],
+                "spatial": [],
+                "fulltext": [],
+                "unique": []
+            },
+            "primaryKey": {
+                "columns": [
+                    "actor_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "address": {
+            "columns": [
+                {
+                    "name": "address_id",
+                    "type": "SMALLINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL AUTO_INCREMENT",
+                    "comment": ""
+                },
+                {
+                    "name": "address",
+                    "type": "VARCHAR",
+                    "typeParameters": [
+                        "50"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "address2",
+                    "type": "VARCHAR",
+                    "typeParameters": [
+                        "50"
+                    ],
+                    "otherParameters": "DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "district",
+                    "type": "VARCHAR",
+                    "typeParameters": [
+                        "20"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "city_id",
+                    "type": "SMALLINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "postal_code",
+                    "type": "VARCHAR",
+                    "typeParameters": [
+                        "10"
+                    ],
+                    "otherParameters": "DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "phone",
+                    "type": "VARCHAR",
+                    "typeParameters": [
+                        "20"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "last_update",
+                    "type": "TIMESTAMP",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [
+                    {
+                        "columns": [
+                            "city_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "idx_fk_city_id"
+                    }
+                ],
+                "spatial": [],
+                "fulltext": [],
+                "unique": []
+            },
+            "primaryKey": {
+                "columns": [
+                    "address_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "category": {
+            "columns": [
+                {
+                    "name": "category_id",
+                    "type": "TINYINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL AUTO_INCREMENT",
+                    "comment": ""
+                },
+                {
+                    "name": "name",
+                    "type": "VARCHAR",
+                    "typeParameters": [
+                        "25"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "last_update",
+                    "type": "TIMESTAMP",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [],
+                "spatial": [],
+                "fulltext": [],
+                "unique": []
+            },
+            "primaryKey": {
+                "columns": [
+                    "category_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "city": {
+            "columns": [
+                {
+                    "name": "city_id",
+                    "type": "SMALLINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL AUTO_INCREMENT",
+                    "comment": ""
+                },
+                {
+                    "name": "city",
+                    "type": "VARCHAR",
+                    "typeParameters": [
+                        "50"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "country_id",
+                    "type": "SMALLINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "last_update",
+                    "type": "TIMESTAMP",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [
+                    {
+                        "columns": [
+                            "country_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "idx_fk_country_id"
+                    }
+                ],
+                "spatial": [],
+                "fulltext": [],
+                "unique": []
+            },
+            "primaryKey": {
+                "columns": [
+                    "city_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "country": {
+            "columns": [
+                {
+                    "name": "country_id",
+                    "type": "SMALLINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL AUTO_INCREMENT",
+                    "comment": ""
+                },
+                {
+                    "name": "country",
+                    "type": "VARCHAR",
+                    "typeParameters": [
+                        "50"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "last_update",
+                    "type": "TIMESTAMP",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [],
+                "spatial": [],
+                "fulltext": [],
+                "unique": []
+            },
+            "primaryKey": {
+                "columns": [
+                    "country_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "customer": {
+            "columns": [
+                {
+                    "name": "customer_id",
+                    "type": "SMALLINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL AUTO_INCREMENT",
+                    "comment": ""
+                },
+                {
+                    "name": "store_id",
+                    "type": "TINYINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "first_name",
+                    "type": "VARCHAR",
+                    "typeParameters": [
+                        "45"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "last_name",
+                    "type": "VARCHAR",
+                    "typeParameters": [
+                        "45"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "email",
+                    "type": "VARCHAR",
+                    "typeParameters": [
+                        "50"
+                    ],
+                    "otherParameters": "DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "address_id",
+                    "type": "SMALLINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "active",
+                    "type": "BOOLEAN",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL DEFAULT TRUE",
+                    "comment": ""
+                },
+                {
+                    "name": "create_date",
+                    "type": "DATETIME",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "last_update",
+                    "type": "TIMESTAMP",
+                    "typeParameters": [],
+                    "otherParameters": "DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [
+                    {
+                        "columns": [
+                            "store_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "idx_fk_store_id"
+                    },
+                    {
+                        "columns": [
+                            "address_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "idx_fk_address_id"
+                    },
+                    {
+                        "columns": [
+                            "last_name"
+                        ],
+                        "otherParameters": "",
+                        "name": "idx_last_name"
+                    }
+                ],
+                "spatial": [],
+                "fulltext": [],
+                "unique": []
+            },
+            "primaryKey": {
+                "columns": [
+                    "customer_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "film": {
+            "columns": [
+                {
+                    "name": "film_id",
+                    "type": "SMALLINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL AUTO_INCREMENT",
+                    "comment": ""
+                },
+                {
+                    "name": "title",
+                    "type": "VARCHAR",
+                    "typeParameters": [
+                        "255"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "description",
+                    "type": "TEXT",
+                    "typeParameters": [],
+                    "otherParameters": "DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "release_year",
+                    "type": "YEAR",
+                    "typeParameters": [],
+                    "otherParameters": "DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "language_id",
+                    "type": "TINYINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "original_language_id",
+                    "type": "TINYINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "rental_duration",
+                    "type": "TINYINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL DEFAULT 3",
+                    "comment": ""
+                },
+                {
+                    "name": "rental_rate",
+                    "type": "DECIMAL",
+                    "typeParameters": [
+                        "4",
+                        "2"
+                    ],
+                    "otherParameters": "NOT NULL DEFAULT 4.99",
+                    "comment": ""
+                },
+                {
+                    "name": "length",
+                    "type": "SMALLINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "replacement_cost",
+                    "type": "DECIMAL",
+                    "typeParameters": [
+                        "5",
+                        "2"
+                    ],
+                    "otherParameters": "NOT NULL DEFAULT 19.99",
+                    "comment": ""
+                },
+                {
+                    "name": "last_update",
+                    "type": "TIMESTAMP",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                    "comment": ""
+                },
+                {
+                    "name": "rating",
+                    "type": "ENUM",
+                    "typeParameters": [
+                        "G",
+                        "PG",
+                        "PG-13",
+                        "R",
+                        "NC-17"
+                    ],
+                    "otherParameters": "DEFAULT 'G'",
+                    "comment": ""
+                },
+                {
+                    "name": "special_features",
+                    "type": "SET",
+                    "typeParameters": [
+                        "Trailers",
+                        "Commentaries",
+                        "Deleted Scenes",
+                        "Behind the Scenes"
+                    ],
+                    "otherParameters": "DEFAULT NULL",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [
+                    {
+                        "columns": [
+                            "title"
+                        ],
+                        "otherParameters": "",
+                        "name": "idx_title"
+                    },
+                    {
+                        "columns": [
+                            "language_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "idx_fk_language_id"
+                    },
+                    {
+                        "columns": [
+                            "original_language_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "idx_fk_original_language_id"
+                    }
+                ],
+                "spatial": [],
+                "fulltext": [],
+                "unique": []
+            },
+            "primaryKey": {
+                "columns": [
+                    "film_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "film_actor": {
+            "columns": [
+                {
+                    "name": "actor_id",
+                    "type": "SMALLINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "film_id",
+                    "type": "SMALLINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "last_update",
+                    "type": "TIMESTAMP",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [
+                    {
+                        "columns": [
+                            "film_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "idx_fk_film_id"
+                    }
+                ],
+                "spatial": [],
+                "fulltext": [],
+                "unique": []
+            },
+            "primaryKey": {
+                "columns": [
+                    "actor_id",
+                    "film_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "film_category": {
+            "columns": [
+                {
+                    "name": "film_id",
+                    "type": "SMALLINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "category_id",
+                    "type": "TINYINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "last_update",
+                    "type": "TIMESTAMP",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [],
+                "spatial": [],
+                "fulltext": [],
+                "unique": []
+            },
+            "primaryKey": {
+                "columns": [
+                    "film_id",
+                    "category_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "film_text": {
+            "columns": [
+                {
+                    "name": "film_id",
+                    "type": "SMALLINT",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "title",
+                    "type": "VARCHAR",
+                    "typeParameters": [
+                        "255"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "description",
+                    "type": "TEXT",
+                    "typeParameters": [],
+                    "otherParameters": "",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [],
+                "spatial": [],
+                "fulltext": [
+                    {
+                        "columns": [
+                            "title",
+                            "description"
+                        ],
+                        "otherParameters": "",
+                        "name": "idx_title_description"
+                    }
+                ],
+                "unique": []
+            },
+            "primaryKey": {
+                "columns": [
+                    "film_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "inventory": {
+            "columns": [
+                {
+                    "name": "inventory_id",
+                    "type": "MEDIUMINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL AUTO_INCREMENT",
+                    "comment": ""
+                },
+                {
+                    "name": "film_id",
+                    "type": "SMALLINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "store_id",
+                    "type": "TINYINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "last_update",
+                    "type": "TIMESTAMP",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [
+                    {
+                        "columns": [
+                            "film_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "idx_fk_film_id"
+                    },
+                    {
+                        "columns": [
+                            "store_id",
+                            "film_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "idx_store_id_film_id"
+                    }
+                ],
+                "spatial": [],
+                "fulltext": [],
+                "unique": []
+            },
+            "primaryKey": {
+                "columns": [
+                    "inventory_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "language": {
+            "columns": [
+                {
+                    "name": "language_id",
+                    "type": "TINYINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL AUTO_INCREMENT",
+                    "comment": ""
+                },
+                {
+                    "name": "name",
+                    "type": "CHAR",
+                    "typeParameters": [
+                        "20"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "last_update",
+                    "type": "TIMESTAMP",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [],
+                "spatial": [],
+                "fulltext": [],
+                "unique": []
+            },
+            "primaryKey": {
+                "columns": [
+                    "language_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "payment": {
+            "columns": [
+                {
+                    "name": "payment_id",
+                    "type": "SMALLINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL AUTO_INCREMENT",
+                    "comment": ""
+                },
+                {
+                    "name": "customer_id",
+                    "type": "SMALLINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "staff_id",
+                    "type": "TINYINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "rental_id",
+                    "type": "INT",
+                    "typeParameters": [],
+                    "otherParameters": "DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "amount",
+                    "type": "DECIMAL",
+                    "typeParameters": [
+                        "5",
+                        "2"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "payment_date",
+                    "type": "DATETIME",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "last_update",
+                    "type": "TIMESTAMP",
+                    "typeParameters": [],
+                    "otherParameters": "DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [
+                    {
+                        "columns": [
+                            "staff_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "idx_fk_staff_id"
+                    },
+                    {
+                        "columns": [
+                            "customer_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "idx_fk_customer_id"
+                    }
+                ],
+                "spatial": [],
+                "fulltext": [],
+                "unique": []
+            },
+            "primaryKey": {
+                "columns": [
+                    "payment_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "rental": {
+            "columns": [
+                {
+                    "name": "rental_id",
+                    "type": "INT",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL AUTO_INCREMENT",
+                    "comment": ""
+                },
+                {
+                    "name": "rental_date",
+                    "type": "DATETIME",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "inventory_id",
+                    "type": "MEDIUMINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "customer_id",
+                    "type": "SMALLINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "return_date",
+                    "type": "DATETIME",
+                    "typeParameters": [],
+                    "otherParameters": "DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "staff_id",
+                    "type": "TINYINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "last_update",
+                    "type": "TIMESTAMP",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [
+                    {
+                        "columns": [
+                            "inventory_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "idx_fk_inventory_id"
+                    },
+                    {
+                        "columns": [
+                            "customer_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "idx_fk_customer_id"
+                    },
+                    {
+                        "columns": [
+                            "staff_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "idx_fk_staff_id"
+                    }
+                ],
+                "spatial": [],
+                "fulltext": [],
+                "unique": [
+                    {
+                        "columns": [
+                            "rental_date",
+                            "inventory_id",
+                            "customer_id"
+                        ],
+                        "otherParameters": "",
+                        "name": ""
+                    }
+                ]
+            },
+            "primaryKey": {
+                "columns": [
+                    "rental_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "staff": {
+            "columns": [
+                {
+                    "name": "staff_id",
+                    "type": "TINYINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL AUTO_INCREMENT",
+                    "comment": ""
+                },
+                {
+                    "name": "first_name",
+                    "type": "VARCHAR",
+                    "typeParameters": [
+                        "45"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "last_name",
+                    "type": "VARCHAR",
+                    "typeParameters": [
+                        "45"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "address_id",
+                    "type": "SMALLINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "picture",
+                    "type": "BLOB",
+                    "typeParameters": [],
+                    "otherParameters": "DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "email",
+                    "type": "VARCHAR",
+                    "typeParameters": [
+                        "50"
+                    ],
+                    "otherParameters": "DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "store_id",
+                    "type": "TINYINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "active",
+                    "type": "BOOLEAN",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL DEFAULT TRUE",
+                    "comment": ""
+                },
+                {
+                    "name": "username",
+                    "type": "VARCHAR",
+                    "typeParameters": [
+                        "16"
+                    ],
+                    "otherParameters": "NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "password",
+                    "type": "VARCHAR",
+                    "typeParameters": [
+                        "40"
+                    ],
+                    "otherParameters": "BINARY DEFAULT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "last_update",
+                    "type": "TIMESTAMP",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [
+                    {
+                        "columns": [
+                            "store_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "idx_fk_store_id"
+                    },
+                    {
+                        "columns": [
+                            "address_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "idx_fk_address_id"
+                    }
+                ],
+                "spatial": [],
+                "fulltext": [],
+                "unique": []
+            },
+            "primaryKey": {
+                "columns": [
+                    "staff_id"
+                ],
+                "otherParameters": ""
+            }
+        },
+        "store": {
+            "columns": [
+                {
+                    "name": "store_id",
+                    "type": "TINYINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL AUTO_INCREMENT",
+                    "comment": ""
+                },
+                {
+                    "name": "manager_staff_id",
+                    "type": "TINYINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "address_id",
+                    "type": "SMALLINT",
+                    "typeParameters": [],
+                    "otherParameters": "UNSIGNED NOT NULL",
+                    "comment": ""
+                },
+                {
+                    "name": "last_update",
+                    "type": "TIMESTAMP",
+                    "typeParameters": [],
+                    "otherParameters": "NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                    "comment": ""
+                }
+            ],
+            "indexes": {
+                "simple": [
+                    {
+                        "columns": [
+                            "address_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "idx_fk_address_id"
+                    }
+                ],
+                "spatial": [],
+                "fulltext": [],
+                "unique": [
+                    {
+                        "columns": [
+                            "manager_staff_id"
+                        ],
+                        "otherParameters": "",
+                        "name": "idx_unique_manager"
+                    }
+                ]
+            },
+            "primaryKey": {
+                "columns": [
+                    "store_id"
+                ],
+                "otherParameters": ""
+            }
+        }
+    },
+    "connections": [
+        {
+            "type": "OneToMany",
+            "childTableName": "address",
+            "childTableColumns": [
+                "city_id"
+            ],
+            "parentTableName": "city",
+            "parentTableColumns": [
+                "city_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "city",
+            "childTableColumns": [
+                "country_id"
+            ],
+            "parentTableName": "country",
+            "parentTableColumns": [
+                "country_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "customer",
+            "childTableColumns": [
+                "address_id"
+            ],
+            "parentTableName": "address",
+            "parentTableColumns": [
+                "address_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "customer",
+            "childTableColumns": [
+                "store_id"
+            ],
+            "parentTableName": "store",
+            "parentTableColumns": [
+                "store_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "film",
+            "childTableColumns": [
+                "language_id"
+            ],
+            "parentTableName": "language",
+            "parentTableColumns": [
+                "language_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "film",
+            "childTableColumns": [
+                "original_language_id"
+            ],
+            "parentTableName": "language",
+            "parentTableColumns": [
+                "language_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "film_actor",
+            "childTableColumns": [
+                "actor_id"
+            ],
+            "parentTableName": "actor",
+            "parentTableColumns": [
+                "actor_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "film_actor",
+            "childTableColumns": [
+                "film_id"
+            ],
+            "parentTableName": "film",
+            "parentTableColumns": [
+                "film_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "film_category",
+            "childTableColumns": [
+                "film_id"
+            ],
+            "parentTableName": "film",
+            "parentTableColumns": [
+                "film_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "film_category",
+            "childTableColumns": [
+                "category_id"
+            ],
+            "parentTableName": "category",
+            "parentTableColumns": [
+                "category_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "inventory",
+            "childTableColumns": [
+                "store_id"
+            ],
+            "parentTableName": "store",
+            "parentTableColumns": [
+                "store_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "inventory",
+            "childTableColumns": [
+                "film_id"
+            ],
+            "parentTableName": "film",
+            "parentTableColumns": [
+                "film_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "payment",
+            "childTableColumns": [
+                "rental_id"
+            ],
+            "parentTableName": "rental",
+            "parentTableColumns": [
+                "rental_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "payment",
+            "childTableColumns": [
+                "customer_id"
+            ],
+            "parentTableName": "customer",
+            "parentTableColumns": [
+                "customer_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "payment",
+            "childTableColumns": [
+                "staff_id"
+            ],
+            "parentTableName": "staff",
+            "parentTableColumns": [
+                "staff_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "rental",
+            "childTableColumns": [
+                "staff_id"
+            ],
+            "parentTableName": "staff",
+            "parentTableColumns": [
+                "staff_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "rental",
+            "childTableColumns": [
+                "inventory_id"
+            ],
+            "parentTableName": "inventory",
+            "parentTableColumns": [
+                "inventory_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "rental",
+            "childTableColumns": [
+                "customer_id"
+            ],
+            "parentTableName": "customer",
+            "parentTableColumns": [
+                "customer_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "staff",
+            "childTableColumns": [
+                "store_id"
+            ],
+            "parentTableName": "store",
+            "parentTableColumns": [
+                "store_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "staff",
+            "childTableColumns": [
+                "address_id"
+            ],
+            "parentTableName": "address",
+            "parentTableColumns": [
+                "address_id"
+            ]
+        },
+        {
+            "type": "OneToOne",
+            "childTableName": "store",
+            "childTableColumns": [
+                "manager_staff_id"
+            ],
+            "parentTableName": "staff",
+            "parentTableColumns": [
+                "staff_id"
+            ]
+        },
+        {
+            "type": "OneToMany",
+            "childTableName": "store",
+            "childTableColumns": [
+                "address_id"
+            ],
+            "parentTableName": "address",
+            "parentTableColumns": [
+                "address_id"
+            ]
+        }
+    ]
+}
