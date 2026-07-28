@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Changed
+- Markdown output is shifted down one heading level — a `## Tables` top heading, an `h3` heading per table and `h4` section headings (Columns, Primary Key, Indexes, …) instead of `# Schema` / `h2` / `h3` — so the dump embeds cleanly under a document title
+- PlantUML tables now carry a `«table»` stereotype label
+- PlantUML template colors are set through the `$table_border_color` / `$table_background_color` variables using the `?=` default-assignment operator, replacing the `TABLE_BORDER_COLOR` / `TABLE_BACKGROUND_COLOR` `!define`s
+- Image rendering streams the diagram through PlantUML's `--pipe` mode (stdin to stdout) instead of writing a temporary source and image file, so no `tmp/` working directory is needed
+- The Markdown exporter returns the rendered template unchanged, dropping the leading-whitespace strip, blank-line collapsing and trailing-newline normalization (matching the PlantUML exporter)
+
 ## [5.0.0] - 2026-07-27
 ### Added
 - Markdown export (`mysql:markdown` command and `Export\Markdown`) listing tables, columns, keys, indexes and connections, driven by a customizable Twig template (`src/Template/Markdown/v1.twig`)
