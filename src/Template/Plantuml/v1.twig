@@ -64,11 +64,11 @@ class "$name" <<table>> << (T, $table_border_color ) >>
 !endprocedure
 
 !procedure $connection_one_to_one($from, $to)
-$from "1" -- "1" $to
+	$from "1" -- "1" $to
 !endprocedure
 
 !procedure $connection_one_to_many($from, $to)
-$from "n" }-- "1" $to
+	$from "n" }-- "1" $to
 !endprocedure
 
 hide methods
