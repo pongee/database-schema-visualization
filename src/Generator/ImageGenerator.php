@@ -21,12 +21,15 @@ final readonly class ImageGenerator
      */
     public function generate(string $plantuml): string
     {
-        $command = sprintf(
-            'java -DPLANTUML_LIMIT_SIZE=%s -jar %s -pipe -t%s',
-            self::PLANTUML_LIMIT_SIZE,
+        $command = implode(' ', [
+            'java',
+            sprintf('-DPLANTUML_LIMIT_SIZE=%d', self::PLANTUML_LIMIT_SIZE),
+            '-jar',
             escapeshellarg($this->plantumlJarPath),
-            escapeshellarg($this->imageType)
-        );
+            '--pipe',
+            '--format',
+            escapeshellarg($this->imageType),
+        ]);
 
         $process = proc_open(
             $command,
