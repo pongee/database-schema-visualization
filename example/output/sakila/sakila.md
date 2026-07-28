@@ -1,8 +1,7 @@
-# Schema
+## Tables
+### `actor` table
 
-## `actor` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -11,21 +10,20 @@
 | last_name | VARCHAR ( 45 ) | NOT NULL | - |
 | last_update | TIMESTAMP | NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | actor_id | - |
 
-### Indexes
+#### Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | idx_actor_last_name | last_name | - |
+### `address` table
 
-## `address` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -38,21 +36,20 @@
 | phone | VARCHAR ( 20 ) | NOT NULL | - |
 | last_update | TIMESTAMP | NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | address_id | - |
 
-### Indexes
+#### Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | idx_fk_city_id | city_id | - |
+### `category` table
 
-## `category` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -60,15 +57,14 @@
 | name | VARCHAR ( 25 ) | NOT NULL | - |
 | last_update | TIMESTAMP | NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | category_id | - |
+### `city` table
 
-## `city` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -77,21 +73,20 @@
 | country_id | SMALLINT | UNSIGNED NOT NULL | - |
 | last_update | TIMESTAMP | NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | city_id | - |
 
-### Indexes
+#### Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | idx_fk_country_id | country_id | - |
+### `country` table
 
-## `country` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -99,15 +94,14 @@
 | country | VARCHAR ( 50 ) | NOT NULL | - |
 | last_update | TIMESTAMP | NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | country_id | - |
+### `customer` table
 
-## `customer` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -121,23 +115,22 @@
 | create_date | DATETIME | NOT NULL | - |
 | last_update | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | customer_id | - |
 
-### Indexes
+#### Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | idx_fk_store_id | store_id | - |
 | idx_fk_address_id | address_id | - |
 | idx_last_name | last_name | - |
+### `film` table
 
-## `film` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -155,23 +148,22 @@
 | rating | ENUM ( G, PG, PG-13, R, NC-17 ) | DEFAULT &#039;G&#039; | - |
 | special_features | SET ( Trailers, Commentaries, Deleted Scenes, Behind the Scenes ) | DEFAULT NULL | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | film_id | - |
 
-### Indexes
+#### Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | idx_title | title | - |
 | idx_fk_language_id | language_id | - |
 | idx_fk_original_language_id | original_language_id | - |
+### `film_actor` table
 
-## `film_actor` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -179,21 +171,20 @@
 | film_id | SMALLINT | UNSIGNED NOT NULL | - |
 | last_update | TIMESTAMP | NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | actor_id, film_id | - |
 
-### Indexes
+#### Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | idx_fk_film_id | film_id | - |
+### `film_category` table
 
-## `film_category` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -201,15 +192,14 @@
 | category_id | TINYINT | UNSIGNED NOT NULL | - |
 | last_update | TIMESTAMP | NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | film_id, category_id | - |
+### `film_text` table
 
-## `film_text` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -217,21 +207,20 @@
 | title | VARCHAR ( 255 ) | NOT NULL | - |
 | description | TEXT | - | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | film_id | - |
 
-### Fulltext Indexes
+#### Fulltext Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | idx_title_description | title, description | - |
+### `inventory` table
 
-## `inventory` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -240,22 +229,21 @@
 | store_id | TINYINT | UNSIGNED NOT NULL | - |
 | last_update | TIMESTAMP | NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | inventory_id | - |
 
-### Indexes
+#### Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | idx_fk_film_id | film_id | - |
 | idx_store_id_film_id | store_id, film_id | - |
+### `language` table
 
-## `language` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -263,15 +251,14 @@
 | name | CHAR ( 20 ) | NOT NULL | - |
 | last_update | TIMESTAMP | NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | language_id | - |
+### `payment` table
 
-## `payment` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -283,22 +270,21 @@
 | payment_date | DATETIME | NOT NULL | - |
 | last_update | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | payment_id | - |
 
-### Indexes
+#### Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | idx_fk_staff_id | staff_id | - |
 | idx_fk_customer_id | customer_id | - |
+### `rental` table
 
-## `rental` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -310,13 +296,13 @@
 | staff_id | TINYINT | UNSIGNED NOT NULL | - |
 | last_update | TIMESTAMP | NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | rental_id | - |
 
-### Indexes
+#### Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
@@ -324,15 +310,14 @@
 | idx_fk_customer_id | customer_id | - |
 | idx_fk_staff_id | staff_id | - |
 
-### Unique Indexes
+#### Unique Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 |  | rental_date, inventory_id, customer_id | - |
+### `staff` table
 
-## `staff` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -348,22 +333,21 @@
 | password | VARCHAR ( 40 ) | BINARY DEFAULT NULL | - |
 | last_update | TIMESTAMP | NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | staff_id | - |
 
-### Indexes
+#### Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | idx_fk_store_id | store_id | - |
 | idx_fk_address_id | address_id | - |
+### `store` table
 
-## `store` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -372,19 +356,19 @@
 | address_id | SMALLINT | UNSIGNED NOT NULL | - |
 | last_update | TIMESTAMP | NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | store_id | - |
 
-### Indexes
+#### Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | idx_fk_address_id | address_id | - |
 
-### Unique Indexes
+#### Unique Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |

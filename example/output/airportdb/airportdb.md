@@ -1,8 +1,7 @@
-# Schema
+## Tables
+### `airline` table
 
-## `airline` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -11,27 +10,26 @@
 | airlinename | varchar ( 30 ) | CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL | - |
 | base_airport | smallint | NOT NULL | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | airline_id | - |
 
-### Indexes
+#### Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | base_airport_idx | base_airport | - |
 
-### Unique Indexes
+#### Unique Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | iata_unq | iata | - |
+### `airplane` table
 
-## `airplane` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -40,21 +38,20 @@
 | type_id | int | NOT NULL | - |
 | airline_id | int | NOT NULL | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | airplane_id | - |
 
-### Indexes
+#### Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | type_id | type_id | - |
+### `airplane_type` table
 
-## `airplane_type` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -62,21 +59,20 @@
 | identifier | varchar ( 50 ) | CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL | - |
 | description | text | CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | type_id | - |
 
-### Fulltext Indexes
+#### Fulltext Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | description_full | identifier, description | - |
+### `airport` table
 
-## `airport` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -85,28 +81,27 @@
 | icao | char ( 4 ) | CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL | - |
 | name | varchar ( 50 ) | CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | airport_id | - |
 
-### Indexes
+#### Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | name_idx | name | - |
 | iata_idx | iata | - |
 
-### Unique Indexes
+#### Unique Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | icao_unq | icao | - |
+### `airport_geo` table
 
-## `airport_geo` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -118,36 +113,34 @@
 | longitude | decimal ( 11, 8 ) | NOT NULL | - |
 | geolocation | point | NOT NULL | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | airport_id | - |
 
-### Spatial Indexes
+#### Spatial Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | geolocation_spt | geolocation | - |
+### `airport_reachable` table
 
-## `airport_reachable` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
 | airport_id | smallint | NOT NULL | - |
 | hops | int | DEFAULT NULL | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | airport_id | - |
+### `booking` table
 
-## `booking` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -157,28 +150,27 @@
 | passenger_id | int | NOT NULL | - |
 | price | decimal ( 10, 2 ) | NOT NULL | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | booking_id | - |
 
-### Indexes
+#### Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | flight_idx | flight_id | - |
 | passenger_idx | passenger_id | - |
 
-### Unique Indexes
+#### Unique Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | seatplan_unq | flight_id, seat | - |
+### `employee` table
 
-## `employee` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -198,21 +190,20 @@
 | password | char ( 32 ) | CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL | - |
 | department | enum ( Marketing, Buchhaltung, Management, Logistik, Flugfeld ) | CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | employee_id | - |
 
-### Unique Indexes
+#### Unique Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | user_unq | username | - |
+### `flight` table
 
-## `flight` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -225,13 +216,13 @@
 | airline_id | smallint | NOT NULL | - |
 | airplane_id | int | NOT NULL | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | flight_id | - |
 
-### Indexes
+#### Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
@@ -242,10 +233,9 @@
 | airline_idx | airline_id | - |
 | airplane_idx | airplane_id | - |
 | flightno | flightno | - |
+### `flight_log` table
 
-## `flight_log` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -269,21 +259,20 @@
 | airline_id_new | smallint | NOT NULL | - |
 | comment | varchar ( 200 ) | CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | flight_log_id | - |
 
-### Indexes
+#### Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | flight_log_ibfk_1 | flight_id | - |
+### `flightschedule` table
 
-## `flightschedule` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -301,23 +290,22 @@
 | saturday | tinyint ( 1 ) | DEFAULT &#039;0&#039; | - |
 | sunday | tinyint ( 1 ) | DEFAULT &#039;0&#039; | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | flightno | - |
 
-### Indexes
+#### Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | from_idx | from | - |
 | to_idx | to | - |
 | airline_idx | airline_id | - |
+### `passenger` table
 
-## `passenger` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -326,21 +314,20 @@
 | firstname | varchar ( 100 ) | CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL | - |
 | lastname | varchar ( 100 ) | CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | passenger_id | - |
 
-### Unique Indexes
+#### Unique Indexes
 
 | Name | Columns | Parameters |
 | --- | --- | --- |
 | pass_unq | passportno | - |
+### `passengerdetails` table
 
-## `passengerdetails` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -354,15 +341,14 @@
 | emailaddress | varchar ( 120 ) | CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL | - |
 | telephoneno | varchar ( 30 ) | CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |
 | passenger_id | - |
+### `weatherdata` table
 
-## `weatherdata` table
-
-### Columns
+#### Columns
 
 | Name | Type | Parameters | Comment |
 | --- | --- | --- | --- |
@@ -376,7 +362,7 @@
 | winddirection | smallint | NOT NULL | - |
 | weather | enum ( Nebel-Schneefall, Schneefall, Regen, Regen-Schneefall, Nebel-Regen, Nebel-Regen-Gewitter, Gewitter, Nebel, Regen-Gewitter ) | CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL | - |
 
-### Primary Key
+#### Primary Key
 
 | Columns | Parameters |
 | --- | --- |

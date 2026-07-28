@@ -15,7 +15,7 @@ skinparam class {
 }
 
 !procedure $table($name)
-class "$name" << (T, TABLE_BORDER_COLOR ) >>
+class "$name" <<table>> << (T, TABLE_BORDER_COLOR ) >>
 !endprocedure
 
 !function $key_columns($columns, $otherParameters="")
@@ -77,8 +77,6 @@ $from "n" }-- "1" $to
 !endprocedure
 
 hide methods
-hide stereotypes
-
 skinparam linetype polyline
 left to right direction
 
