@@ -89,6 +89,7 @@ $ docker run --rm pongeepublic/database-schema-visualization list
 use Pongee\DatabaseSchemaVisualization\DataObject\Sql\Database\Connection\ConnectionCollection;
 use Pongee\DatabaseSchemaVisualization\Export\Plantuml;
 use Pongee\DatabaseSchemaVisualization\Generator\ImageGenerator;
+use Pongee\DatabaseSchemaVisualization\Generator\ImageType;
 use Pongee\DatabaseSchemaVisualization\Parser\MysqlParser;
 
 include __DIR__ . '/../../vendor/autoload.php';
@@ -99,17 +100,15 @@ $sqlSchema = '
    ) ENGINE=innodb DEFAULT CHARSET=utf8;
 ';
 
-$sqlParser                = new MysqlParser();
-// $cqlParser                = new \Pongee\DatabaseSchemaVisualization\Parser\CassandraParser();
+$parser                     = new MysqlParser(); // or CassandraParser(), MariadbParser(); 
 $plantumlExport             = new Plantuml(file_get_contents(__DIR__ . '/../../src/Template/Plantuml/v1.twig'));
 $forcedConnectionCollection = new ConnectionCollection();
 $imageGenerator             = new ImageGenerator(
-    'png',
-    __DIR__ . '/../../bin/plantuml-mit-1.2026.6.jar',
-    __DIR__ . '/../../tmp/'
+    ImageType::Png,
+    __DIR__ . '/../../bin/plantuml-mit-1.2026.6.jar'
 );
 
-$schema = $sqlParser->run($sqlSchema, $forcedConnectionCollection);
+$schema = $parser->run($sqlSchema, $forcedConnectionCollection);
 
 print $imageGenerator->generate($plantumlExport->export($schema));
 ```
@@ -129,11 +128,11 @@ $sqlSchema = '
    ) ENGINE=innodb DEFAULT CHARSET=utf8;
 ';
 
-$mysqlParser                = new MysqlParser();
+$parser                     = new MysqlParser();
 $jsonExport                 = new Json();
 $forcedConnectionCollection = new ConnectionCollection();
 
-$schema = $mysqlParser->run($sqlSchema, $forcedConnectionCollection);
+$schema = $parser->run($sqlSchema, $forcedConnectionCollection);
 
 print $jsonExport->export($schema);
 ```
@@ -187,11 +186,11 @@ $sqlSchema = '
    ) ENGINE=innodb DEFAULT CHARSET=utf8;
 ';
 
-$mysqlParser                = new MysqlParser();
+$parser                     = new MysqlParser();
 $markdownExport             = new Markdown(file_get_contents('./src/Template/Markdown/v1.twig'));
 $forcedConnectionCollection = new ConnectionCollection();
 
-$schema = $mysqlParser->run($sqlSchema, $forcedConnectionCollection);
+$schema = $parser->run($sqlSchema, $forcedConnectionCollection);
 
 print $markdownExport->export($schema);
 ```
