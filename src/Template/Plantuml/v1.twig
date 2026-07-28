@@ -1,115 +1,115 @@
 @startuml
-[\n]
+
 !ifndef TABLE_BORDER_COLOR
 !define TABLE_BORDER_COLOR Chocolate
 !endif
-[\n]
+
 !ifndef TABLE_BACKGROUND_COLOR
 !define TABLE_BACKGROUND_COLOR AntiqueWhite
 !endif
-[\n]
+
 skinparam class {
-[\t]BackgroundColor TABLE_BACKGROUND_COLOR
-[\t]BorderColor TABLE_BORDER_COLOR
-[\t]ArrowColor TABLE_BORDER_COLOR
+	BackgroundColor TABLE_BACKGROUND_COLOR
+	BorderColor TABLE_BORDER_COLOR
+	ArrowColor TABLE_BORDER_COLOR
 }
-[\n]
+
 !procedure $table($name)
 class "$name" <<table>> << (T, TABLE_BORDER_COLOR ) >>
 !endprocedure
-[\n]
+
 !function $key_columns($columns, $otherParameters="")
-[\t]!$result = ""
-[\t]!foreach $column in %splitstr($columns, ", ")
-[\t][\t]!if ($result != "")
-[\t][\t][\t]!$result = $result + ", "
-[\t][\t]!endif
-[\t][\t]!$result = $result + $column
-[\t]!endfor
-[\t]!if ($otherParameters != "")
-[\t][\t]!$result = $result + ", " + $otherParameters
-[\t]!endif
-[\t]!return $result
+	!$result = ""
+	!foreach $column in %splitstr($columns, ", ")
+		!if ($result != "")
+			!$result = $result + ", "
+		!endif
+		!$result = $result + $column
+	!endfor
+	!if ($otherParameters != "")
+		!$result = $result + ", " + $otherParameters
+	!endif
+	!return $result
 !endfunction
-[\n]
+
 !procedure $primary_key($columns, $otherParameters="")
-[\t]!$rendered = $key_columns($columns, $otherParameters)
+	!$rendered = $key_columns($columns, $otherParameters)
 -<i>PK</i> [<b>$rendered</b>]
 !endprocedure
-[\n]
+
 !procedure $column($name, $type, $otherParameters="", $comment="")
-[\t]!$suffix = ""
-[\t]!if ($otherParameters != "")
-[\t][\t]!$suffix = $suffix + " " + $otherParameters
-[\t]!endif
-[\t]!if ($comment != "")
-[\t][\t]!$suffix = $suffix + " COMMENT '" + $comment + "'"
-[\t]!endif
+	!$suffix = ""
+	!if ($otherParameters != "")
+		!$suffix = $suffix + " " + $otherParameters
+	!endif
+	!if ($comment != "")
+		!$suffix = $suffix + " COMMENT '" + $comment + "'"
+	!endif
 +<b>$name</b> <u>$type</u>$suffix
 !endprocedure
-[\n]
+
 !procedure $index($columns, $otherParameters="")
-[\t]!$rendered = $key_columns($columns, $otherParameters)
+	!$rendered = $key_columns($columns, $otherParameters)
 ~<i>KEY</i> [<b>$rendered</b>]
 !endprocedure
-[\n]
+
 !procedure $unique_index($columns, $otherParameters="")
-[\t]!$rendered = $key_columns($columns, $otherParameters)
+	!$rendered = $key_columns($columns, $otherParameters)
 #<i>UNIQUE KEY</i> [<b>$rendered</b>]
 !endprocedure
-[\n]
+
 !procedure $fulltext_index($columns, $otherParameters="")
-[\t]!$rendered = $key_columns($columns, $otherParameters)
+	!$rendered = $key_columns($columns, $otherParameters)
 #<i>FULLTEXT KEY</i> [<b>$rendered</b>]
 !endprocedure
-[\n]
+
 !procedure $spatial_index($columns, $otherParameters="")
-[\t]!$rendered = $key_columns($columns, $otherParameters)
+	!$rendered = $key_columns($columns, $otherParameters)
 #<i>SPATIAL KEY</i> [<b>$rendered</b>]
 !endprocedure
-[\n]
+
 !procedure $connection_one_to_one($from, $to)
 $from "1" -- "1" $to
 !endprocedure
-[\n]
+
 !procedure $connection_one_to_many($from, $to)
 $from "n" }-- "1" $to
 !endprocedure
-[\n]
+
 hide methods
 skinparam linetype polyline
 left to right direction
-[\n]
+
 {% for table in tables %}
-    $table({{ table.name }}) {
-    {% for column in table.columns -%}
-        [\t]$column('{{ column.name }}', '{{ column.type }}{% if column.typeParameters %}[{{ column.typeParameters|join(', ') }}]{% endif %}', '{{ column.otherParameters|replace({"'": '"'})|raw }}', '{{ column.comment|replace({"'": '"'})|raw }}')
-    {% endfor -%}
-    {% if table.primaryKey %}
-        [\t]$primary_key('{{ table.primaryKey.columns|join(', ') }}', '{{ table.primaryKey.otherParameters|replace({"'": '"'})|raw }}')
-    {% endif -%}
-    {% for simpleIndex in table.simpleIndexes -%}
-        [\t]$index('{{ simpleIndex.columns|join(', ') }}', '{{ simpleIndex.otherParameters|replace({"'": '"'})|raw }}')
-    {% endfor -%}
-    {% for uniqueIndex in table.uniqueIndexes -%}
-        [\t]$unique_index('{{ uniqueIndex.columns|join(', ') }}', '{{ uniqueIndex.otherParameters|replace({"'": '"'})|raw }}')
-    {% endfor -%}
-    {% for fulltextIndex in table.fulltextIndexes -%}
-        [\t]$fulltext_index('{{ fulltextIndex.columns|join(', ') }}', '{{ fulltextIndex.otherParameters|replace({"'": '"'})|raw }}')
-    {% endfor -%}
-    {% for spatialIndex in table.spatialIndexes -%}
-        [\t]$spatial_index('{{ spatialIndex.columns|join(', ') }}', '{{ spatialIndex.otherParameters|replace({"'": '"'})|raw }}')
-    {% endfor -%}
-    }
+$table({{ table.name }}) {
+{% for column in table.columns %}
+	$column('{{ column.name }}', '{{ column.type }}{% if column.typeParameters %}[{{ column.typeParameters|join(', ') }}]{% endif %}', '{{ column.otherParameters|replace({"'": '"'})|raw }}', '{{ column.comment|replace({"'": '"'})|raw }}')
 {% endfor %}
-[\n]
+{%- if table.primaryKey %}
+	$primary_key('{{ table.primaryKey.columns|join(', ') }}', '{{ table.primaryKey.otherParameters|replace({"'": '"'})|raw }}')
+{% endif %}
+{%- for simpleIndex in table.simpleIndexes %}
+	$index('{{ simpleIndex.columns|join(', ') }}', '{{ simpleIndex.otherParameters|replace({"'": '"'})|raw }}')
+{% endfor %}
+{%- for uniqueIndex in table.uniqueIndexes %}
+	$unique_index('{{ uniqueIndex.columns|join(', ') }}', '{{ uniqueIndex.otherParameters|replace({"'": '"'})|raw }}')
+{% endfor %}
+{%- for fulltextIndex in table.fulltextIndexes %}
+	$fulltext_index('{{ fulltextIndex.columns|join(', ') }}', '{{ fulltextIndex.otherParameters|replace({"'": '"'})|raw }}')
+{% endfor %}
+{%- for spatialIndex in table.spatialIndexes %}
+	$spatial_index('{{ spatialIndex.columns|join(', ') }}', '{{ spatialIndex.otherParameters|replace({"'": '"'})|raw }}')
+{% endfor %}
+}
+{% endfor %}
+
 {% for connection in connections %}
-    {% if connection.type == "OneToOne" %}
-        $connection_one_to_one({{ connection.childTableName }}, {{ connection.parentTableName }})
-    {% endif %}
-    {% if connection.type == "OneToMany" %}
-        $connection_one_to_many({{ connection.childTableName }}, {{ connection.parentTableName }})
-    {% endif %}
-{% endfor %}
-[\n]
+{%- if connection.type == "OneToOne" %}
+$connection_one_to_one({{ connection.childTableName }}, {{ connection.parentTableName }})
+{% endif %}
+{%- if connection.type == "OneToMany" %}
+$connection_one_to_many({{ connection.childTableName }}, {{ connection.parentTableName }})
+{% endif %}
+{%- endfor %}
+
 @enduml
