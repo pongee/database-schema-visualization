@@ -1,21 +1,16 @@
 @startuml
 
-!ifndef TABLE_BORDER_COLOR
-!define TABLE_BORDER_COLOR Chocolate
-!endif
-
-!ifndef TABLE_BACKGROUND_COLOR
-!define TABLE_BACKGROUND_COLOR AntiqueWhite
-!endif
+!$table_border_color ?= "Chocolate"
+!$table_background_color ?= "AntiqueWhite"
 
 skinparam class {
-	BackgroundColor TABLE_BACKGROUND_COLOR
-	BorderColor TABLE_BORDER_COLOR
-	ArrowColor TABLE_BORDER_COLOR
+	BackgroundColor $table_background_color
+	BorderColor $table_border_color
+	ArrowColor $table_border_color
 }
 
 !procedure $table($name)
-class "$name" <<table>> << (T, TABLE_BORDER_COLOR ) >>
+class "$name" <<table>> << (T, $table_border_color ) >>
 !endprocedure
 
 !function $key_columns($columns, $otherParameters="")
