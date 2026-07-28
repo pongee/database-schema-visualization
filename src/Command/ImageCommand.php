@@ -51,7 +51,7 @@ final class ImageCommand extends CommandAbstract
         return 0;
     }
 
-    private function getImageType(InputInterface $input): string
+    private function getImageType(InputInterface $input): ImageType
     {
         $imageType = ImageType::tryFrom((string) $input->getOption(self::OPTION_TYPE));
 
@@ -64,6 +64,6 @@ final class ImageCommand extends CommandAbstract
             );
         }
 
-        return $imageType->value;
+        return $imageType;
     }
 }

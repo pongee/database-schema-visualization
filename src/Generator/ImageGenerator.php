@@ -11,7 +11,7 @@ final readonly class ImageGenerator
     private const int PLANTUML_LIMIT_SIZE = 16384;
 
     public function __construct(
-        private string $imageType,
+        private ImageType $imageType,
         private string $plantumlJarPath
     ) {
     }
@@ -21,15 +21,18 @@ final readonly class ImageGenerator
      */
     public function generate(string $plantuml): string
     {
-        $command = implode(' ', [
-            'java',
-            sprintf('-DPLANTUML_LIMIT_SIZE=%d', self::PLANTUML_LIMIT_SIZE),
-            '-jar',
-            escapeshellarg($this->plantumlJarPath),
-            '--pipe',
-            '--format',
-            escapeshellarg($this->imageType),
-        ]);
+        $command = implode(
+            ' ',
+            [
+                'java',
+                sprintf('-DPLANTUML_LIMIT_SIZE=%d', self::PLANTUML_LIMIT_SIZE),
+                '-jar',
+                escapeshellarg($this->plantumlJarPath),
+                '--pipe',
+                '--format',
+                escapeshellarg($this->imageType->value),
+            ]
+        );
 
         $process = proc_open(
             $command,
