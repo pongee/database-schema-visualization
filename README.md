@@ -61,23 +61,23 @@ Output:
 ![Example output](example/output/sakila/sakila.png?raw=true "Output")
 
 ### Docker
-The image is published to the GitHub Container Registry, built for both `linux/amd64` and `linux/arm64`.
+The image is published to Docker Hub, built for both `linux/amd64` and `linux/arm64`.
 
 ```bash
-$ docker pull ghcr.io/pongee/database-schema-visualization:latest
+$ docker pull pongeepublic/database-schema-visualization:latest
 ```
 
 Mount your schema into the container and pass the same command and options as on the CLI:
 
 ```bash
 $ docker run --rm -v "$PWD/schema.sql:/app/schema.sql" \
-    ghcr.io/pongee/database-schema-visualization mysql:image --type png schema.sql > diagram.png
+    pongeepublic/database-schema-visualization mysql:image --type png schema.sql > diagram.png
 ```
 
 List the available commands:
 
 ```bash
-$ docker run --rm ghcr.io/pongee/database-schema-visualization list
+$ docker run --rm pongeepublic/database-schema-visualization list
 ```
 
 ### PHP

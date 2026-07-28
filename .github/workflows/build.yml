@@ -6,11 +6,10 @@ on:
     tags: ['[0-9]+.[0-9]+.[0-9]+']
 
 env:
-  IMAGE: ghcr.io/pongee/database-schema-visualization
+  IMAGE: pongeepublic/database-schema-visualization
 
 permissions:
   contents: read
-  packages: write
 
 jobs:
   build:
@@ -35,9 +34,8 @@ jobs:
 
       - uses: docker/login-action@v4
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: pongeepublic
+          password: ${{ secrets.GITHUB_DATABASE_SCHEMA_VISUALIZATION }}
 
       - id: meta
         uses: docker/metadata-action@v6
@@ -81,9 +79,8 @@ jobs:
 
       - uses: docker/login-action@v4
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: pongeepublic
+          password: ${{ secrets.GITHUB_DATABASE_SCHEMA_VISUALIZATION }}
 
       - id: meta
         uses: docker/metadata-action@v6
